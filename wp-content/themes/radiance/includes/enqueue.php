@@ -22,7 +22,7 @@ function radiance_enqueue()
     wp_register_script('radiance_isotope', $url . '/assets/vendor/isotope-layout/isotope.pkgd.min.js', ['jquery'], $version, true);
     wp_register_script('radiance_swiper', $url . '/assets/vendor/swiper/swiper-bundle.min.js', ['jquery'], $version, true);
     wp_register_script('radiance_email', $url . '/assets/vendor/php-email-form/validate.js', ['jquery'], $version, true);
-    wp_register_script('radiance_custom_script', $url . '/assets/js/main.js', ['jquery', 'radiance_email', 'radiance_aos'], $version, true);
+    wp_register_script('radiance_custom_script', $url . '/assets/js/main.js', ['jquery'], $version, true);
     //Apply
     wp_enqueue_style('radiance_google_fonts');
     wp_enqueue_style('radiance_bootstrap');
@@ -33,7 +33,6 @@ function radiance_enqueue()
     wp_enqueue_style('radiance_bootstrap_swiper');
     wp_enqueue_style('radiance_theme_css');
     wp_enqueue_style('radiance_main');
-
     wp_enqueue_script('jquery');
     wp_enqueue_script('radiance_bootstrap');
     wp_enqueue_script('radiance_precounter');

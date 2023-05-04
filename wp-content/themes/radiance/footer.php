@@ -1,6 +1,5 @@
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
-
     <div class="footer-newsletter">
         <div class="container">
             <div class="row justify-content-center">
@@ -64,26 +63,25 @@
                         <strong>Phone:</strong> +1 5589 55488 55<br>
                         <strong>Email:</strong> info@example.com<br>
                     </p>
-
                 </div>
-
             </div>
         </div>
     </div>
     <div class="container">
         <div class="copyright">
-            &copy; Copyright <strong><span>FlexStart</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>Bohdan Shcherbak</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
             Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
         </div>
     </div>
-</footer><!-- End Footer -->
+</footer>
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
         class="bi bi-arrow-up-short"></i></a>
-<!-- Footer -->
+
 <?php wp_footer(); ?>
+
 </body>
 
 </html>
