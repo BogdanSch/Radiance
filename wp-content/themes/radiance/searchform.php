@@ -6,9 +6,7 @@
         <form role="search" method="get" class="search-form" action="<?php echo home_url('/'); ?>">
             <input type="search" id="<?php echo $unique_id; ?>" name="s" value="<?php echo get_search_query() ?>"
                 placeholder="<?php _e('Search for...'); ?>" class="form-control">
-            <button type="submit"><i class="bi bi-search">
-                    <?php _e('Search'); ?>
-                </i></button>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
         </form>
     </div>
 </div>

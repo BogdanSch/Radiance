@@ -1,3 +1,4 @@
+/* General - Start */
 ::-webkit-scrollbar {
 	width: 7px;
 	background-color: rgb(224, 224, 224);
@@ -6,3 +7,10 @@
 	background: rgb(143, 143, 143);
 	border-radius: 50px;
 }
+ul{
+	padding-left: 0;
+}
+form.search-form{
+	display: flex;
+}
+/* General - End */

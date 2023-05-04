@@ -1,6 +1,5 @@
 <?php get_header(); ?>
 <main id="main">
-
     <?php if (is_front_page()) { ?>
         <section id="hero" class="hero d-flex align-items-center">
             <div class="container">
@@ -20,7 +19,8 @@
                         </div>
                     </div>
                     <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
-                        <img src="<?php bloginfo('template_directory') ?>/assets/img/hero-img.png" class="img-fluid" alt="">
+                        <img src="<?php bloginfo('template_directory') ?>/assets/img/hero-img.png" class="img-fluid"
+                            alt="hero-image">
                     </div>
                 </div>
             </div>
@@ -29,7 +29,18 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <?php the_content(); ?>
+                <?php
+                if (is_home()) {
+                    if (have_posts()) {
+                        while (have_posts()) {
+                            the_post();
+                            get_template_part('partials/posts/content-excerpt');
+                        }
+                    }
+                } else {
+                    the_content();
+                }
+                ?>
             </div>
         </div>
     </div>
