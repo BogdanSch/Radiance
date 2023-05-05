@@ -13,4 +13,7 @@ ul{
 form.search-form{
 	display: flex;
 }
+.main{
+	margin-top: 20px;
+}
 /* General - End */

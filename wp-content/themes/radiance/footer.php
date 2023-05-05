@@ -23,8 +23,7 @@
                         <img src="<?php bloginfo('template_directory') ?>/assets/img/logo.png" alt="">
                         <span>FlexStart</span>
                     </a>
-                    <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita
-                        valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+                    <p>FlexStart is the theme based on bootstrap and developed </p>
                     <div class="social-links mt-3">
                         <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
                         <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>

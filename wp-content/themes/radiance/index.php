@@ -1,5 +1,6 @@
 <?php get_header(); ?>
-<main id="main">
+
+<main id="main" class="main">
     <?php if (is_front_page()) { ?>
         <section id="hero" class="hero d-flex align-items-center">
             <div class="container">
@@ -25,24 +26,41 @@
                 </div>
             </div>
         </section>
-    <?php } ?>
+    <?php } else {
+        echo '<section class="breadcrumbs">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <?php
-                if (is_home()) {
-                    if (have_posts()) {
-                        while (have_posts()) {
-                            the_post();
-                            get_template_part('partials/posts/content-excerpt');
+        <ol>
+            <li>
+                <a href="' . get_site_url() . '">Home</a>
+            </li>
+            <li>' . ucfirst($pagename) . '</li>
+        </ol>
+    </div>
+</section>
+';
+    }
+    ?>
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mt-2">
+                    <?php
+                    global $pagename;
+                    if (is_home()) {
+                        if (have_posts()) {
+                            while (have_posts()) {
+                                the_post();
+                                get_template_part('partials/posts/content-excerpt');
+                            }
                         }
+                    } else {
+                        the_content();
                     }
-                } else {
-                    the_content();
-                }
-                ?>
+                    ?>
+                </div>
+                <?php echo get_sidebar(); ?>
             </div>
         </div>
-    </div>
+    </section>
 </main>
 <?php get_footer(); ?>
