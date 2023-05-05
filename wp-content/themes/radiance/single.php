@@ -71,14 +71,16 @@
                         }
                     }
                     ?>
-                    <ul class="pagination justify-content-center mb-4">
-                        <li class="page-item">
-                            <?php previous_posts_link("← Older"); ?>
-                        </li>
-                        <li class="page-item">
-                            <?php next_posts_link("Newer →"); ?>
-                        </li>
-                    </ul>
+                    <div class="blog-pagination">
+                        <ul class="pagination justify-content-center mb-4">
+                            <li>
+                                <?php previous_posts_link("← Older"); ?>
+                            </li>
+                            <li>
+                                <?php next_posts_link("Newer →"); ?>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <?php get_sidebar(); ?>
             </div>
