@@ -26,9 +26,7 @@
                             }
                             ?>
                             <h1 class="mt-4">
-                                <?php the_title() ?>
-                                by
-                                <a href="<?php echo $author_URL; ?>"><?php the_author(); ?></a>
+                                <?php the_title() ?> by <a href="<?php echo $author_URL; ?>"><?php the_author(); ?></a>
                             </h1>
                             <h3 class="mt-2">
                                 <?php the_category(", ") ?>

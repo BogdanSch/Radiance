@@ -10,10 +10,18 @@
 ul{
 	padding-left: 0;
 }
+img{
+	max-width: 100%;
+	object-fit: cover;
+}
+/* General - End */
+/* Pagination - Start */
+.page-link:hover{
+	background-color: #002df7;
+}
+/* Pagination - End */
+/* Search - Start */
 form.search-form{
 	display: flex;
 }
-.main{
-	margin-top: 20px;
-}
-/* General - End */
+/* Search - End */
