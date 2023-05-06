@@ -1,16 +1,5 @@
 <?php get_header(); ?>
 <main id="main">
-    <section class="breadcrumbs">
-        <div class="container">
-            <ol>
-                <li><a href="<?php get_site_url() ?>">Home</a></li>
-                <li><a href="<?php echo get_permalink(get_option('page_for_posts')); ?>">Blog</a></li>
-                <li>
-                    <?php the_title(); ?>
-                </li>
-            </ol>
-        </div>
-    </section>
     <section id="blog" class="blog">
         <div class="container" data-aos="fade-up">
             <div class="row">

@@ -588,7 +588,7 @@ echo  ( esc_html( $existingValue['wpai_heading_tag'] ) == 'h6' ? 'selected' : ''
 
     <div class="wpcgai_form_row">
         <label class="wpcgai_label"><?php 
-echo  esc_html__( 'Modify Headings', 'gpt3-ai-content-generator' ) ;
+echo  esc_html__( 'Outline Editor', 'gpt3-ai-content-generator' ) ;
 ?>:</label>
         <input type="checkbox" id="label_wpai_modify_headings" name="wpaicg_settings[wpai_modify_headings]"
                value="<?php 

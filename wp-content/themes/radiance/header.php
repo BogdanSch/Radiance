@@ -47,3 +47,4 @@
             </nav>
         </div>
     </header>
+<?php breadcrumbs() ?>

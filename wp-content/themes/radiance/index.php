@@ -26,20 +26,7 @@
                 </div>
             </div>
         </section>
-    <?php } else {
-        echo '<section class="breadcrumbs">
-    <div class="container">
-        <ol>
-            <li>
-                <a href="' . get_site_url() . '">Home</a>
-            </li>
-            <li>' . ucfirst($pagename) . '</li>
-        </ol>
-    </div>
-</section>
-';
-    }
-    ?>
+    <?php } ?>
     <section class="content">
         <div class="container">
             <div class="row">

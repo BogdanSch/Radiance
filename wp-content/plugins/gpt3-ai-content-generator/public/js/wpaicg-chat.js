@@ -41,6 +41,10 @@ function wpaicgChatShortcodeSize(){
                     chatWidth = '';
                 }
             }
+            var chatPreviewBot = chatShortcode.closest('.wpaicg-bot-preview');
+            if(chatPreviewBot && chatPreviewBot.offsetWidth < chatWidth){
+                chatWidth = chatPreviewBot.offsetWidth;
+            }
             if(chatHeight.indexOf('%') < 0){
                 if(chatHeight.indexOf('px') < 0){
                     chatHeight = parseFloat(chatHeight);

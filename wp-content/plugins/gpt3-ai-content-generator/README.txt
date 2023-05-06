@@ -4,7 +4,7 @@ Tags: chatgpt, gpt, openai, ai, gpt4, chatbot, speech, whisper, image generator,
 Requires at least: 5.0.0
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable tag: 1.6.87
+Stable tag: 1.6.90
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
@@ -78,18 +78,17 @@ https://www.youtube.com/watch?v=hetYOlR-ms4
 3. English, 5 heading (no image): 58 seconds - 959 words 6,367 characters
 4. English, 3 heading + 1 image: 36 seconds - 688 words 4,878 characters
 
-== Integrations ==
+== Supported Integrations ==
 
-* OpenAI: GPT models, Whisper.
-* Yoast SEO, All In One SEO and Rank Math for SEO.
-* Pexels for image.
-* DALL-E and Stable Diffusion for Image Generator.
-* Pinecone for building content and long term external memory for chat bot.
-* WooCommerce for product writing.
-* Google Sheets.
-* RSS Feeds.
-* ElevenLabs - Text to Speech
-* Google - Text to Speech
+- OpenAI: Use GPT models and Whisper for advanced AI capabilities.
+- SEO Tools: Optimize your content with Yoast SEO, All In One SEO, and Rank Math.
+- Image Libraries: Enhance your visuals with Pexels and Pixabay integration.
+- Image Generators: Create unique images using DALL-E and Stable Diffusion.
+- Vector Databases: Build engaging content and implement long-term external memory for chatbots.
+- E-commerce: Improve product descriptions with WooCommerce integration.
+- Google Sheets: Streamline data management and organization.
+- RSS Feeds: Stay updated with the latest content from your favorite sources.
+- Text-to-Speech: Convert your text into lifelike speech with ElevenLabs and Google Text-to-Speech integrations.
 
 == Features ==
 
@@ -137,6 +136,7 @@ https://www.youtube.com/watch?v=hetYOlR-ms4
 * Comment Replier
 * ElevenLabs Text to Speech
 * Google Text to Speech
+* Pixabay integration
 * [PREMIUM] Moderation for chat bot.
 * [PREMIUM] Ability to add keywords
 * [PREMIUM] Ability to avoid certain keywords
@@ -240,6 +240,55 @@ The PHP max execution time setting determines the maximum amount of time a PHP s
 This message is coming from OpenAI, not from our plugin. It means that you have reached the limit of your OpenAI API quota, which is determined by your plan and billing details. Our plugin works on a "bring your own API key" model, serving as a bridge between WordPress and OpenAI, so the issue is not related to the plugin itself. To resolve this issue, you'll need to check your OpenAI account and ensure that you have enough quota for your needs, or upgrade your plan if necessary.
 
 == Changelog ==
+
+= 1.6.90 =
+
+**Added**
+
+- New tab under AutoGPT called Dashboard for monitoring deployed GPT agents
+- Agents display module names, which are clickable
+- Status indicator shows if agent is on or off based on cronjob activation
+- Last Run time displays the last time cron job ran
+- Last content generation shows the last time content was generated
+- Info button displays a modal window with code and instructions
+- Search box for filtering agents
+- Pagination with 10 agents per page
+- Integrated Role Manager to manage access
+
+= 1.6.89 =
+
+Introducing Pixabay Integration: Enhance Your Content with High-Quality Images
+
+I am excited to announce the integration of Pixabay, a leading platform for sharing stunning, royalty-free images, illustrations, and vector graphics. With this integration, you can now effortlessly access and utilize a vast library of high-quality visuals to enrich your content and captivate your audience.
+
+New fields under Settings - Image tab for Pixabay integration:
+
+* Pixabay API Key (Text field - Mandatory)
+* Language (dropdown - optional - default: en). Accepted values: cs, da, de, en, es, fr, id, it, hu, nl, no, pl, pt, ro, sk, fi, sv, tr, vi, th, bg, ru, el, ja, ko, zh
+* Image Type (dropdown - optional - default: all). Accepted values: "all", "photo", "illustration", "vector"
+* Order (dropdown - optional - default: popular). Accepted values: "popular", "latest"
+
+Read announcement [here](https://aipower.org/introducing-pixabay-integration-elevate-your-content-with-stunning-images/) 
+
+Additionally, fixed an issue where the Call to Action link was not being inserted into the article when its designated location was set as the Beginning.
+
+= 1.6.88 =
+* Fix: Fixed an issue with the AI forms where there was no breakline in some cases.
+* Fix: Fixed missing dots from sentences in AI Forms.
+* Improvement: Enabled adding "additional context" for the chat bot even when content aware is set to NO.
+* Improvement: Increased textarea size for "additional context" for a better user experience.
+* Improvement: Enabled additional context by default and added the following text: "You are a helpful AI Assistant. Please be friendly."
+* Improvement: Introduced a new dropdown menu called "Templates" at the top of the Additional Context section. Users can now select from the dropdown and have their selection appended to the additional context textarea.
+* Improvement: Implemented dynamic variables for "sitename" and "todays date" to be used in the additional context. For example you can add "Todays date is [date]" in your additional context and this will make your bot aware of the current date.
+
+You can select built-in context for your chat bot from templates. Some examples:
+
+* "Customer Support": "As a highly proficient and empathetic customer support assistant, your primary goal is to provide exceptional assistance, addressing customer concerns and inquiries in a timely and effective manner. Harness your expertise to deliver outstanding service and create a positive customer experience.",
+* "Sale Support": "As an adept and proactive sales support assistant, you are an essential part of the [sitename] team. Your expertise in sales processes, combined with exceptional interpersonal skills, enables you to facilitate seamless customer interactions, foster strong relationships, and drive business growth. Dedicate yourself to providing unparalleled support and contributing to the overall success of [sitename].",
+* "Technical Support": "As an expert technical support assistant at [sitename], you excel in troubleshooting, problem-solving, and providing top-notch assistance to customers facing technical challenges. Your extensive knowledge, combined with a strong customer-centric approach, allows you to deliver timely and effective solutions. Remember, when a customer inquires about the current date, share it with them as [date]. Stand out as a reliable and indispensable resource, contributing to the success and satisfaction of [sitename] clientele.",
+* "Social Media Support": "As a creative and engaging social media support assistant, your role is to provide prompt and personable assistance to [sitename]'s online community. Utilize your strong communication skills and social media savvy to address inquiries, offer solutions, and foster positive interactions, all while maintaining [sitename]'s brand voice and reputation. Commit to delivering exceptional experiences that bolster customer loyalty and strengthen the brand's online presence.",
+* "Product Support": "As a knowledgeable and customer-focused product support assistant for [sitename], your expertise lies in guiding customers through product-related issues, offering tailored solutions, and ensuring their satisfaction. Your deep understanding of [sitename]'s product line and dedication to customer success positions you as a valuable resource. Strive to provide exceptional support, empowering customers to fully benefit from their product experience and fostering long-lasting relationships.",
+* "Lisa": "You are a helpful AI assistant. Your name is Lisa. Your primary purpose is to provide accurate, relevant, and helpful information exclusively about the GPT AI Power WordPress plugin. If a user asks a question or initiates a discussion that is not directly related to the plugin or its features, functionalities, and usage, do not provide an answer or engage in the conversation. Instead, politely redirect the users focus back to the GPT AI Power plugin and its related content. Your expertise should be limited to the websites content, and you must not provide any information or suggestions on topics that fall outside the scope of the GPT AI Power plugin."
 
 = 1.6.87 =
 * Improvement: Migrating from gptaipower.com to aipower.org. Updated all links with the new one.

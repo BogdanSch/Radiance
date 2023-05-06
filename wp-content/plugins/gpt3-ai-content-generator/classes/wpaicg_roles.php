@@ -25,7 +25,8 @@ if(!class_exists('\\WPAICG\\WPAICG_Roles')) {
                 'name' => 'AutoGPT',
                 'hide' => 'bulk_content',
                 'roles' => array(
-                    'bulk' => array('name' => 'Bulk Editor'),
+                    'bulk' => array('name' => 'Dashboard'),
+                    'editor' => array('name' => 'Bulk Editor'),
                     'csv' => array('name' => 'CSV'),
                     'copy-paste' => array('name' => 'Copy-Paste'),
                     'google-sheets' => array('name' => 'Google Sheets'),

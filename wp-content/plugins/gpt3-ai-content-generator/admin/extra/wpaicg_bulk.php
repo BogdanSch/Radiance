@@ -35,7 +35,14 @@ $wpaicg_cron_added = get_option('_wpaicg_cron_added','');
         <?php
         if(current_user_can('wpaicg_bulk_content_bulk')):
         ?>
-        <a href="<?php echo admin_url('admin.php?page=wpaicg_bulk_content')?>" class="nav-tab<?php echo !$wpaicg_track && !$wpaicg_bulk_action ? ' nav-tab-active' : ''?>"><?php echo esc_html__('Bulk Editor','gpt3-ai-content-generator')?></a>
+        <a href="<?php echo admin_url('admin.php?page=wpaicg_bulk_content')?>" class="nav-tab<?php echo !$wpaicg_track && !$wpaicg_bulk_action ? ' nav-tab-active' : ''?>"><?php echo esc_html__('Dashboard','gpt3-ai-content-generator')?></a>
+        <?php
+        endif;
+        ?>
+        <?php
+        if(current_user_can('wpaicg_bulk_content_editor')):
+        ?>
+        <a href="<?php echo admin_url('admin.php?page=wpaicg_bulk_content&wpaicg_action=editor')?>" class="nav-tab<?php echo $wpaicg_bulk_action == 'editor' ? ' nav-tab-active' : ''?>"><?php echo esc_html__('Bulk Editor','gpt3-ai-content-generator')?></a>
         <?php
         endif;
         ?>
@@ -103,6 +110,8 @@ $wpaicg_cron_added = get_option('_wpaicg_cron_added','');
     <div id="poststuff">
         <?php
         if(!$wpaicg_bulk_action && !$wpaicg_track):
+            include __DIR__.'/wpaicg_bulk_dashboard.php';
+        elseif($wpaicg_bulk_action == 'editor'):
             include __DIR__.'/wpaicg_bulk_index.php';
         elseif($wpaicg_bulk_action == 'tracking'):
             include __DIR__.'/wpaicg_bulk_queue.php';

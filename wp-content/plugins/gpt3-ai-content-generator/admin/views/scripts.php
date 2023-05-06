@@ -151,6 +151,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             var wpaicg_featured_image_source = $('#wpaicg_featured_image_source').val();
             var wpaicg_pexels_orientation = $('#wpaicg_pexels_orientation').val();
             var wpaicg_pexels_size = $('#wpaicg_pexels_size').val();
+            var wpaicg_pixabay_order = $('#wpaicg_pixabay_order').val();
+            var wpaicg_pixabay_orientation = $('#wpaicg_pixabay_orientation').val();
+            var wpaicg_pixabay_language = $('#wpaicg_pixabay_language').val();
+            var wpaicg_pixabay_type = $('#wpaicg_pixabay_type').val();
             var wpaicg_meta_custom_prompt_enable = $('.wpaicg_meta_custom_prompt_enable:checked').length ? 1 : 0;
             var wpaicg_meta_custom_prompt = $('.wpaicg_meta_custom_prompt').val();
             $('#is_generate_continue').val(0);
@@ -172,6 +176,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 'wpaicg_featured_image_source': wpaicg_featured_image_source,
                 'wpaicg_pexels_orientation': wpaicg_pexels_orientation,
                 'wpaicg_pexels_size': wpaicg_pexels_size,
+                'wpaicg_pixabay_type': wpaicg_pixabay_type,
+                'wpaicg_pixabay_language': wpaicg_pixabay_language,
+                'wpaicg_pixabay_order': wpaicg_pixabay_order,
+                'wpaicg_pixabay_orientation': wpaicg_pixabay_orientation,
                 'wpai_language': wpai_language,
                 'wpai_add_intro': wpai_add_intro,
                 'wpai_add_conclusion': wpai_add_conclusion,
@@ -448,6 +456,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             if(wpaicg_image_source === 'pexels'){
                                 wpaicg_generatorProcess('image','<?php echo esc_html__('Getting Image from Pexels','gpt3-ai-content-generator')?>');
                             }
+                            if(wpaicg_image_source === 'pixabay'){
+                                wpaicg_generatorProcess('image','<?php echo esc_html__('Getting Image from Pixabay','gpt3-ai-content-generator')?>');
+                            }
                         }
                         if(data.step === 'featuredimage'){
                             if(wpaicg_featured_image_source === 'dalle'){
@@ -455,6 +466,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             }
                             if(wpaicg_featured_image_source === 'pexels'){
                                 wpaicg_generatorProcess('featuredimage','<?php echo esc_html__('Getting Featured Image from Pexels','gpt3-ai-content-generator')?>');
+                            }
+                            if(wpaicg_featured_image_source === 'pixabay'){
+                                wpaicg_generatorProcess('featuredimage','<?php echo esc_html__('Getting Featured Image from Pixabay','gpt3-ai-content-generator')?>');
                             }
                         }
                         oldStep = data.step;

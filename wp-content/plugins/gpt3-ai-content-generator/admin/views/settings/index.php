@@ -184,7 +184,12 @@ if ( isset( $_POST['wpaicg_submit'] ) ) {
             'wpaicg_comment_prompt',
             'wpaicg_toc_title_tag',
             'wpaicg_hide_introduction',
-            'wpaicg_hide_conclusion'
+            'wpaicg_hide_conclusion',
+            'wpaicg_pixabay_api',
+            'wpaicg_pixabay_language',
+            'wpaicg_pixabay_type',
+            'wpaicg_pixabay_orientation',
+            'wpaicg_pixabay_order'
         );
         foreach($wpaicg_keys as $wpaicg_key){
             if(isset($_POST[$wpaicg_key]) && !empty($_POST[$wpaicg_key])){
@@ -216,6 +221,18 @@ if ( isset( $_POST['wpaicg_submit'] ) ) {
                         delete_option('wpaicg_featured_image_source');
                     }
                     if ( isset( $_POST['wpaicg_image_source'] ) && !empty( $_POST['wpaicg_image_source'] ) && $_POST['wpaicg_image_source'] == 'pexels') {
+                        delete_option('wpaicg_image_source');
+                    }
+                }
+                if($wpaicg_key == 'wpaicg_pixabay_api'){
+                    delete_option( 'wpaicg_pixabay_language' );
+                    delete_option( 'wpaicg_pixabay_type' );
+                    delete_option( 'wpaicg_pixabay_order' );
+                    delete_option( 'wpaicg_pixabay_orientation' );
+                    if ( isset( $_POST['wpaicg_featured_image_source'] ) && !empty( $_POST['wpaicg_featured_image_source'] ) && $_POST['wpaicg_featured_image_source'] == 'pixabay') {
+                        delete_option('wpaicg_featured_image_source');
+                    }
+                    if ( isset( $_POST['wpaicg_image_source'] ) && !empty( $_POST['wpaicg_image_source'] ) && $_POST['wpaicg_image_source'] == 'pixabay') {
                         delete_option('wpaicg_image_source');
                     }
                 }

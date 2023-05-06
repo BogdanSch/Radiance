@@ -1,16 +1,6 @@
 <?php get_header(); ?>
 
 <main class="main">
-    <section class="breadcrumbs">
-        <div class="container">
-            <ol>
-                <li><a href="<?php get_site_url() ?>">Home</a></li>
-                <li>
-                    <?php the_search_query(); ?>
-                </li>
-            </ol>
-        </div>
-    </section>
     <section class="search">
         <div class="container">
             <div class="row">

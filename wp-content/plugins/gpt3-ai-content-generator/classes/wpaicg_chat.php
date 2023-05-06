@@ -642,6 +642,17 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                         $wpaicg_greeting_key .= '_proffesion';
                     }
                     $wpaicg_chat_greeting_message = sprintf($wpaicg_languages[$wpaicg_greeting_key], $wpaicg_chat_tone, $wpaicg_chat_proffesion . ".\n");
+                    if(!empty($wpaicg_chat_addition_text)){
+                        $site_url = site_url();
+                        $parse_url = wp_parse_url($site_url);
+                        $domain_name = isset($parse_url['host']) && !empty($parse_url['host']) ? $parse_url['host'] : '';
+                        $date = date(get_option( 'date_format'));
+                        $sitename = get_bloginfo('name');
+                        $wpaicg_chat_addition_text = str_replace('[siteurl]',$site_url, $wpaicg_chat_addition_text);
+                        $wpaicg_chat_addition_text = str_replace('[domain]',$domain_name, $wpaicg_chat_addition_text);
+                        $wpaicg_chat_addition_text = str_replace('[sitename]',$sitename, $wpaicg_chat_addition_text);
+                        $wpaicg_chat_addition_text = str_replace('[date]',$date, $wpaicg_chat_addition_text);
+                    }
                     if ($wpaicg_chat_content_aware == 'yes') {
                         if($wpaicg_chat_with_embedding && !empty($wpaicg_embedding_content)){
                             $wpaicg_greeting_key .= '_content';
@@ -683,9 +694,14 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                             $wpaicg_chat_greeting_message .= ' '.sprintf($wpaicg_languages[$wpaicg_greeting_key.'_extra'], $wpaicg_chat_addition_text);
                         }
                     }
+                    elseif($wpaicg_chat_addition && !empty($wpaicg_chat_addition_text)){
+                        $wpaicg_greeting_key .= '_content';
+                        $wpaicg_chat_greeting_message .= ' '.sprintf($wpaicg_languages[$wpaicg_greeting_key.'_extra'], $wpaicg_chat_addition_text);
+                    }
                     if(!empty($wpaicg_user_name)){
                         $wpaicg_chat_greeting_message .= '. '.$wpaicg_user_name;
                     }
+                    $wpaicg_result['greeting_message'] = $wpaicg_chat_greeting_message;
                     $wpaicg_chatgpt_messages = array();
                     $wpaicg_chatgpt_messages[] = array('role' => 'user', 'content' => html_entity_decode($wpaicg_chat_greeting_message,ENT_QUOTES ,'UTF-8'));
                     if ($wpaicg_chat_remember_conversation == 'yes') {

@@ -10,6 +10,7 @@ $wpaicg_featured_image_source = get_option('wpaicg_featured_image_source','');
             <option value=""><?php echo esc_html__('None','gpt3-ai-content-generator')?></option>
             <option<?php echo $wpaicg_image_source == 'dalle' ? ' selected':''?> value="dalle"><?php echo esc_html__('DALL-E','gpt3-ai-content-generator')?></option>
             <option<?php echo $wpaicg_image_source == 'pexels' ? ' selected':''?> value="pexels"><?php echo esc_html__('Pexels','gpt3-ai-content-generator')?></option>
+            <option<?php echo $wpaicg_image_source == 'pixabay' ? ' selected':''?> value="pixabay"><?php echo esc_html__('Pixabay','gpt3-ai-content-generator')?></option>
         </select>
     </div>
     <div class="wpcgai_form_row">
@@ -18,6 +19,7 @@ $wpaicg_featured_image_source = get_option('wpaicg_featured_image_source','');
             <option value=""><?php echo esc_html__('None','gpt3-ai-content-generator')?></option>
             <option<?php echo $wpaicg_featured_image_source == 'dalle' ? ' selected':''?> value="dalle"><?php echo esc_html__('DALL-E','gpt3-ai-content-generator')?></option>
             <option<?php echo $wpaicg_featured_image_source == 'pexels' ? ' selected':''?> value="pexels"><?php echo esc_html__('Pexels','gpt3-ai-content-generator')?></option>
+            <option<?php echo $wpaicg_featured_image_source == 'pixabay' ? ' selected':''?> value="pixabay"><?php echo esc_html__('Pixabay','gpt3-ai-content-generator')?></option>
         </select>
     </div>
     <hr>
@@ -243,6 +245,54 @@ $wpaicg_featured_image_source = get_option('wpaicg_featured_image_source','');
             <option<?php echo $wpaicg_pexels_size == 'large' ? ' selected':''?> value="large"><?php echo esc_html__('Large','gpt3-ai-content-generator')?></option>
             <option<?php echo $wpaicg_pexels_size == 'medium' ? ' selected':''?> value="medium"><?php echo esc_html__('Medium','gpt3-ai-content-generator')?></option>
             <option<?php echo $wpaicg_pexels_size == 'small' ? ' selected':''?> value="small"><?php echo esc_html__('Small','gpt3-ai-content-generator')?></option>
+        </select>
+    </div>
+    <hr>
+    <p><b><?php echo esc_html__('Pixabay','gpt3-ai-content-generator')?></b></p>
+    <?php
+    $wpaicg_pixabay_api = get_option('wpaicg_pixabay_api','');
+    $wpaicg_pixabay_language = get_option('wpaicg_pixabay_language','en');
+    $wpaicg_pixabay_type = get_option('wpaicg_pixabay_type','all');
+    $wpaicg_pixabay_order = get_option('wpaicg_pixabay_order','popular');
+    $wpaicg_pixabay_orientation = get_option('wpaicg_pixabay_orientation','all');
+    ?>
+    <div class="wpcgai_form_row">
+        <label class="wpcgai_label"><?php echo esc_html__('API Key','gpt3-ai-content-generator')?>:</label>
+        <input value="<?php echo esc_html($wpaicg_pixabay_api)?>" type="text" class="regular-text" name="wpaicg_pixabay_api">
+        <a class="wpcgai_help_link" href="https://pixabay.com/api/docs/" target="_blank"><?php echo esc_html__('Get API Key','gpt3-ai-content-generator')?></a>
+    </div>
+    <div class="wpcgai_form_row">
+        <label class="wpcgai_label"><?php echo esc_html__('Language','gpt3-ai-content-generator')?>:</label>
+        <select class="regular-text" name="wpaicg_pixabay_language" >
+            <?php
+            foreach(\WPAICG\WPAICG_Generator::get_instance()->pixabay_languages as $key=>$pixabay_language){
+                echo '<option'.($wpaicg_pixabay_language == $key ? ' selected':'').' value="'.esc_html($key).'">'.esc_html($pixabay_language).'</option>';
+            }
+            ?>
+        </select>
+    </div>
+    <div class="wpcgai_form_row">
+        <label class="wpcgai_label"><?php echo esc_html__('Image Type','gpt3-ai-content-generator')?>:</label>
+        <select class="regular-text" name="wpaicg_pixabay_type" >
+            <option<?php echo $wpaicg_pixabay_type == 'all' ? ' selected':''?> value="all"><?php echo esc_html__('All','gpt3-ai-content-generator')?></option>
+            <option<?php echo $wpaicg_pixabay_type == 'photo' ? ' selected':''?> value="photo"><?php echo esc_html__('Photo','gpt3-ai-content-generator')?></option>
+            <option<?php echo $wpaicg_pixabay_type == 'illustration' ? ' selected':''?> value="illustration"><?php echo esc_html__('Illustration','gpt3-ai-content-generator')?></option>
+            <option<?php echo $wpaicg_pixabay_type == 'vector' ? ' selected':''?> value="vector"><?php echo esc_html__('Vector','gpt3-ai-content-generator')?></option>
+        </select>
+    </div>
+    <div class="wpcgai_form_row">
+        <label class="wpcgai_label"><?php echo esc_html__('Orientation','gpt3-ai-content-generator')?>:</label>
+        <select class="regular-text" name="wpaicg_pixabay_orientation" >
+            <option<?php echo $wpaicg_pixabay_orientation == 'all' ? ' selected':''?> value="all"><?php echo esc_html__('All','gpt3-ai-content-generator')?></option>
+            <option<?php echo $wpaicg_pixabay_orientation == 'horizontal' ? ' selected':''?> value="horizontal"><?php echo esc_html__('Horizontal','gpt3-ai-content-generator')?></option>
+            <option<?php echo $wpaicg_pixabay_orientation == 'vertical' ? ' selected':''?> value="vertical"><?php echo esc_html__('Vertical','gpt3-ai-content-generator')?></option>
+        </select>
+    </div>
+    <div class="wpcgai_form_row">
+        <label class="wpcgai_label"><?php echo esc_html__('Order','gpt3-ai-content-generator')?>:</label>
+        <select class="regular-text" name="wpaicg_pixabay_order" >
+            <option<?php echo $wpaicg_pixabay_order == 'popular' ? ' selected':''?> value="popular"><?php echo esc_html__('Popular','gpt3-ai-content-generator')?></option>
+            <option<?php echo $wpaicg_pixabay_order == 'latest' ? ' selected':''?> value="latest"><?php echo esc_html__('Latest','gpt3-ai-content-generator')?></option>
         </select>
     </div>
     <div class="wpcgai_form_row">

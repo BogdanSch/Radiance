@@ -705,6 +705,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Embeddings')) {
                         update_post_meta($embedding_id, 'wpaicg_error_msg', $wpaicg_result['msg']);
                         return $wpaicg_result['msg'];
                     } else {
+                        update_option('wpaicg_crojob_builder_content',time());
                         wp_update_post(array(
                             'ID' => $wpaicg_result['id'],
                             'post_content' => $wpaicg_content

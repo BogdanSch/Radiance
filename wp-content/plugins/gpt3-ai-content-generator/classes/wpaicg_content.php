@@ -655,6 +655,16 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Content' ) ) {
                                         'post_status' => 'publish',
                                     ));
                                 }
+                                /*Save Last Content*/
+                                if($wpaicg_single->post_mime_type == 'sheets'){
+                                    update_option('wpaicg_cronjob_sheets_content',time());
+                                }
+                                elseif($wpaicg_single->post_mime_type == 'rss'){
+                                    update_option('wpaicg_cronjob_rss_content',time());
+                                }
+                                else{
+                                    update_option('wpaicg_cronjob_bulk_content',time());
+                                }
                             }
                         }
                     } catch ( \Exception $exception ) {
@@ -875,6 +885,18 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Content' ) ) {
                     }
                     if ( array_key_exists( 'wpaicg_pexels_orientation', $_POST ) ) {
                         update_post_meta( $wpaicg_post_id, 'wpaicg_pexels_orientation', sanitize_text_field($_POST['wpaicg_pexels_orientation']) );
+                    }
+                    if ( array_key_exists( 'wpaicg_pixabay_type', $_POST ) ) {
+                        update_post_meta( $wpaicg_post_id, 'wpaicg_pixabay_type', sanitize_text_field($_POST['wpaicg_pixabay_type']) );
+                    }
+                    if ( array_key_exists( 'wpaicg_pixabay_language', $_POST ) ) {
+                        update_post_meta( $wpaicg_post_id, 'wpaicg_pixabay_language', sanitize_text_field($_POST['wpaicg_pixabay_language']) );
+                    }
+                    if ( array_key_exists( 'wpaicg_pixabay_order', $_POST ) ) {
+                        update_post_meta( $wpaicg_post_id, 'wpaicg_pixabay_order', sanitize_text_field($_POST['wpaicg_pixabay_order']) );
+                    }
+                    if ( array_key_exists( 'wpaicg_pixabay_orientation', $_POST ) ) {
+                        update_post_meta( $wpaicg_post_id, 'wpaicg_pixabay_orientation', sanitize_text_field($_POST['wpaicg_pixabay_orientation']) );
                     }
                     if ( array_key_exists( 'wpaicg_pexels_size', $_POST ) ) {
                         update_post_meta( $wpaicg_post_id, 'wpaicg_pexels_size', sanitize_text_field($_POST['wpaicg_pexels_size']) );

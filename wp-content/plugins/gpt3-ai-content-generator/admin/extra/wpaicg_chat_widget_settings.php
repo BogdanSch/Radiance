@@ -104,6 +104,7 @@ $wpaicg_embedding_field_disabled = empty($wpaicg_pinecone_api) || empty($wpaicg_
 $wpaicg_chat_embedding = get_option('wpaicg_chat_embedding',false);
 $wpaicg_chat_addition = get_option('wpaicg_chat_addition',false);
 $wpaicg_chat_addition_text = get_option('wpaicg_chat_addition_text',false);
+$wpaicg_chat_addition_text = str_replace("\\",'',$wpaicg_chat_addition_text);
 $wpaicg_chat_embedding_type = get_option('wpaicg_chat_embedding_type',false);
 $wpaicg_chat_embedding_top = get_option('wpaicg_chat_embedding_top',false);
 $wpaicg_audio_enable = isset($wpaicg_chat_widget['audio_enable']) ? $wpaicg_chat_widget['audio_enable'] : false;
@@ -979,13 +980,37 @@ if ( !empty($errors)) {
                             ?>
                         </select>
                     </div>
+                    <?php
+                    if(!isset($wpaicg_chat_widget['chat_addition_option']) || $wpaicg_chat_addition){
+                        $wpaicg_chat_addition = true;
+                    }
+                    ?>
                     <div class="mb-5">
                         <label class="wpaicg-form-label"><?php echo esc_html__('Additional Context?','gpt3-ai-content-generator')?>:</label>
-                        <input<?php echo $wpaicg_chat_content_aware == 'no' ? ' disabled':''?><?php echo $wpaicg_chat_addition == '1' ? ' checked': ''?> name="wpaicg_chat_addition" value="1" type="checkbox" id="wpaicg_chat_addition">
+                        <input<?php echo $wpaicg_chat_addition == '1' ? ' checked': ''?> name="wpaicg_chat_addition" value="1" type="checkbox" id="wpaicg_chat_addition">
+                        <input name="wpaicg_chat_widget[chat_addition_option]" value="<?php echo $wpaicg_chat_addition ? 0 : 1?>" type="hidden" id="wpaicg_chat_addition_option">
+                    </div>
+                    <?php
+                    $wpaicg_additions_json = file_get_contents(WPAICG_PLUGIN_DIR.'admin/chat/context.json');
+                    $wpaicg_additions = json_decode($wpaicg_additions_json, true);
+                    ?>
+                    <div class="mb-5">
+                        <label class="wpaicg-form-label"><?php echo esc_html__('Template','gpt3-ai-content-generator')?>:</label>
+                        <select<?php echo !$wpaicg_chat_addition ? ' disabled':'';?> class="wpaicg_chat_addition_template">
+                            <option value=""><?php echo esc_html__('Select Template','gpt3-ai-content-generator')?></option>
+                            <?php
+                            foreach($wpaicg_additions as $key=>$wpaicg_addition){
+                                echo '<option value="'.esc_html($wpaicg_addition).'">'.esc_html($key).'</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div class="mb-5">
-                        <label class="wpaicg-form-label"><?php echo esc_html__('Context','gpt3-ai-content-generator')?>:</label>
-                        <textarea<?php echo $wpaicg_chat_content_aware == 'no' || !$wpaicg_chat_addition ? ' disabled':''?> class="regular-text" id="wpaicg_chat_addition_text" name="wpaicg_chat_addition_text"><?php echo esc_html($wpaicg_chat_addition_text)?></textarea>
+                        <label class="wpaicg-form-label" style="vertical-align:top">
+                            <?php echo esc_html__('Context','gpt3-ai-content-generator')?>:
+                            <small style="font-weight: normal;display: block"><?php echo sprintf(esc_html__('You can add shortcode %s and %s and %s and %s in context','gpt3-ai-content-generator'),'<code>[sitename]</code>','<code>[siteurl]</code>','<code>[domain]</code>','<code>[date]</code>')?></small>
+                        </label>
+                        <textarea<?php echo !$wpaicg_chat_addition ? ' disabled':''?> class="regular-text wpaicg_chat_addition_text" rows="8" id="wpaicg_chat_addition_text" name="wpaicg_chat_addition_text"><?php echo !empty($wpaicg_chat_addition_text) ? esc_html($wpaicg_chat_addition_text) : esc_html__('You are a helpful AI Assistant. Please be friendly.','gpt3-ai-content-generator')?></textarea>
                     </div>
                 </div>
             </div>
@@ -1484,16 +1509,23 @@ if ( !empty($errors)) {
         $('#wpaicg_chat_addition').on('click', function (){
             if($(this).prop('checked')){
                 $('#wpaicg_chat_addition_text').removeAttr('disabled');
+                $('.wpaicg_chat_addition_template').removeAttr('disabled');
             }
             else{
                 $('#wpaicg_chat_addition_text').attr('disabled','disabled');
+                $('.wpaicg_chat_addition_template').attr('disabled','disabled');
+            }
+        });
+        $(document).on('change', '.wpaicg_chat_addition_template',function (e){
+            var addition_text_template = $(e.currentTarget).val();
+            if(addition_text_template !== ''){
+                $('.wpaicg_chat_addition_text').val(addition_text_template);
             }
         });
         $('#wpaicg_chat_embedding').on('click', function (){
             if($(this).prop('checked')){
                 $('#wpaicg_chat_excerpt').prop('checked',false);
                 $('#wpaicg_chat_excerpt').addClass('asdisabled');
-                $('#wpaicg_chat_addition').prop('checked',false);
                 $('#wpaicg_chat_embedding').removeClass('asdisabled');
                 $('#wpaicg_chat_embedding_type').val('openai');
                 $('#wpaicg_chat_embedding_type').removeClass('asdisabled');
@@ -1520,9 +1552,6 @@ if ( !empty($errors)) {
                 $('#wpaicg_chat_embedding_type').addClass('asdisabled');
                 $('#wpaicg_chat_embedding_top').val(1);
                 $('#wpaicg_chat_embedding_top').addClass('asdisabled');
-                $('#wpaicg_chat_addition').removeClass('asdisabled');
-                $('#wpaicg_chat_addition').removeAttr('disabled');
-                $('#wpaicg_chat_addition_text').attr('disabled','disabled');
             }
             else{
                 $('#wpaicg_chat_embedding_type').removeClass('asdisabled');
@@ -1535,8 +1564,6 @@ if ( !empty($errors)) {
                 $('#wpaicg_chat_embedding_type').attr('disabled','disabled');
                 $('#wpaicg_chat_embedding_top').attr('disabled','disabled');
                 $('#wpaicg_chat_embedding_top').removeClass('asdisabled');
-                $('#wpaicg_chat_addition').attr('disabled','disabled');
-                $('#wpaicg_chat_addition_text').attr('disabled','disabled');
             }
         })
         <?php
