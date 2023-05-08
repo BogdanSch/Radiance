@@ -1,9 +1,14 @@
-<?php get_header(); ?>
+<?php
+/*
+* Template Name: Full Width Post
+* Template Post Type: post
+*/
+get_header(); ?>
 <main id="main">
     <section id="blog" class="blog">
         <div class="container aos-init aos-animate" data-aos="fade-up">
             <div class="row">
-                <div class="col-lg-8 entries">
+                <div class="col-lg-12 entries">
                     <article class="entry entry-single">
                         <?php if (have_posts()) {
                             while (have_posts()) {
@@ -76,7 +81,6 @@
                         </ul>
                     </div>
                 </div>
-                <?php get_sidebar(); ?>
             </div>
         </div>
     </section>
