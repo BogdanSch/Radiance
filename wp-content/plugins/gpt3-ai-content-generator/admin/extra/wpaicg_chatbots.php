@@ -74,6 +74,9 @@ $wpaicg_google_api_key = get_option('wpaicg_google_api_key', '');
 $wpaicg_google_voices = get_option('wpaicg_google_voices',[]);
 ?>
 <style>
+    .wp-picker-holder{
+        z-index: 99;
+    }
     .wpaicg-bot-wizard{}
     .wpaicg-bot-wizard .wpaicg-mb-10{}
     .wpaicg-bot-wizard .wpaicg-form-label{

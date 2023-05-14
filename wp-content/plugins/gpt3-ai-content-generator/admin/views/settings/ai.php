@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             echo '<option'.($wpaicg_ai_model == 'gpt-4-32k' ? ' selected':'').' value="gpt-4-32k">gpt-4-32k ('.esc_html__('Limited Beta','gpt3-ai-content-generator').')</option>';
             ?>
         </select>
-        <a class="wpcgai_help_link" href="https://aipower.org/gpt-3-model-settings/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/model-configuration" target="_blank">?</a>
         <a class="wpaicg_sync_finetune" href="javascript:void(0)"><?php echo esc_html__('Sync','gpt3-ai-content-generator')?></a>
     </div>
     <?php
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <p><?php echo sprintf(esc_html__('Please note that GPT-4 is currently in limited beta, which means that access to the GPT-4 API from OpenAI is available only through a waiting list and is not open to everyone yet. You can sign up for the waiting list at %shere%s.','gpt3-ai-content-generator'),'<a href="https://openai.com/waitlist/gpt-4-api" target="_blank">','</a>')?></p>
     </div>
     <div class="wpcgai_form_row wpaicg_sleep_time" style="<?php echo $wpaicg_ai_model == 'gpt-3.5-turbo' || $wpaicg_ai_model == 'gpt-4-32k' || $wpaicg_ai_model == 'gpt-4' ? '' : 'display:none'?>">
-        <label class="wpcgai_label"><?php echo esc_html__('Rate Limit Buffer','gpt3-ai-content-generator')?>:</label>
+        <label class="wpcgai_label"><?php echo esc_html__('Rate Limit Buffer (in Seconds)','gpt3-ai-content-generator')?>:</label>
         <select class="regular-text"  name="wpaicg_sleep_time" >
             <?php
             for($i=1;$i<=10;$i++){
@@ -37,7 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             }
             ?>
         </select>
-        seconds
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/model-configuration#rate-limit-buffer" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">
@@ -45,7 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <input type="text" class="regular-text" id="label_temperature" name="wpaicg_settings[temperature]" value="<?php
         echo  esc_html( $existingValue['temperature'] ) ;
         ?>">
-        <a class="wpcgai_help_link" href="https://aipower.org/gpt-3-temperature-settings/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/temperature" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">
@@ -53,7 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <input type="text" class="regular-text" id="label_max_tokens" name="wpaicg_settings[max_tokens]" value="<?php
         echo  esc_html( $existingValue['max_tokens'] ) ;
         ?>" >
-        <a class="wpcgai_help_link" href="https://aipower.org/max-tokens/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/max-tokens#adjusting-the-max-tokens-setting" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">
@@ -61,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <input type="text" class="regular-text" id="label_top_p" name="wpaicg_settings[top_p]" value="<?php
         echo  esc_html( $existingValue['top_p'] ) ;
         ?>" >
-        <a class="wpcgai_help_link" href="https://aipower.org/top_p/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/top-p#adjusting-the-top_p-setting" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">
@@ -69,7 +69,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <input type="text" class="regular-text" id="label_best_of" name="wpaicg_settings[best_of]" value="<?php
         echo  esc_html( $existingValue['best_of'] ) ;
         ?>" >
-        <a class="wpcgai_help_link" href="https://aipower.org/best-of/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/best-of#adjusting-the-best-of-setting" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">
@@ -77,7 +77,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <input type="text" class="regular-text" id="label_frequency_penalty" name="wpaicg_settings[frequency_penalty]" value="<?php
         echo  esc_html( $existingValue['frequency_penalty'] ) ;
         ?>" >
-        <a class="wpcgai_help_link" href="https://aipower.org/frequency-penalty/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/frequency-penalty#adjusting-the-frequency-penalty" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">
@@ -85,7 +85,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <input type="text" class="regular-text" id="label_presence_penalty" name="wpaicg_settings[presence_penalty]" value="<?php
         echo  esc_html( $existingValue['presence_penalty'] ) ;
         ?>" >
-        <a class="wpcgai_help_link" href="https://aipower.org/presence-penalty/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/presence-penalty#adjusting-the-presence-penalty" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">
@@ -93,7 +93,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <input type="text" class="regular-text" id="label_api_key" name="wpaicg_settings[api_key]" value="<?php
         echo  esc_html( $existingValue['api_key'] ) ;
         ?>" >
-        <a class="wpcgai_help_link" href="https://aipower.org/bring-your-own-key-model/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/api-key#how-to-generate-an-openai-api-key" target="_blank">?</a>
         <a class="wpcgai_help_link" href="https://beta.openai.com/account/api-keys" target="_blank"><?php echo esc_html__('Get Your Api Key','gpt3-ai-content-generator')?></a>
         <p><?php echo sprintf(esc_html__('Watch this tutorial: %sHow to Setup OpenAI API Key%s','gpt3-ai-content-generator'),'<a href="https://youtu.be/d0GSPU4P7FI" target="_blank">','</a>')?></p>
         <p><?php echo sprintf(esc_html__('Please note that our plugin works with the OpenAI API. To use it, you need to create an account on OpenAI and %sobtain your API key%s. OpenAI provides $5 in free credit for new users. If you encounter the message %s"You exceeded your current quota, please check your plan and billing details."%s it indicates that you have exhausted your OpenAI quota and need to purchase additional credit from OpenAI.','gpt3-ai-content-generator'),'<a href="https://beta.openai.com/account/api-keys" target="_blank">','</a>','<b>','</b>')?></p>

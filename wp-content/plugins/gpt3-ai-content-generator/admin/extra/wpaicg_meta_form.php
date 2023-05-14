@@ -714,11 +714,15 @@ $wpaicg_image_source = get_option( 'wpaicg_image_source', '' );
 $wpaicg_featured_image_source = get_option( 'wpaicg_featured_image_source', '' );
 $wpaicg_pexels_orientation = get_option( 'wpaicg_pexels_orientation', '' );
 $wpaicg_pexels_size = get_option( 'wpaicg_pexels_size', '' );
+$wpaicg_pexels_enable_prompt = get_option( 'wpaicg_pexels_enable_prompt', false );
+$wpaicg_pexels_custom_prompt = get_option( 'wpaicg_pexels_custom_prompt', \WPAICG\WPAICG_Generator::get_instance()->wpaicg_pexels_custom_prompt );
 $wpaicg_pixabay_api = get_option( 'wpaicg_pixabay_api', '' );
 $wpaicg_pixabay_language = get_option( 'wpaicg_pixabay_language', 'en' );
 $wpaicg_pixabay_type = get_option( 'wpaicg_pixabay_type', 'all' );
 $wpaicg_pixabay_orientation = get_option( 'wpaicg_pixabay_orientation', 'all' );
 $wpaicg_pixabay_order = get_option( 'wpaicg_pixabay_order', 'popular' );
+$wpaicg_pixabay_enable_prompt = get_option( 'wpaicg_pixabay_enable_prompt', false );
+$wpaicg_pixabay_custom_prompt = get_option( 'wpaicg_pixabay_custom_prompt', \WPAICG\WPAICG_Generator::get_instance()->wpaicg_pixabay_custom_prompt );
 ?>
                 <div class="mb-5">
                     <label class="wpaicg-form-label"><?php 
@@ -796,7 +800,7 @@ echo  ( esc_html( $_wporg_img_size ) == '512x512' ? ' selected' : '' ) ;
 echo  esc_html__( 'Medium (512x512)', 'gpt3-ai-content-generator' ) ;
 ?></option>
                         <option value="1024x1024"<?php 
-echo  ( esc_html( $_wporg_img_size ) == '1024x102' ? ' selected' : '' ) ;
+echo  ( esc_html( $_wporg_img_size ) == '1024x1024' ? ' selected' : '' ) ;
 ?>><?php 
 echo  esc_html__( 'Big (1024x1024)', 'gpt3-ai-content-generator' ) ;
 ?></option>
@@ -1041,6 +1045,27 @@ echo  esc_html__( 'Small', 'gpt3-ai-content-generator' ) ;
 ?></option>
                     </select>
                 </div>
+                <div class="wpaicg-mb-10">
+                    <label class="wpaicg-form-label"><?php 
+echo  esc_html__( 'Use Keyword [Beta]', 'gpt3-ai-content-generator' ) ;
+?>:</label>
+                    <input<?php 
+echo  ( $wpaicg_pexels_enable_prompt ? ' checked' : '' ) ;
+?> type="checkbox" name="wpaicg_pexels_enable_prompt" value="1" id="wpaicg_pexels_enable_prompt">
+                </div>
+                <div class="wpaicg-mb-10 wpaicg_pexels_custom_prompt" style="display:none">
+                    <label style="vertical-align:top" class="wpaicg-form-label">
+                        <?php 
+echo  esc_html__( 'Custom Prompt', 'gpt3-ai-content-generator' ) ;
+?>:
+                        <small style="display: block;font-weight: normal"><?php 
+echo  sprintf( esc_html__( 'Ensure %s is included in your prompt.', 'gpt3-ai-content-generator' ), '<code>[title]</code>' ) ;
+?></small>
+                    </label>
+                    <textarea id="wpaicg_pexels_custom_prompt" rows="5" name="wpaicg_pexels_custom_prompt"><?php 
+echo  esc_html( $wpaicg_pexels_custom_prompt ) ;
+?></textarea>
+                </div>
                 <p><u><b><?php 
 echo  esc_html__( 'Pixabay', 'gpt3-ai-content-generator' ) ;
 ?></b></u></p>
@@ -1121,6 +1146,27 @@ echo  ( $wpaicg_pixabay_order == 'latest' ? ' selected' : '' ) ;
 echo  esc_html__( 'Latest', 'gpt3-ai-content-generator' ) ;
 ?></option>
                     </select>
+                </div>
+                <div class="wpaicg-mb-10">
+                    <label class="wpaicg-form-label"><?php 
+echo  esc_html__( 'Use Keyword [Beta]', 'gpt3-ai-content-generator' ) ;
+?>:</label>
+                    <input<?php 
+echo  ( $wpaicg_pixabay_enable_prompt ? ' checked' : '' ) ;
+?> type="checkbox" name="wpaicg_pixabay_enable_prompt" value="1" id="wpaicg_pixabay_enable_prompt">
+                </div>
+                <div class="wpaicg-mb-10 wpaicg_pixabay_custom_prompt" style="display:none">
+                    <label style="vertical-align:top" class="wpaicg-form-label">
+                        <?php 
+echo  esc_html__( 'Custom Prompt', 'gpt3-ai-content-generator' ) ;
+?>:
+                        <small style="display: block;font-weight: normal"><?php 
+echo  sprintf( esc_html__( 'Ensure %s is included in your prompt.', 'gpt3-ai-content-generator' ), '<code>[title]</code>' ) ;
+?></small>
+                    </label>
+                    <textarea id="wpaicg_pixabay_custom_prompt" rows="5" name="wpaicg_pixabay_custom_prompt"><?php 
+echo  esc_html( $wpaicg_pixabay_custom_prompt ) ;
+?></textarea>
                 </div>
             </div>
         </div>

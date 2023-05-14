@@ -416,7 +416,7 @@ $wpaicg_voice_pitch = isset($wpaicg_chat_widget['voice_pitch']) && !empty($wpaic
             <li style="background: rgb(0 0 0 / 32%); padding: 10px;margin-bottom: 0">
                 <p>
                     <span class="wpaicg-chat-message">
-                        <?php echo esc_html($wpaicg_log_notice_message)?>
+                        <?php echo esc_html(str_replace("\\",'',$wpaicg_log_notice_message))?>
                     </span>
                 </p>
             </li>
@@ -427,15 +427,15 @@ $wpaicg_voice_pitch = isset($wpaicg_chat_widget['voice_pitch']) && !empty($wpaic
                 <p>
                     <strong style="float: left"><?php echo $wpaicg_use_avatar ? '<img src="'.$wpaicg_ai_avatar_url.'" height="40" width="40">' : esc_html($wpaicg_ai_name).':' ?></strong>
                     <span class="wpaicg-chat-message">
-                        <?php echo esc_html($wpaicg_welcome_message)?>
+                        <?php echo esc_html(str_replace("\\",'',$wpaicg_welcome_message))?>
                     </span>
                 </p>
             </li>
         </ul>
-        <span class="wpaicg-bot-thinking" style="color: <?php echo esc_html($wpaicg_thinking_color)?>;"><?php echo esc_html($wpaicg_ai_thinking)?>&nbsp;<span class="wpaicg-jumping-dots"><span class="wpaicg-dot-1">.</span><span class="wpaicg-dot-2">.</span><span class="wpaicg-dot-3">.</span></span></span>
+        <span class="wpaicg-bot-thinking" style="color: <?php echo esc_html($wpaicg_thinking_color)?>;"><?php echo esc_html(str_replace("\\",'',$wpaicg_ai_thinking))?>&nbsp;<span class="wpaicg-jumping-dots"><span class="wpaicg-dot-1">.</span><span class="wpaicg-dot-2">.</span><span class="wpaicg-dot-3">.</span></span></span>
     </div>
     <div class="wpaicg-chatbox-type">
-        <input type="text" class="wpaicg-chatbox-typing" placeholder="<?php echo esc_html($wpaicg_typing_placeholder)?>">
+        <input type="text" class="wpaicg-chatbox-typing" placeholder="<?php echo esc_html(str_replace("\\",'',$wpaicg_typing_placeholder))?>">
         <?php
         if($wpaicg_audio_enable):
         ?>
@@ -454,7 +454,7 @@ $wpaicg_voice_pitch = isset($wpaicg_chat_widget['voice_pitch']) && !empty($wpaic
     ?>
     <div class="wpaicg-chatbox-footer">
         <?php
-        echo esc_html($wpaicg_chat_widget['footer_text']);
+        echo esc_html(str_replace("\\",'',$wpaicg_chat_widget['footer_text']));
         ?>
     </div>
     <?php

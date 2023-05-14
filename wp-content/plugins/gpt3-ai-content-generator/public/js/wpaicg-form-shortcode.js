@@ -303,8 +303,13 @@ var wpaicgPlayGround = {
                 else if(content_generated.indexOf("\n") > -1 && wpaicg_response_events > 0 && currentContent !== ''){
                     if (!wpaicg_newline_before) {
                         wpaicg_newline_before = true;
-                        if(wpaicgUserLoggedIn){
-                            content_generated = content_generated.replace(/\n/g,'<br>');
+                        if(wpaicgFormData.response === 'textarea'){
+                            if(!wpaicg_PlayGround.editor(formID)){
+                                content_generated = content_generated.replace(/\n/g,'<br><br>');
+                            }
+                        }
+                        else{
+                            content_generated = content_generated.replace(/\n/g,'<br><br>');
                         }
                         wpaicg_PlayGround.setContent(wpaicgFormData.response,formID,currentContent + content_generated);
                     }

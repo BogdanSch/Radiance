@@ -886,6 +886,15 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Content' ) ) {
                     if ( array_key_exists( 'wpaicg_pexels_orientation', $_POST ) ) {
                         update_post_meta( $wpaicg_post_id, 'wpaicg_pexels_orientation', sanitize_text_field($_POST['wpaicg_pexels_orientation']) );
                     }
+                    if ( array_key_exists( 'wpaicg_pexels_size', $_POST ) ) {
+                        update_post_meta( $wpaicg_post_id, 'wpaicg_pexels_size', sanitize_text_field($_POST['wpaicg_pexels_size']) );
+                    }
+                    if ( array_key_exists( 'wpaicg_pexels_enable_prompt', $_POST ) ) {
+                        update_post_meta( $wpaicg_post_id, 'wpaicg_pexels_enable_prompt', sanitize_text_field($_POST['wpaicg_pexels_enable_prompt']) );
+                    }
+                    if ( array_key_exists( 'wpaicg_pexels_custom_prompt', $_POST ) ) {
+                        update_post_meta( $wpaicg_post_id, 'wpaicg_pexels_custom_prompt', sanitize_text_field($_POST['wpaicg_pexels_custom_prompt']) );
+                    }
                     if ( array_key_exists( 'wpaicg_pixabay_type', $_POST ) ) {
                         update_post_meta( $wpaicg_post_id, 'wpaicg_pixabay_type', sanitize_text_field($_POST['wpaicg_pixabay_type']) );
                     }
@@ -898,8 +907,11 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Content' ) ) {
                     if ( array_key_exists( 'wpaicg_pixabay_orientation', $_POST ) ) {
                         update_post_meta( $wpaicg_post_id, 'wpaicg_pixabay_orientation', sanitize_text_field($_POST['wpaicg_pixabay_orientation']) );
                     }
-                    if ( array_key_exists( 'wpaicg_pexels_size', $_POST ) ) {
-                        update_post_meta( $wpaicg_post_id, 'wpaicg_pexels_size', sanitize_text_field($_POST['wpaicg_pexels_size']) );
+                    if ( array_key_exists( 'wpaicg_pixabay_enable_prompt', $_POST ) ) {
+                        update_post_meta( $wpaicg_post_id, 'wpaicg_pixabay_enable_prompt', sanitize_text_field($_POST['wpaicg_pixabay_enable_prompt']) );
+                    }
+                    if ( array_key_exists( 'wpaicg_pixabay_custom_prompt', $_POST ) ) {
+                        update_post_meta( $wpaicg_post_id, 'wpaicg_pixabay_custom_prompt', sanitize_text_field($_POST['wpaicg_pixabay_custom_prompt']) );
                     }
                     if ( array_key_exists( '_wporg_add_tagline', $_POST ) ) {
                         update_post_meta( $wpaicg_post_id, '_wporg_add_tagline', sanitize_text_field($_POST['_wporg_add_tagline']) );

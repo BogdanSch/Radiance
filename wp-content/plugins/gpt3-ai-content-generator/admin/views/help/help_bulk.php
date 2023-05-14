@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
           <p>Auto Content Writer is a robust tool that enables you to produce multiple articles simultaneously, saving you valuable time and energy.</p>
           <p>To use this feature, simply follow these steps:</p>
           <p>Navigate to the Auto Content Writer page on your website, and ensure that you have completed the Cron Job setup, which is essential for the Bulk Content Writer to operate efficiently.</p>
-          <p>You can access the guide on how to set up the Cron Job <a href="https://aipower.org/how-to-add-cron-job/" target="_blank">here</a>.</p>
+          <p>You can access the guide on how to set up the Cron Job <a href="https://docs.aipower.org/docs/AutoGPT/gpt-agents#cron-job-setup" target="_blank">here</a>.</p>
           <p>Once you are in the Bulk Editor tab, input your desired title, choose whether to save the content as a draft or publish it immediately, select the post category, author and enter tags, anchor text, target url, call to action link and click the “Generate” button.</p>
           <p>You can monitor the progress of your content creation in the “Queue” tab.</p>
           <p>If the content generation process is taking longer than expected, you have the option to cancel it.</p>      

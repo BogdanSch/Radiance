@@ -130,6 +130,10 @@ if(!class_exists('\\WPAICG\\WPAICG_Generator')) {
             'ko' => '한국어 (대한민국)',
             'zh' => '普通话 (中国大陆)'
         );
+        public $wpaicg_pexels_enable_prompt = false;
+        public $wpaicg_pexels_custom_prompt = 'Extract the most significant keyword from the given title: [title]. Please provide the keyword in the format #keyword, without any additional sentences, words, or characters. Ensure that the keyword consists of a single word, and do not combine or concatenate words or phrases in the keyword.';
+        public $wpaicg_pixabay_enable_prompt = false;
+        public $wpaicg_pixabay_custom_prompt = 'Extract the most significant keyword from the given title: [title]. Please provide the keyword in the format #keyword, without any additional sentences, words, or characters. Ensure that the keyword consists of a single word, and do not combine or concatenate words or phrases in the keyword.';
 
         public static function get_instance()
         {
@@ -221,6 +225,10 @@ if(!class_exists('\\WPAICG\\WPAICG_Generator')) {
                 $this->wpaicg_custom_image_settings = wp_parse_args($wpaicg_custom_image_settings, $this->wpaicg_custom_image_settings);
                 $this->hide_introduction = get_option('wpaicg_hide_introduction',false);
                 $this->hide_conclusion = get_option('wpaicg_hide_conclusion',false);
+                $this->wpaicg_pexels_enable_prompt = get_option('wpaicg_pexels_enable_prompt',false);
+                $this->wpaicg_pexels_custom_prompt = get_option('wpaicg_pexels_custom_prompt',$this->wpaicg_pexels_custom_prompt);
+                $this->wpaicg_pixabay_enable_prompt = get_option('wpaicg_pixabay_enable_prompt',false);
+                $this->wpaicg_pixabay_custom_prompt = get_option('wpaicg_pixabay_custom_prompt',$this->wpaicg_pexels_custom_prompt);
             }
             else{
                 $this->wpaicg_number_of_heading = sanitize_text_field( $_REQUEST["wpai_number_of_heading"] );
@@ -281,6 +289,10 @@ if(!class_exists('\\WPAICG\\WPAICG_Generator')) {
                 $this->wpaicg_custom_image_settings = wp_parse_args($wpaicg_custom_image_settings, $this->wpaicg_custom_image_settings);
                 $this->hide_introduction = (int)sanitize_text_field($_REQUEST['wpaicg_hide_introduction']);
                 $this->hide_conclusion = (int)sanitize_text_field($_REQUEST['wpaicg_hide_conclusion']);
+                $this->wpaicg_pexels_enable_prompt = isset($_REQUEST["wpaicg_pexels_enable_prompt"]) ? intval( sanitize_text_field($_REQUEST["wpaicg_pexels_enable_prompt"] )) : false;
+                $this->wpaicg_pexels_custom_prompt = isset($_REQUEST['wpaicg_pexels_custom_prompt']) && !empty($_REQUEST['wpaicg_pexels_custom_prompt']) ? sanitize_text_field($_REQUEST['wpaicg_pexels_custom_prompt']) : $this->wpaicg_pexels_custom_prompt;
+                $this->wpaicg_pixabay_enable_prompt = isset($_REQUEST["wpaicg_pixabay_enable_prompt"]) ? intval( sanitize_text_field($_REQUEST["wpaicg_pixabay_enable_prompt"] )) : false;
+                $this->wpaicg_pixabay_custom_prompt = isset($_REQUEST['wpaicg_pixabay_custom_prompt']) && !empty($_REQUEST['wpaicg_pixabay_custom_prompt']) ? sanitize_text_field($_REQUEST['wpaicg_pexels_custom_prompt']) : $this->wpaicg_pixabay_custom_prompt;
             }
             $this->wpaicg_opts = [
                 'model'             => $this->wpaicg_engine,
@@ -912,9 +924,27 @@ if(!class_exists('\\WPAICG\\WPAICG_Generator')) {
         {
             $wpaicg_result = array('status' => 'success');
             if(!empty($this->wpaicg_pixabay_api)) {
+                $query = $this->wpaicg_preview_title;
+                if($this->wpaicg_pixabay_enable_prompt){
+                    $this->wpaicg_pixabay_custom_prompt = str_replace('[title]',$this->wpaicg_preview_title,$this->wpaicg_pixabay_custom_prompt);
+                    $keyword = $this->wpaicg_request(array(
+                        'prompt' => $this->wpaicg_pixabay_custom_prompt,
+                        'model' => 'gpt-3.5-turbo',
+                        'temperature' => 0.5,
+                        'max_tokens' => 20,
+                        'frequency_penalty' => 0,
+                        'presence_penalty' => 0,
+                    ));
+                    if($keyword && is_array($keyword)){
+                        if($keyword['status'] == 'success'){
+                            $query = trim($keyword['data']);
+                            $query = str_replace('#','',$query);
+                        }
+                    }
+                }
                 $requests = array(
                     'key' => $this->wpaicg_pixabay_api,
-                    'q' => $this->wpaicg_preview_title,
+                    'q' => $query,
                     'pretty' => true,
                     'lang' => $this->wpaicg_pixabay_language,
                     'order' => $this->wpaicg_pixabay_order,
@@ -952,7 +982,25 @@ if(!class_exists('\\WPAICG\\WPAICG_Generator')) {
         {
             $wpaicg_result = array('status' => 'success');
             if(!empty($this->wpaicg_pexels_api)) {
-                $wpaicg_pexels_url = 'https://api.pexels.com/v1/search?query='.$this->wpaicg_preview_title.'&per_page=1';
+                $query = $this->wpaicg_preview_title;
+                if($this->wpaicg_pexels_enable_prompt){
+                    $this->wpaicg_pexels_custom_prompt = str_replace('[title]',$this->wpaicg_preview_title,$this->wpaicg_pexels_custom_prompt);
+                    $keyword = $this->wpaicg_request(array(
+                        'prompt' => $this->wpaicg_pexels_custom_prompt,
+                        'model' => 'gpt-3.5-turbo',
+                        'temperature' => 0.5,
+                        'max_tokens' => 20,
+                        'frequency_penalty' => 0,
+                        'presence_penalty' => 0,
+                    ));
+                    if($keyword && is_array($keyword)){
+                        if($keyword['status'] == 'success'){
+                            $query = trim($keyword['data']);
+                            $query = str_replace('#','',$query);
+                        }
+                    }
+                }
+                $wpaicg_pexels_url = 'https://api.pexels.com/v1/search?query='.$query.'&per_page=1';
                 if(!empty($this->wpaicg_pexels_orientation)){
                     $wpaicg_pexels_orientation = strtolower($this->wpaicg_pexels_orientation);
                     $wpaicg_pexels_url .= '&orientation='.$wpaicg_pexels_orientation;

@@ -192,7 +192,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div>
           <p>If you want to ensure that your content focuses on specific topics or concepts in a more prominent way, adding specific keywords can be useful.</p>
           <p><a href="<?php echo admin_url('admin.php?page=wpaicg-pricing')?>">Click here</a> to upgrade to the Pro plan to use this feature.</p>
-          <p><a href="https://aipower.org/adding-keywords/" target="_blank">Learn more</a>.</p>
+          <p><a href="https://docs.aipower.org/docs/content-writer/express-mode/keywords#add-keywords" target="_blank">Learn more</a>.</p>
         </div>
     <h3>Q&A <mark class="wpcgai_container_help_h3">Pro</mark></h3>
         <div>

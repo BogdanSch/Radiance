@@ -296,7 +296,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Embeddings')) {
         {
             global $wpdb;
             $wpaicg_result = array('status' => 'success', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
-            if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
+            if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
                 wp_send_json($wpaicg_result);

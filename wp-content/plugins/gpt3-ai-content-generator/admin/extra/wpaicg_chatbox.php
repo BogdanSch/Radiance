@@ -457,7 +457,7 @@ if($wpaicg_chat_fullscreen || $wpaicg_chat_download_btn){
                 <li style="background: rgb(0 0 0 / 32%); padding: 10px;margin-bottom: 0">
                     <p>
                     <span class="wpaicg-chat-message">
-                        <?php echo esc_html($wpaicg_log_notice_message)?>
+                        <?php echo esc_html(str_replace("\\",'',$wpaicg_log_notice_message))?>
                     </span>
                     </p>
                 </li>
@@ -477,15 +477,15 @@ if($wpaicg_chat_fullscreen || $wpaicg_chat_download_btn){
                         ?>
                     </strong>
                     <span class="wpaicg-chat-message">
-                        <?php echo esc_html($wpaicg_welcome_message)?>
+                        <?php echo esc_html(str_replace("\\",'',$wpaicg_welcome_message))?>
                     </span>
                 </p>
             </li>
         </ul>
-        <span class="wpaicg-bot-thinking" style="color: <?php echo esc_html($wpaicg_thinking_color)?>;"><?php echo esc_html($wpaicg_ai_thinking)?>&nbsp;<span class="wpaicg-jumping-dots"><span class="wpaicg-dot-1">.</span><span class="wpaicg-dot-2">.</span><span class="wpaicg-dot-3">.</span></span></span>
+        <span class="wpaicg-bot-thinking" style="color: <?php echo esc_html($wpaicg_thinking_color)?>;"><?php echo esc_html(str_replace("\\",'',$wpaicg_ai_thinking))?>&nbsp;<span class="wpaicg-jumping-dots"><span class="wpaicg-dot-1">.</span><span class="wpaicg-dot-2">.</span><span class="wpaicg-dot-3">.</span></span></span>
     </div>
     <div class="wpaicg-chat-shortcode-type">
-        <input type="text" class="wpaicg-chat-shortcode-typing" placeholder="<?php echo esc_html($wpaicg_typing_placeholder)?>">
+        <input type="text" class="wpaicg-chat-shortcode-typing" placeholder="<?php echo esc_html(str_replace("\\",'',$wpaicg_typing_placeholder))?>">
         <span class="wpaicg-mic-icon" data-type="shortcode" style="<?php echo $wpaicg_audio_enable ? '' : 'display:none'?>">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M176 0C123 0 80 43 80 96V256c0 53 43 96 96 96s96-43 96-96V96c0-53-43-96-96-96zM48 216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 89.1 66.2 162.7 152 174.4V464H104c-13.3 0-24 10.7-24 24s10.7 24 24 24h72 72c13.3 0 24-10.7 24-24s-10.7-24-24-24H200V430.4c85.8-11.7 152-85.3 152-174.4V216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 70.7-57.3 128-128 128s-128-57.3-128-128V216z"/></svg>
         </span>
@@ -498,7 +498,7 @@ if($wpaicg_chat_fullscreen || $wpaicg_chat_download_btn){
     ?>
         <div class="wpaicg-chat-shortcode-footer">
             <?php
-            echo esc_html($wpaicg_settings['footer_text']);
+            echo esc_html(str_replace("\\",'',$wpaicg_settings['footer_text']));
             ?>
         </div>
     <?php

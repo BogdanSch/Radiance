@@ -144,7 +144,7 @@ echo  ( esc_html( $existingValue['wpai_language'] ) == 'uk' ? 'selected' : '' ) 
 echo  ( esc_html( $existingValue['wpai_language'] ) == 'vi' ? 'selected' : '' ) ;
 ?>>Vietnamese</option>
         </select>
-        <a class="wpcgai_help_link" href="https://aipower.org/supported-languages/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/language-style-tone#language" target="_blank">?</a>
     </div>
     <div class="wpcgai_form_row">
         <label class="wpcgai_label">Writing Style:</label>
@@ -385,7 +385,7 @@ echo  ( esc_html( $existingValue['wpai_writing_style'] ) == 'resea' ? 'selected'
 echo  esc_html__( 'Research', 'gpt3-ai-content-generator' ) ;
 ?></option>
         </select>
-        <a class="wpcgai_help_link" href="https://aipower.org/selecting-a-writing-style/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/language-style-tone#writing-style" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">
@@ -544,7 +544,7 @@ echo  ( esc_html( $existingValue['wpai_writing_tone'] ) == 'worry' ? 'selected' 
 echo  esc_html__( 'Worried', 'gpt3-ai-content-generator' ) ;
 ?></option>
         </select>
-        <a class="wpcgai_help_link" href="https://aipower.org/selecting-a-writing-tone/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/language-style-tone#writing-tone" target="_blank">?</a>
     </div>
     <hr>
     <p><b><?php 
@@ -557,7 +557,7 @@ echo  esc_html__( 'Number of Headings', 'gpt3-ai-content-generator' ) ;
         <input type="number" min="1" max="15" class="regular-text" id="label_wpai_number_of_heading"  name="wpaicg_settings[wpai_number_of_heading]" value="<?php 
 echo  esc_html( $existingValue['wpai_number_of_heading'] ) ;
 ?>" placeholder="e.g. 5" >
-        <a class="wpcgai_help_link" href="https://aipower.org/number-of-headings/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/headings#number-of-headings" target="_blank">?</a>
     </div>
     <div class="wpcgai_form_row">
         <label class="wpcgai_label"><?php 
@@ -583,7 +583,7 @@ echo  ( esc_html( $existingValue['wpai_heading_tag'] ) == 'h5' ? 'selected' : ''
 echo  ( esc_html( $existingValue['wpai_heading_tag'] ) == 'h6' ? 'selected' : '' ) ;
 ?>>h6</option>
         </select>
-        <a class="wpcgai_help_link" href="https://aipower.org/adding-heading-tags/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/headings#heading-tag" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">
@@ -598,7 +598,7 @@ echo  esc_html( $existingValue['wpai_modify_headings'] ) ;
 echo  ( esc_html( $existingValue['wpai_modify_headings'] ) == 1 ? " checked" : "" ) ;
 ?>
         />
-        <a class="wpcgai_help_link" href="https://aipower.org/modifying-headings/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/headings#outline-editor" target="_blank">?</a>
     </div>
     <hr>
     <p><b><?php 
@@ -616,7 +616,7 @@ echo  esc_html( $existingValue['wpai_add_tagline'] ) ;
 echo  ( esc_html( $existingValue['wpai_add_tagline'] ) == 1 ? " checked" : "" ) ;
 ?>
         />
-        <a class="wpcgai_help_link" href="https://aipower.org/adding-a-tagline/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/additional-content#enable-or-disable-tagline" target="_blank">?</a>
     </div>
     <div class="wpcgai_form_row">
         <label class="wpcgai_label"><?php 
@@ -629,7 +629,7 @@ echo  esc_html__( 'Available in Pro', 'gpt3-ai-content-generator' ) ;
 ?>
             <?php 
 ?>
-        <a class="wpcgai_help_link" href="https://aipower.org/adding-a-qa/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/qa#enable-or-disable-qa" target="_blank">?</a>
     </div>
     <div class="wpcgai_form_row">
         <label class="wpcgai_label"><?php 
@@ -642,7 +642,7 @@ echo  esc_html__( 'Available in Pro', 'gpt3-ai-content-generator' ) ;
 ?>
             <?php 
 ?>
-        <a class="wpcgai_help_link" href="https://aipower.org/adding-keywords/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/keywords#add-keywords" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">
@@ -661,7 +661,7 @@ echo  ( esc_html( $existingValue['wpai_cta_pos'] ) == 'end' ? 'selected' : '' ) 
 echo  esc_html__( 'End', 'gpt3-ai-content-generator' ) ;
 ?></option>
         </select>
-        <a class="wpcgai_help_link" href="https://aipower.org/adding-links-and-call-to-action/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/links#adding-call-to-action" target="_blank">?</a>
     </div>
     <hr>
     <p><strong><?php 
@@ -677,6 +677,7 @@ $wpaicg_toc = get_option( 'wpaicg_toc', false );
         <input<?php 
 echo  ( $wpaicg_toc ? ' checked' : '' ) ;
 ?> type="checkbox" value="1" name="wpaicg_toc">
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/table-of-contents#enable-or-disable-toc" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">
@@ -689,6 +690,7 @@ $wpaicg_toc_title = get_option( 'wpaicg_toc_title', 'Table of Contents' );
         <input type="text" class="regular-text" value="<?php 
 echo  esc_html( $wpaicg_toc_title ) ;
 ?>" name="wpaicg_toc_title">
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/table-of-contents#customize-toc-title" target="_blank">?</a>
     </div>
     <div class="wpcgai_form_row">
         <label class="wpcgai_label"><?php 
@@ -717,6 +719,7 @@ echo  ( esc_html( $wpaicg_toc_title_tag ) == 'h5' ? 'selected' : '' ) ;
 echo  ( esc_html( $wpaicg_toc_title_tag ) == 'h6' ? 'selected' : '' ) ;
 ?>>h6</option>
         </select>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/table-of-contents#toc-title-tag" target="_blank">?</a>
     </div>
     <hr>
     <p><b><?php 
@@ -734,7 +737,7 @@ echo  esc_html( $existingValue['wpai_add_intro'] ) ;
 echo  ( esc_html( $existingValue['wpai_add_intro'] ) == 1 ? " checked" : "" ) ;
 ?>
         />
-        <a class="wpcgai_help_link" href="https://aipower.org/adding-an-introduction/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/additional-content#enable-or-disable-introduction" target="_blank">?</a>
     </div>
     <div class="wpcgai_form_row">
         <label class="wpcgai_label"><?php 
@@ -763,6 +766,7 @@ echo  ( esc_html( $wpaicg_intro_title_tag ) == 'h5' ? 'selected' : '' ) ;
 echo  ( esc_html( $wpaicg_intro_title_tag ) == 'h6' ? 'selected' : '' ) ;
 ?>>h6</option>
         </select>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/additional-content#setting-the-heading-tag-for-introduction" target="_blank">?</a>
     </div>
     <?php 
 $wpaicg_hide_conclusion = get_option( 'wpaicg_hide_conclusion', false );
@@ -775,6 +779,7 @@ echo  esc_html__( 'Hide Introduction Title', 'gpt3-ai-content-generator' ) ;
         <input type="checkbox" name="wpaicg_hide_introduction" value="1"<?php 
 echo  ( $wpaicg_hide_introduction ? " checked" : "" ) ;
 ?>/>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/additional-content#show-or-hide-introduction-title" target="_blank">?</a>
     </div>
     <hr>
     <p><strong><?php 
@@ -792,7 +797,7 @@ echo  esc_html( $existingValue['wpai_add_conclusion'] ) ;
 echo  ( esc_html( $existingValue['wpai_add_conclusion'] ) == 1 ? " checked" : "" ) ;
 ?>
         />
-        <a class="wpcgai_help_link" href="https://aipower.org/adding-a-conclusion/" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/additional-content#enable-or-disable-conclusion" target="_blank">?</a>
     </div>
     <!-- wpaicg_conclusion_title_tag -->
     <div class="wpcgai_form_row">
@@ -822,6 +827,7 @@ echo  ( esc_html( $wpaicg_conclusion_title_tag ) == 'h5' ? 'selected' : '' ) ;
 echo  ( esc_html( $wpaicg_conclusion_title_tag ) == 'h6' ? 'selected' : '' ) ;
 ?>>h6</option>
         </select>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/additional-content#setting-the-heading-tag-for-conclusion" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">
@@ -831,6 +837,7 @@ echo  esc_html__( 'Hide Conclusion Title', 'gpt3-ai-content-generator' ) ;
         <input type="checkbox" name="wpaicg_hide_conclusion" value="1"<?php 
 echo  ( $wpaicg_hide_conclusion ? " checked" : "" ) ;
 ?>/>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/additional-content#show-or-hide-conclusion-title" target="_blank">?</a>
     </div>
     <hr>
     <p><strong><?php 
@@ -848,6 +855,7 @@ if ( empty($wpaicg_content_custom_prompt) ) {
             <label><input<?php 
 echo  ( $wpaicg_content_custom_prompt_enable ? ' checked' : '' ) ;
 ?> type="checkbox" class="wpaicg_meta_custom_prompt_enable" name="wpaicg_content_custom_prompt_enable">&nbsp;Enable</label>
+            <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/content-writer/express-mode/custom-prompt" target="_blank">?</a>
         </div>
         <div class="wpaicg_meta_custom_prompt_box" style="<?php 
 echo  ( isset( $wpaicg_content_custom_prompt_enable ) && $wpaicg_content_custom_prompt_enable ? '' : 'display:none' ) ;

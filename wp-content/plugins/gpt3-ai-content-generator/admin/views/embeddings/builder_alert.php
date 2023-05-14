@@ -59,7 +59,7 @@ $wpaicg_cron_added = get_option('wpaicg_cron_builder_added','');
     <p></p>
     <p><strong><?php echo esc_html__('Cron Job Configuration','gpt3-ai-content-generator')?></strong></p>
     <p></p>
-    <p><?php echo sprintf(esc_html__('If you are using a Linux/Unix server, copy the code below and paste it into the crontab. Read the detailed guide %shere%s','gpt3-ai-content-generator'),'<a href="'.esc_url("https://aipower.org/how-to-add-cron-job/").'" target="_blank">','</a>')?>.</p>
+    <p><?php echo sprintf(esc_html__('If you are using a Linux/Unix server, copy the code below and paste it into the crontab. Read the detailed guide %shere%s','gpt3-ai-content-generator'),'<a href="'.esc_url("https://docs.aipower.org/docs/AutoGPT/gpt-agents#cron-job-setup").'" target="_blank">','</a>')?>.</p>
     <p><code>* * * * * php <?php echo esc_html(ABSPATH)?>index.php -- wpaicg_builder=yes</code></p>
     <p></p>
     <hr>

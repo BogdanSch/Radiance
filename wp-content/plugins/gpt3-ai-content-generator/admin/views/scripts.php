@@ -157,6 +157,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             var wpaicg_pixabay_type = $('#wpaicg_pixabay_type').val();
             var wpaicg_meta_custom_prompt_enable = $('.wpaicg_meta_custom_prompt_enable:checked').length ? 1 : 0;
             var wpaicg_meta_custom_prompt = $('.wpaicg_meta_custom_prompt').val();
+            var wpaicg_pixabay_enable_prompt = $('#wpaicg_pixabay_enable_prompt:checked').length ? 1 : 0;
+            var wpaicg_pixabay_custom_prompt = $('#wpaicg_pixabay_custom_prompt').val();
+            var wpaicg_pexels_enable_prompt = $('#wpaicg_pexels_enable_prompt:checked').length ? 1 : 0;
+            var wpaicg_pexels_custom_prompt = $('#wpaicg_pexels_custom_prompt').val();
             $('#is_generate_continue').val(0);
 
             $('.wpcgai_menu_editor').html('');
@@ -214,6 +218,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 'wpaicg_custom_image_settings': wpaicg_custom_image_settings,
                 'wpaicg_custom_prompt_enable': wpaicg_meta_custom_prompt_enable,
                 'wpaicg_custom_prompt': wpaicg_meta_custom_prompt,
+                'wpaicg_pixabay_enable_prompt': wpaicg_pixabay_enable_prompt,
+                'wpaicg_pixabay_custom_prompt': wpaicg_pixabay_custom_prompt,
+                'wpaicg_pexels_enable_prompt': wpaicg_pexels_enable_prompt,
+                'wpaicg_pexels_custom_prompt': wpaicg_pexels_custom_prompt,
                 'nonce': '<?php echo wp_create_nonce('wpaicg-ajax-nonce')?>'
             };
             $('#wpcgai_preview_box').text('');

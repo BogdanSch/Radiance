@@ -189,7 +189,11 @@ if ( isset( $_POST['wpaicg_submit'] ) ) {
             'wpaicg_pixabay_language',
             'wpaicg_pixabay_type',
             'wpaicg_pixabay_orientation',
-            'wpaicg_pixabay_order'
+            'wpaicg_pixabay_order',
+            'wpaicg_pexels_enable_prompt',
+            'wpaicg_pexels_custom_prompt',
+            'wpaicg_pixabay_enable_prompt',
+            'wpaicg_pixabay_custom_prompt',
         );
         foreach($wpaicg_keys as $wpaicg_key){
             if(isset($_POST[$wpaicg_key]) && !empty($_POST[$wpaicg_key])){

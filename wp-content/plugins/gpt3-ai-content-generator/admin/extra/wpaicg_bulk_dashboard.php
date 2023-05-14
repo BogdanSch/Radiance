@@ -1,5 +1,27 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
+?>
+<div class="wpaicg_agent_guide_editor" style="display: none">
+    <?php
+    include __DIR__.'/wpaicg_alert.php';
+    ?>
+</div>
+<div class="wpaicg_agent_guide_embeddings" style="display: none">
+    <?php
+    include WPAICG_PLUGIN_DIR.'admin/views/embeddings/builder_alert.php';
+    ?>
+</div>
+<div class="wpaicg_agent_guide_rss" style="display: none">
+    <?php
+    if(\WPAICG\wpaicg_util_core()->wpaicg_is_pro()){
+        include WPAICG_LIBS_DIR.'views/rss/wpaicg_rss_alert.php';
+    }
+    else{
+        echo esc_html__('You need to upgrade to Pro to use this agent','gpt3-ai-content-generator');
+    }
+    ?>
+</div>
+<?php
 function wpaicgHumanTime($time){
     $wpaicg_current_timestamp = time();
 
@@ -137,7 +159,7 @@ if(isset($agents['rss']) && \WPAICG\wpaicg_util_core()->wpaicg_is_pro()){
     }
 </style>
 <h3><?php echo esc_html__('GPT Agents','gpt3-ai-content-generator')?></h3>
-<p><?php echo sprintf(esc_html__('GPT agents function alongside server-side cron jobs. To deploy them, you need to set up cron jobs by following the detailed guide %shere%s','gpt3-ai-content-generator'),'<a href="'.esc_url("https://aipower.org/how-to-add-cron-job/").'" target="_blank">','</a>')?>.</p>
+<p><?php echo sprintf(esc_html__('GPT agents function alongside server-side cron jobs. To deploy them, you need to set up cron jobs by following the detailed guide %shere%s','gpt3-ai-content-generator'),'<a href="'.esc_url("https://docs.aipower.org/docs/AutoGPT/gpt-agents#cron-job-setup").'" target="_blank">','</a>')?>.</p>
 <div class="wpaicg-d-flex mb-5">
     <input style="width: 100%" value="" class="regular-text wpaicg_agent_search" type="text" placeholder="<?php echo esc_html__('Type for search','gpt3-ai-content-generator')?>">
 </div>
@@ -154,26 +176,6 @@ if(isset($agents['rss']) && \WPAICG\wpaicg_util_core()->wpaicg_is_pro()){
     <tbody class="wpaicg_agent_table"></tbody>
 </table>
 <div class="wpaicg_agent_pagination wpaicg-paginate"></div>
-<div class="wpaicg_agent_guide_editor" style="display: none">
-    <?php
-    include __DIR__.'/wpaicg_alert.php';
-    ?>
-</div>
-<div class="wpaicg_agent_guide_embeddings" style="display: none">
-    <?php
-    include WPAICG_PLUGIN_DIR.'admin/views/embeddings/builder_alert.php';
-    ?>
-</div>
-<div class="wpaicg_agent_guide_rss" style="display: none">
-    <?php
-    if(\WPAICG\wpaicg_util_core()->wpaicg_is_pro()){
-        include WPAICG_LIBS_DIR.'views/rss/wpaicg_rss_alert.php';
-    }
-    else{
-        echo esc_html__('You need to upgrade to Pro to use this agent','gpt3-ai-content-generator');
-    }
-    ?>
-</div>
 <div class="wpaicg_agent_guide_sheets" style="display: none">
     <?php
     if(\WPAICG\wpaicg_util_core()->wpaicg_is_pro()) {

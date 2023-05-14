@@ -4,7 +4,7 @@ Tags: chatgpt, gpt, openai, ai, gpt4, chatbot, speech, whisper, image generator,
 Requires at least: 5.0.0
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable tag: 1.6.90
+Stable tag: 1.6.94
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
@@ -240,6 +240,28 @@ The PHP max execution time setting determines the maximum amount of time a PHP s
 This message is coming from OpenAI, not from our plugin. It means that you have reached the limit of your OpenAI API quota, which is determined by your plan and billing details. Our plugin works on a "bring your own API key" model, serving as a bridge between WordPress and OpenAI, so the issue is not related to the plugin itself. To resolve this issue, you'll need to check your OpenAI account and ensure that you have enough quota for your needs, or upgrade your plan if necessary.
 
 == Changelog ==
+
+= 1.6.94 =
+
+- Enhancement: Introducing our new Documentation page! Check it out at https://docs.aipower.org. Please note that some module help pages are still under development. Stay tuned for full coverage on all features!
+- Updated help links to the new documentation page.
+
+= 1.6.93 =
+
+- Fixed an issue in AutoGPT Dashboard.
+
+= 1.6.92 =
+
+- Improved Pexels and Pixabay search functionality by adding an option to use keywords instead of the title when searching for images through the API. To enable this, navigate to Settings > Image tab and select the "Use Keyword" option for both Pexels and Pixabay. Compare image search results by toggling this option on and off.
+- Fixed a parsing issue in AI Forms.
+- Corrected the issue of colors getting mixed up in the chatbot style tab.
+
+= 1.6.91 =
+
+- Improved Pexels and Pixabay search functionality by adding an option to use keywords instead of the title when searching for images through the API. To enable this, navigate to Settings > Image tab and select the "Use Keyword" option for both Pexels and Pixabay. Compare image search results by toggling this option on and off.
+- Fixed an issue where the Dall-E image size was not being retained after saving.
+- Fixed an issue with AI Thinking, welcome message, powered by footnote, and placeholder custom text in the chatbot.
+- Fixed a nonce issue in Embeddings.
 
 = 1.6.90 =
 

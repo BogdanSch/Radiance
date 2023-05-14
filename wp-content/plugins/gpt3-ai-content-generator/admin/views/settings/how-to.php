@@ -62,7 +62,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <p>1. Go to <u><b><a href="<?php
                     echo  esc_html( $bulk_content_page_url ) ;
                     ?>">Auto Content Writer Page</a></b></u>.</p>
-        <p>2. Make sure to complete Cron Job setup. Guide <a href="https://aipower.org/how-to-add-cron-job/" target="_blank">here</a>.</p>
+        <p>2. Make sure to complete Cron Job setup. Guide <a href="https://docs.aipower.org/docs/AutoGPT/gpt-agents#cron-job-setup" target="_blank">here</a>.</p>
         <p>3. In the Bulk Editor tab, enter your title, select Draft or Publish then hit generate button.</p>
         <p>4. In the CSV tab, upload a CSV with the title value in each line and hit generate button. Free plan is limited to generate 5 article at a time.</p>
         <p>5. In the Copy-Paste tab, copy and paste your titles and hit generate button. Free plan is limited to generate 5 article at a time.</p>
