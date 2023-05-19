@@ -14,6 +14,9 @@ img{
 	max-width: 100%;
 	object-fit: cover;
 }
+.wp-block-button:hover a{
+	color: #fff;
+}
 /* General - End */
 /* Pagination - Start */
 .page-link:hover{
