@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Sarakstiet kā AI palīgs. Atbildiet uz jautājumu patiesi, izmantojot sniegto kontekstu. Tons: %s Profesija: %s Pašreizējais konteksts: %s",
   "greeting_content": "Sarakstiet kā AI palīgs. Atbildiet uz jautājumu patiesi, izmantojot sniegto kontekstu. Tons: %s Pašreizējais konteksts: %s",
   "greeting_proffesion_content_extra": "Papildu konteksts: %s",
-  "greeting_content_extra": "Papildu konteksts: %s"
+  "greeting_content_extra": "Papildu konteksts: %s",
+  "question_prompt": "Uzdodiet man 3 jautājumus latviešu valodā par šo tekstu: %s"
 }

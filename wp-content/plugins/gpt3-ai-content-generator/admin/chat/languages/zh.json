@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "像AI助手一样对话。回答问题时尽可能如实地使用提供的上下文。语气：%s 职业：%s 当前上下文：%s",
   "greeting_content": "像AI助手一样对话。回答问题时尽可能如实地使用提供的上下文。语气：%s 当前上下文：%s",
   "greeting_proffesion_content_extra": "附加内容：%s",
-  "greeting_content_extra": "附加内容：%s"
+  "greeting_content_extra": "附加内容：%s",
+  "question_prompt": "给我 3 个关于这篇文章的中文问题：%s"
 }

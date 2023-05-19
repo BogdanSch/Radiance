@@ -27,7 +27,6 @@ if(!class_exists('\\WPAICG\\WPAICG_Account')) {
             add_action('woocommerce_order_status_changed',[$this,'wpaicg_order_completed'],10,3);
             add_shortcode('wpaicg_my_account',[$this,'my_account']);
             $this->create_database_tables();
-            add_action('init', [$this,'wpaicg_init']);
         }
 
         public function wpaicg_init()

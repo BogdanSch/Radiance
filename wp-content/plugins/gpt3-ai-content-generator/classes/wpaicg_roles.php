@@ -42,6 +42,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Roles')) {
                     'shortcode' => array('name' => 'Shortcode'),
                     'widget' => array('name' => 'Widget'),
                     'bots' => array('name' => 'Chat Bots'),
+                    'pdf' => array('name' => 'PDF'),
                     'logs' => array('name' => 'Logs')
                 )
             ),
@@ -80,8 +81,10 @@ if(!class_exists('\\WPAICG\\WPAICG_Roles')) {
                 'roles' => array(
                     'content' => array('name' => 'Content Builder'),
                     'logs' => array('name' => 'Entries'),
+                    'pdf' => array('name' => 'PDF'),
                     'builder' => array('name' => 'Index Builder'),
-                    'settings' => array('name' => 'Settings')
+                    'settings' => array('name' => 'Settings'),
+                    'troubleshoot' => array('name' => 'Troubleshoot')
                 )
             ),
             'finetune' => array(

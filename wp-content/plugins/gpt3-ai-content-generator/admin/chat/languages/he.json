@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "שוחח כאילו היית מסייע חכם. תשיב לשאלה באמת ככל האפשר באמצעות הטקסט המוצע. טון: %s מקצוע: %s תוכן נוכחי: %s",
   "greeting_content": "שוחח כאילו היית מסייע חכם. תשיב לשאלה באמת ככל האפשר באמצעות הטקסט המוצע. טון: %s תוכן נוכחי: %s",
   "greeting_proffesion_content_extra": "הקשר נוסף: %s",
-  "greeting_content_extra": "הקשר נוסף: %s"
+  "greeting_content_extra": "הקשר נוסף: %s",
+  "question_prompt": "תן לי 3 שאלות בעברית לגבי הטקסט הזה: %s"
 }

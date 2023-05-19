@@ -72,6 +72,8 @@ $wpaicg_chat_fullscreen = false;
 $wpaicg_elevenlabs_api = get_option('wpaicg_elevenlabs_api', '');
 $wpaicg_google_api_key = get_option('wpaicg_google_api_key', '');
 $wpaicg_google_voices = get_option('wpaicg_google_voices',[]);
+$wpaicg_pinecone_indexes = get_option('wpaicg_pinecone_indexes','');
+$wpaicg_pinecone_indexes = empty($wpaicg_pinecone_indexes) ? array() : json_decode($wpaicg_pinecone_indexes,true);
 ?>
 <style>
     .wp-picker-holder{
@@ -150,6 +152,9 @@ $wpaicg_google_voices = get_option('wpaicg_google_voices',[]);
         margin: 0;
         padding: 0;
     }
+    .wp-picker-input-wrap input[type=text]{
+        width: 4rem!important;
+    }
     .wpaicg-chat-shortcode-content ul li p,.wpaicg-chat-shortcode-content ul li span{
         font-size: inherit;
     }
@@ -158,11 +163,15 @@ $wpaicg_google_voices = get_option('wpaicg_google_voices',[]);
         margin-right: 5px;
         float: left;
     }
-    .wpaicg-mic-icon {
+    .wpaicg_chat_additions{
         display: flex;
-        cursor: pointer;
+        justify-content: center;
+        align-items: center;
         position: absolute;
         right: 47px;
+    }
+    .wpaicg-mic-icon {
+        cursor: pointer;
     }
     .wpaicg-mic-icon svg {
         width: 16px;
@@ -202,6 +211,20 @@ $wpaicg_google_voices = get_option('wpaicg_google_voices',[]);
         flex: 1;
     }
     .wpaicg_modal_content{
+    }
+    .wpaicg-pdf-remove{
+        color: #222;
+        font-size: 33px;
+        justify-content: center;
+        align-items: center;
+        width: 22px;
+        height: 22px;
+        line-height: unset;
+        font-family: Arial, serif;
+        border-radius: 50%;
+        font-weight: normal;
+        padding: 0;
+        margin: 0;
     }
     .wpaicg-grid-3{
         border: 1px solid #d9d9d9;
@@ -530,6 +553,23 @@ $wpaicg_google_voices = get_option('wpaicg_google_voices',[]);
                         <label class="wpaicg-form-label"><?php echo esc_html__('Delay time','gpt3-ai-content-generator')?>:</label>
                         <input placeholder="<?php echo esc_html__('in seconds. eg. 5','gpt3-ai-content-generator')?>" value="" type="text" class="wpaicg_chatbot_delay_time" name="bot[delay_time]">
                     </div>
+                    <?php
+                    if(\WPAICG\wpaicg_util_core()->wpaicg_is_pro()):
+                        ?>
+                        <div class="mb-5" style="position: relative">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('PDF Icon Color','gpt3-ai-content-generator')?>:</label>
+                            <input value="#222" type="text" class="wpaicgchat_color wpaicg_chatbot_pdf_color" name="bot[pdf_color]">
+                        </div>
+                    <?php
+                    else:
+                        ?>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('PDF Icon Color','gpt3-ai-content-generator')?>:</label>
+                            <?php echo esc_html__('Available in Pro','gpt3-ai-content-generator')?>
+                        </div>
+                    <?php
+                    endif;
+                    ?>
                     <div class="wpaicg-bot-footer">
                         <div>
                         <button type="button" class="button wpaicg-bot-step" data-type="language"><?php echo esc_html__('Previous','gpt3-ai-content-generator');?></button>
@@ -768,6 +808,32 @@ $wpaicg_google_voices = get_option('wpaicg_google_voices',[]);
                 </div>
                 <div class="wpaicg-bot-context wpaicg-bot-wizard" style="display: none">
                     <h3><?php echo esc_html__('Context','gpt3-ai-content-generator')?></h3>
+
+                    <div class="wpaicg-mb-10">
+                        <label class="wpaicg-form-label"><?php echo esc_html__('Additional Context?','gpt3-ai-content-generator')?>:</label>
+                        <input name="bot[chat_addition]" class="wpaicg_chatbot_chat_addition" value="1" type="checkbox" id="wpaicg_chat_addition">
+                    </div>
+                    <?php
+                    $wpaicg_additions_json = file_get_contents(WPAICG_PLUGIN_DIR.'admin/chat/context.json');
+                    $wpaicg_additions = json_decode($wpaicg_additions_json, true);
+                    ?>
+                    <div class="wpaicg-mb-10">
+                        <label class="wpaicg-form-label"><?php echo esc_html__('Template','gpt3-ai-content-generator')?>:</label>
+                        <select disabled class="wpaicg_chat_addition_template">
+                            <option value=""><?php echo esc_html__('Select Template','gpt3-ai-content-generator')?></option>
+                            <?php
+                            foreach($wpaicg_additions as $key=>$wpaicg_addition){
+                                echo '<option value="'.esc_html($wpaicg_addition).'">'.esc_html($key).'</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="wpaicg-mb-10">
+                        <label class="wpaicg-form-label" style="vertical-align: top;"><?php echo esc_html__('Context','gpt3-ai-content-generator')?>:
+                            <small style="font-weight: normal;display: block"><?php echo sprintf(esc_html__('You can add shortcode %s and %s and %s and %s in context','gpt3-ai-content-generator'),'<code>[sitename]</code>','<code>[siteurl]</code>','<code>[domain]</code>','<code>[date]</code>')?></small>
+                        </label>
+                        <textarea rows="8" disabled name="bot[chat_addition_text]" id="wpaicg_chat_addition_text" class="regular-text wpaicg_chatbot_chat_addition_text"><?php echo esc_html__('You are a helpful AI Assistant. Please be friendly.','gpt3-ai-content-generator')?></textarea>
+                    </div>
                     <div class="wpaicg-mb-10">
                         <label class="wpaicg-form-label"><?php echo esc_html__('Remember Conversation','gpt3-ai-content-generator')?>:</label>
                         <select name="bot[remember_conversation]" class="wpaicg_chatbot_remember_conversation">
@@ -809,6 +875,17 @@ $wpaicg_google_voices = get_option('wpaicg_google_voices',[]);
                         <input type="checkbox" value="1" name="bot[embedding]" id="wpaicg_chat_embedding" class="asdisabled wpaicg_chatbot_embedding">
                     </div>
                     <div class="wpaicg-mb-10">
+                        <label class="wpaicg-form-label"><?php echo esc_html__('Pinecone Index','gpt3-ai-content-generator')?>:</label>
+                        <select disabled name="bot[embedding_index]" id="wpaicg_chat_embedding_index" class="asdisabled wpaicg_chatbot_embedding_index">
+                            <option value=""><?php echo esc_html__('Default','gpt3-ai-content-generator')?></option>
+                            <?php
+                            foreach($wpaicg_pinecone_indexes as $wpaicg_pinecone_index){
+                                echo '<option value="'.esc_html($wpaicg_pinecone_index['url']).'">'.esc_html($wpaicg_pinecone_index['name']).'</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="wpaicg-mb-10">
                         <label class="wpaicg-form-label"><?php echo esc_html__('Method','gpt3-ai-content-generator')?>:</label>
                         <select disabled name="bot[embedding_type]" id="wpaicg_chat_embedding_type" class="asdisabled wpaicg_chatbot_embedding_type">
                             <option value="openai"><?php echo esc_html__('Embeddings + Completion','gpt3-ai-content-generator')?></option>
@@ -825,31 +902,51 @@ $wpaicg_google_voices = get_option('wpaicg_google_voices',[]);
                             ?>
                         </select>
                     </div>
-                    <div class="wpaicg-mb-10">
-                        <label class="wpaicg-form-label"><?php echo esc_html__('Additional Context?','gpt3-ai-content-generator')?>:</label>
-                        <input name="bot[chat_addition]" class="wpaicg_chatbot_chat_addition" value="1" type="checkbox" id="wpaicg_chat_addition">
-                    </div>
                     <?php
-                    $wpaicg_additions_json = file_get_contents(WPAICG_PLUGIN_DIR.'admin/chat/context.json');
-                    $wpaicg_additions = json_decode($wpaicg_additions_json, true);
+                    if(\WPAICG\wpaicg_util_core()->wpaicg_is_pro()):
+                        ?>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('Enable PDF Upload','gpt3-ai-content-generator')?>:</label>
+                            <input disabled type="checkbox" value="1" name="bot[embedding_pdf]" class="asdisabled wpaicg_chatbot_embedding_pdf">
+                        </div>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('Limit PDF Pages','gpt3-ai-content-generator')?>:</label>
+                            <select disabled name="bot[pdf_pages]" id="wpaicg_chat_pdf_pages" class="asdisabled wpaicg_chatbot_pdf_pages" style="width: 65px!important;">
+                                <?php
+                                $pdf_pages = 120;
+                                for($i=1;$i <= 120;$i++){
+                                    echo '<option'.($pdf_pages == $i ? ' selected':'').' value="'.esc_html($i).'">'.esc_html($i).'</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label" style="vertical-align:top">
+                                <?php echo esc_html__('PDF Success Message','gpt3-ai-content-generator')?>:
+                                <small style="font-weight: normal;display: block"><?php echo sprintf(esc_html__('You can include the following shortcode in the message: %s.','gpt3-ai-content-generator'),'<code>[questions]</code>')?></small>
+                            </label>
+                            <textarea disabled rows="8" name="bot[embedding_pdf_message]" class="asdisabled wpaicg_chatbot_embedding_pdf_message">Congrats! Your PDF is uploaded now! You can ask questions about your document.\nExample Questions:[questions]</textarea>
+                        </div>
+                    <?php
+                    else:
+                        ?>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('Enable PDF Upload','gpt3-ai-content-generator')?>:</label>
+                            <input type="checkbox" disabled> <?php echo esc_html__('Available in Pro','gpt3-ai-content-generator')?>
+                        </div>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('Limit PDF Pages','gpt3-ai-content-generator')?>:</label>
+                            <select disabled style="width: 65px!important;">
+                                <option><?php echo esc_html__('Available in Pro','gpt3-ai-content-generator')?></option>
+                            </select>
+                        </div>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('PDF Success Message','gpt3-ai-content-generator')?>:</label>
+                            <textarea disabled rows="8" ><?php echo esc_html__('Available in Pro','gpt3-ai-content-generator')?></textarea>
+                        </div>
+                    <?php
+                    endif;
                     ?>
-                    <div class="wpaicg-mb-10">
-                        <label class="wpaicg-form-label"><?php echo esc_html__('Template','gpt3-ai-content-generator')?>:</label>
-                        <select disabled class="wpaicg_chat_addition_template">
-                            <option value=""><?php echo esc_html__('Select Template','gpt3-ai-content-generator')?></option>
-                            <?php
-                            foreach($wpaicg_additions as $key=>$wpaicg_addition){
-                                echo '<option value="'.esc_html($wpaicg_addition).'">'.esc_html($key).'</option>';
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="wpaicg-mb-10">
-                        <label class="wpaicg-form-label" style="vertical-align: top;"><?php echo esc_html__('Context','gpt3-ai-content-generator')?>:
-                            <small style="font-weight: normal;display: block"><?php echo sprintf(esc_html__('You can add shortcode %s and %s and %s and %s in context','gpt3-ai-content-generator'),'<code>[sitename]</code>','<code>[siteurl]</code>','<code>[domain]</code>','<code>[date]</code>')?></small>
-                        </label>
-                        <textarea rows="8" disabled name="bot[chat_addition_text]" id="wpaicg_chat_addition_text" class="regular-text wpaicg_chatbot_chat_addition_text"><?php echo esc_html__('You are a helpful AI Assistant. Please be friendly.','gpt3-ai-content-generator')?></textarea>
-                    </div>
                     <div class="wpaicg-bot-footer">
                         <div>
                         <button type="button" class="button wpaicg-bot-step" data-type="custom"><?php echo esc_html__('Previous','gpt3-ai-content-generator')?></button>
@@ -967,6 +1064,7 @@ $wpaicg_google_voices = get_option('wpaicg_google_voices',[]);
                      data-voice_device=""
                      data-voice_speed=""
                      data-voice_pitch=""
+                     data-type="shortcode"
                      >
                     <div class="wpaicg-chat-shortcode-content" style="background-color: <?php echo esc_html($wpaicg_chat_bgcolor)?>;">
                         <ul class="wpaicg-chat-shortcode-messages" style="height: <?php echo esc_html($wpaicg_chat_height) - 44?>px;">
@@ -984,9 +1082,17 @@ $wpaicg_google_voices = get_option('wpaicg_google_voices',[]);
                     </div>
                     <div class="wpaicg-chat-shortcode-type" style="background-color: <?php echo esc_html($wpaicg_chat_bgcolor)?>;">
                         <input style="border-color: <?php echo esc_html($wpaicg_border_text_field)?>;background-color: <?php echo esc_html($wpaicg_bg_text_field)?>" type="text" class="wpaicg-chat-shortcode-typing" placeholder="<?php echo esc_html__('Type message..','gpt3-ai-content-generator')?>">
-                        <span class="wpaicg-mic-icon" data-type="shortcode" style="<?php echo $wpaicg_audio_enable ? '' : 'display:none'?>;color: <?php echo esc_html($wpaicg_mic_color)?>">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M176 0C123 0 80 43 80 96V256c0 53 43 96 96 96s96-43 96-96V96c0-53-43-96-96-96zM48 216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 89.1 66.2 162.7 152 174.4V464H104c-13.3 0-24 10.7-24 24s10.7 24 24 24h72 72c13.3 0 24-10.7 24-24s-10.7-24-24-24H200V430.4c85.8-11.7 152-85.3 152-174.4V216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 70.7-57.3 128-128 128s-128-57.3-128-128V216z"/></svg>
-                        </span>
+                        <div class="wpaicg_chat_additions">
+                            <span class="wpaicg-mic-icon" data-type="shortcode" style="<?php echo $wpaicg_audio_enable ? '' : 'display:none'?>;color: <?php echo esc_html($wpaicg_mic_color)?>">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M176 0C123 0 80 43 80 96V256c0 53 43 96 96 96s96-43 96-96V96c0-53-43-96-96-96zM48 216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 89.1 66.2 162.7 152 174.4V464H104c-13.3 0-24 10.7-24 24s10.7 24 24 24h72 72c13.3 0 24-10.7 24-24s-10.7-24-24-24H200V430.4c85.8-11.7 152-85.3 152-174.4V216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 70.7-57.3 128-128 128s-128-57.3-128-128V216z"/></svg>
+                            </span>
+                            <span class="wpaicg-pdf-icon" data-type="shortcode" style="display:none">
+                                <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"  xml:space="preserve"><path class="st0" d="M378.413,0H208.297h-13.182L185.8,9.314L57.02,138.102l-9.314,9.314v13.176v265.514 c0,47.36,38.528,85.895,85.896,85.895h244.811c47.353,0,85.881-38.535,85.881-85.895V85.896C464.294,38.528,425.766,0,378.413,0z M432.497,426.105c0,29.877-24.214,54.091-54.084,54.091H133.602c-29.884,0-54.098-24.214-54.098-54.091V160.591h83.716 c24.885,0,45.077-20.178,45.077-45.07V31.804h170.116c29.87,0,54.084,24.214,54.084,54.092V426.105z"/><path class="st0" d="M171.947,252.785h-28.529c-5.432,0-8.686,3.533-8.686,8.825v73.754c0,6.388,4.204,10.599,10.041,10.599 c5.711,0,9.914-4.21,9.914-10.599v-22.406c0-0.545,0.279-0.817,0.824-0.817h16.436c20.095,0,32.188-12.226,32.188-29.612 C204.136,264.871,192.182,252.785,171.947,252.785z M170.719,294.888h-15.208c-0.545,0-0.824-0.272-0.824-0.81v-23.23 c0-0.545,0.279-0.816,0.824-0.816h15.208c8.42,0,13.447,5.027,13.447,12.498C184.167,290,179.139,294.888,170.719,294.888z"/><path class="st0" d="M250.191,252.785h-21.868c-5.432,0-8.686,3.533-8.686,8.825v74.843c0,5.3,3.253,8.693,8.686,8.693h21.868 c19.69,0,31.923-6.249,36.81-21.324c1.76-5.3,2.723-11.681,2.723-24.857c0-13.175-0.964-19.557-2.723-24.856 C282.113,259.034,269.881,252.785,250.191,252.785z M267.856,316.896c-2.318,7.331-8.965,10.459-18.21,10.459h-9.23 c-0.545,0-0.824-0.272-0.824-0.816v-55.146c0-0.545,0.279-0.817,0.824-0.817h9.23c9.245,0,15.892,3.128,18.21,10.46 c0.95,3.128,1.62,8.56,1.62,17.93C269.476,308.336,268.805,313.768,267.856,316.896z"/><path class="st0" d="M361.167,252.785h-44.812c-5.432,0-8.7,3.533-8.7,8.825v73.754c0,6.388,4.218,10.599,10.055,10.599 c5.697,0,9.914-4.21,9.914-10.599v-26.351c0-0.538,0.265-0.81,0.81-0.81h26.086c5.837,0,9.23-3.532,9.23-8.56 c0-5.028-3.393-8.553-9.23-8.553h-26.086c-0.545,0-0.81-0.272-0.81-0.817v-19.425c0-0.545,0.265-0.816,0.81-0.816h32.733 c5.572,0,9.245-3.666,9.245-8.553C370.411,256.45,366.738,252.785,361.167,252.785z"/></svg>
+                            </span>
+                            <span class="wpaicg-pdf-loading" style="display: none"></span>
+                            <span data-type="shortcode" alt="<?php echo esc_html__('Clear','gpt3-ai-content-generator')?>" title="<?php echo esc_html__('Clear','gpt3-ai-content-generator')?>" class="wpaicg-pdf-remove" style="display: none">&times;</span>
+                            <input type="file" accept="application/pdf" class="wpaicg-pdf-file" style="display: none">
+                        </div>
                         <span class="wpaicg-chat-shortcode-send" style="color:<?php echo esc_html($wpaicg_send_color)?>">
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.5004 11.9998H5.00043M4.91577 12.2913L2.58085 19.266C2.39742 19.8139 2.3057 20.0879 2.37152 20.2566C2.42868 20.4031 2.55144 20.5142 2.70292 20.5565C2.87736 20.6052 3.14083 20.4866 3.66776 20.2495L20.3792 12.7293C20.8936 12.4979 21.1507 12.3822 21.2302 12.2214C21.2993 12.0817 21.2993 11.9179 21.2302 11.7782C21.1507 11.6174 20.8936 11.5017 20.3792 11.2703L3.66193 3.74751C3.13659 3.51111 2.87392 3.39291 2.69966 3.4414C2.54832 3.48351 2.42556 3.59429 2.36821 3.74054C2.30216 3.90893 2.3929 4.18231 2.57437 4.72906L4.91642 11.7853C4.94759 11.8792 4.96317 11.9262 4.96933 11.9742C4.97479 12.0168 4.97473 12.0599 4.96916 12.1025C4.96289 12.1506 4.94718 12.1975 4.91577 12.2913Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         </span>
@@ -1260,10 +1366,12 @@ $wpaicg_bots = new WP_Query($args);
             let chatwidth = modalContent.find('.wpaicg_chatbot_width').val();
             let chatheight = modalContent.find('.wpaicg_chatbot_height').val();
             let enablemic = modalContent.find('.wpaicg_chatbot_audio_enable').prop('checked') ? true :false;
+            let enablepdf = modalContent.find('.wpaicg_chatbot_embedding_pdf').prop('checked') ? true :false;
             let save_log = modalContent.find('.wpaicg_chatbot_save_logs').prop('checked') ? true :false;
             let log_notice = modalContent.find('.wpaicg_chatbot_log_notice').prop('checked') ? true :false;
             let log_notice_msg = modalContent.find('.wpaicg_chatbot_log_notice_message').val();
             let miccolor = modalContent.find('.wpaicg_chatbot_mic_color').iris('color');
+            let pdf_color = modalContent.find('.wpaicg_chatbot_pdf_color').iris('color');
             let ai_thinking = modalContent.find('.wpaicg_chatbot_ai_thinking').val();
             let ai_name = modalContent.find('.wpaicg_chatbot_ai_name').val();
             let you_name = modalContent.find('.wpaicg_chatbot_you').val();
@@ -1355,6 +1463,12 @@ $wpaicg_bots = new WP_Query($args);
             else{
                 modalContent.find('.wpaicg-mic-icon').hide();
             }
+            if(enablepdf){
+                modalContent.find('.wpaicg-pdf-icon').show();
+            }
+            else{
+                modalContent.find('.wpaicg-pdf-icon').hide();
+            }
             modalContent.find('.wpaicg-chat-shortcode-messages li').css({
                 'font-size': fontsize+'px',
                 'color': fontcolor
@@ -1405,6 +1519,16 @@ $wpaicg_bots = new WP_Query($args);
             modalContent.find('.wpaicg-mic-icon').css({
                 'color': miccolor
             });
+            modalContent.find('.wpaicg-pdf-icon').css({
+                'color': pdf_color
+            });
+            modalContent.find('.wpaicg-pdf-remove').css({
+                'color': pdf_color
+            });
+            modalContent.find('.wpaicg-pdf-loading').css({
+                'border-color': pdf_color,
+                'border-bottom-color': 'transparent'
+            });
             let contentaware = modalContent.find('.wpaicg_chatbot_content_aware').val();
             if(contentaware === 'no'){
                 $('.wpaicg_chatbot_chat_excerpt').prop('checked', false);
@@ -1412,6 +1536,10 @@ $wpaicg_bots = new WP_Query($args);
                 $('.wpaicg_chatbot_embedding').prop('checked', false);
                 $('.wpaicg_chatbot_embedding').attr('disabled','disabled');
                 $('.wpaicg_chatbot_embedding_type').attr('disabled','disabled');
+                $('.wpaicg_chatbot_embedding_index').attr('disabled','disabled');
+                $('.wpaicg_chatbot_embedding_pdf').attr('disabled','disabled');
+                $('.wpaicg_chatbot_embedding_pdf_message').attr('disabled','disabled');
+                $('.wpaicg_chatbot_pdf_pages').attr('disabled','disabled');
                 $('.wpaicg_chatbot_embedding_top').attr('disabled','disabled');
             }
             if(footer !== ''){
@@ -1681,7 +1809,7 @@ $wpaicg_bots = new WP_Query($args);
                 else if(key === 'voice_name'){
                     modalContent.find('.wpaicg_chatbot_voice_name').attr('data-value',field);
                 }
-                else if((key === 'fullscreen' || key === 'chat_to_speech' || key === 'close_btn' || key === 'download_btn' || key === 'log_request' || key === 'audio_enable' || key === 'moderation' || key === 'use_avatar' || key === 'chat_addition' || key === 'save_logs' || key === 'log_notice') && field === '1'){
+                else if((key === 'fullscreen' || key === 'embedding_pdf' || key === 'chat_to_speech' || key === 'close_btn' || key === 'download_btn' || key === 'log_request' || key === 'audio_enable' || key === 'moderation' || key === 'use_avatar' || key === 'chat_addition' || key === 'save_logs' || key === 'log_notice') && field === '1'){
                     if(key === 'save_logs'){
                         wpaicg_save_log = true;
                     }
@@ -1719,7 +1847,17 @@ $wpaicg_bots = new WP_Query($args);
                     modalContent.find('.wpaicg_chatbot_embedding').removeClass('asdisabled');
                     modalContent.find('.wpaicg_chatbot_embedding').prop('checked',true);
                     modalContent.find('.wpaicg_chatbot_embedding_type').removeAttr('disabled');
+                    modalContent.find('.wpaicg_chatbot_embedding_type').removeClass('asdisabled');
+                    modalContent.find('.wpaicg_chatbot_embedding_index').removeAttr('disabled');
+                    modalContent.find('.wpaicg_chatbot_embedding_index').removeClass('asdisabled');
+                    modalContent.find('.wpaicg_chatbot_embedding_pdf').removeAttr('disabled');
+                    modalContent.find('.wpaicg_chatbot_embedding_pdf').removeClass('asdisabled');
+                    modalContent.find('.wpaicg_chatbot_embedding_pdf_message').removeAttr('disabled');
+                    modalContent.find('.wpaicg_chatbot_embedding_pdf_message').removeClass('asdisabled');
+                    modalContent.find('.wpaicg_chatbot_pdf_pages').removeAttr('disabled');
+                    modalContent.find('.wpaicg_chatbot_pdf_pages').removeClass('asdisabled');
                     modalContent.find('.wpaicg_chatbot_embedding_top').removeAttr('disabled');
+                    modalContent.find('.wpaicg_chatbot_embedding_top').removeClass('asdisabled');
                 }
                 if(key === 'limited_roles'){
                     if(typeof field === 'object'){
@@ -1818,6 +1956,14 @@ $wpaicg_bots = new WP_Query($args);
             $('.wpaicg_modal_content .wpaicg_chatbot_chat_excerpt').addClass('asdisabled');
             $('.wpaicg_modal_content .wpaicg_chatbot_embedding_type').removeClass('asdisabled');
             $('.wpaicg_modal_content .wpaicg_chatbot_embedding_type').removeAttr('disabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_embedding_index').removeClass('asdisabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_embedding_index').removeAttr('disabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf').removeClass('asdisabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf').removeAttr('disabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf_message').removeClass('asdisabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf_message').removeAttr('disabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_pdf_pages').removeClass('asdisabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_pdf_pages').removeAttr('disabled');
             $('.wpaicg_modal_content .wpaicg_chatbot_embedding_top').removeClass('asdisabled');
             $('.wpaicg_modal_content .wpaicg_chatbot_embedding_top').removeAttr('disabled');
         });
@@ -1872,6 +2018,14 @@ $wpaicg_bots = new WP_Query($args);
             $('.wpaicg_modal_content .wpaicg_chatbot_embedding').addClass('asdisabled');
             $('.wpaicg_modal_content .wpaicg_chatbot_embedding_type').addClass('asdisabled');
             $('.wpaicg_modal_content .wpaicg_chatbot_embedding_type').attr('disabled','disabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_embedding_index').addClass('asdisabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_embedding_index').attr('disabled','disabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf').addClass('asdisabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf').attr('disabled','disabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf_message').addClass('asdisabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf_message').attr('disabled','disabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_pdf_pages').addClass('asdisabled');
+            $('.wpaicg_modal_content .wpaicg_chatbot_pdf_pages').attr('disabled','disabled');
             $('.wpaicg_modal_content .wpaicg_chatbot_embedding_top').addClass('asdisabled');
             $('.wpaicg_modal_content .wpaicg_chatbot_embedding_top').attr('disabled','disabled');
         });
@@ -1885,6 +2039,14 @@ $wpaicg_bots = new WP_Query($args);
                 $('.wpaicg_modal_content .wpaicg_chatbot_embedding').removeAttr('disabled');
                 $('.wpaicg_modal_content .wpaicg_chatbot_embedding_type').addClass('asdisabled');
                 $('.wpaicg_modal_content .wpaicg_chatbot_embedding_type').attr('disabled','disabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_embedding_index').addClass('asdisabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_embedding_index').attr('disabled','disabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf').addClass('asdisabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf').attr('disabled','disabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf_message').addClass('asdisabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf_message').attr('disabled','disabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_pdf_pages').addClass('asdisabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_pdf_pages').attr('disabled','disabled');
                 $('.wpaicg_modal_content .wpaicg_chatbot_embedding_top').addClass('asdisabled');
                 $('.wpaicg_modal_content .wpaicg_chatbot_embedding_top').attr('disabled','disabled');
             }
@@ -1897,6 +2059,14 @@ $wpaicg_bots = new WP_Query($args);
                 $('.wpaicg_modal_content .wpaicg_chatbot_embedding').attr('disabled','disabled');
                 $('.wpaicg_modal_content .wpaicg_chatbot_embedding_type').addClass('asdisabled');
                 $('.wpaicg_modal_content .wpaicg_chatbot_embedding_type').attr('disabled','disabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_embedding_index').addClass('asdisabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_embedding_index').attr('disabled','disabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf').addClass('asdisabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf').attr('disabled','disabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf_message').addClass('asdisabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_embedding_pdf_message').attr('disabled','disabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_pdf_pages').addClass('asdisabled');
+                $('.wpaicg_modal_content .wpaicg_chatbot_pdf_pages').attr('disabled','disabled');
                 $('.wpaicg_modal_content .wpaicg_chatbot_embedding_top').addClass('asdisabled');
                 $('.wpaicg_modal_content .wpaicg_chatbot_embedding_top').attr('disabled','disabled');
             }

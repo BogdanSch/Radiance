@@ -420,6 +420,7 @@ function wpaicgChatInit() {
         let voice_device = chat.getAttribute('data-voice_device');
         let voice_speed = chat.getAttribute('data-voice_speed');
         let voice_pitch = chat.getAttribute('data-voice_pitch');
+        var chat_pdf = chat.getAttribute('data-pdf');
         if (type === 'widget') {
             wpaicg_ai_thinking = chat.getElementsByClassName('wpaicg-bot-thinking')[0];
             wpaicg_messages_box = chat.getElementsByClassName('wpaicg-chatbox-messages')[0];
@@ -441,6 +442,9 @@ function wpaicgChatInit() {
         wpaicgMessage += '<strong class="wpaicg-chat-avatar">' + wpaicg_you + '</strong>';
         wpaicgData.append('_wpnonce', wpaicg_nonce);
         wpaicgData.append('post_id', post_id);
+        if(chat_pdf && chat_pdf !== null) {
+            wpaicgData.append('namespace', chat_pdf);
+        }
         wpaicgData.append('url', url);
         if (type === 'widget') {
             wpaicgData.append('action', 'wpaicg_chatbox_message');
@@ -670,7 +674,6 @@ function wpaicgChatInit() {
             }
         }
     }
-
     if (wpaicgChatTyping && wpaicgChatTyping.length) {
         for (let i = 0; i < wpaicgChatTyping.length; i++) {
             wpaicgChatTyping[i].addEventListener('keyup', function (event) {

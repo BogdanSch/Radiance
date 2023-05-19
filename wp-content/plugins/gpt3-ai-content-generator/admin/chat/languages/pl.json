@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Odpowiedz na pytanie jak najszczeryjiej używając podanego kontekstu. Ton: %s Profesja: %s Aktualny kontekst: %s",
   "greeting_content": "Odpowiedz na pytanie jak najszczeryjiej używając podanego kontekstu. Ton: %s Aktualny kontekst: %s",
   "greeting_proffesion_content_extra": "Dodatkowy kontekst: %s",
-  "greeting_content_extra": "Dodatkowy kontekst: %s"
+  "greeting_content_extra": "Dodatkowy kontekst: %s",
+  "question_prompt": "Zadaj mi 3 pytania po polsku na temat tego tekstu: %s"
 }

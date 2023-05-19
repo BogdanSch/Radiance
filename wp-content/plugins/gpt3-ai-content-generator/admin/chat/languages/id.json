@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Bicaralah seperti Anda adalah asisten AI. Jawab pertanyaan sejujur-jujurnya mungkin menggunakan konteks yang disediakan. Nada: %s Profesi: %s Konteks saat ini: %s",
   "greeting_content": "Bicaralah seperti Anda adalah asisten AI. Jawab pertanyaan sejujur-jujurnya mungkin menggunakan konteks yang disediakan. Nada: %s Konteks saat ini: %s",
   "greeting_proffesion_content_extra": "Konteks tambahan: %s",
-  "greeting_content_extra": "Konteks tambahan: %s"
+  "greeting_content_extra": "Konteks tambahan: %s",
+  "question_prompt": "Beri saya 3 pertanyaan dalam bahasa Indonesia tentang teks ini: %s"
 }

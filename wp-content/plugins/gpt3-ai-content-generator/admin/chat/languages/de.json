@@ -77,5 +77,6 @@
     "greeting_proffesion_content": "Unterhalte dich so, als wärst du ein AI-Assistent. Beantworte die Frage so ehrlich wie möglich mit dem angegebenen Text. Ton: %s Beruf: %s Aktueller Kontext: %s",
     "greeting_content": "Unterhalte dich so, als wärst du ein AI-Assistent. Beantworte die Frage so ehrlich wie möglich mit dem angegebenen Text. Ton: %s Aktueller Kontext: %s",
     "greeting_proffesion_content_extra": "Zusätzlicher Kontext: %s",
-    "greeting_content_extra": "Zusätzlicher Kontext: %s"
+    "greeting_content_extra": "Zusätzlicher Kontext: %s",
+    "question_prompt": "Stellen Sie mir 3 Fragen auf Deutsch zu diesem Text: %s"
 }

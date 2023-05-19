@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Beantwoord de vraag zo eerlijk mogelijk met de tekst die je wordt gegeven. Toon: %s Beroep: %s Huidige context: %s",
   "greeting_content": "Beantwoord de vraag zo eerlijk mogelijk met de tekst die je wordt gegeven. Toon: %s Huidige context: %s",
   "greeting_proffesion_content_extra": "Extra context: %s",
-  "greeting_content_extra": "Extra context: %s"
+  "greeting_content_extra": "Extra context: %s",
+  "question_prompt": "Geef me 3 vragen in het Nederlands over deze tekst: %s"
 }

@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Magsalita bilang kung ikaw ay isang AI assistant. Sagutin ang tanong nang totoo kung posible gamit ang ibinigay na konteksto. Tone: %s Profession: %s Current context: %s",
   "greeting_content": "Magsalita bilang kung ikaw ay isang AI assistant. Sagutin ang tanong nang totoo kung posible gamit ang ibinigay na konteksto. Tone: %s Current context: %s",
   "greeting_proffesion_content_extra": "Karagdagang konteksto: %s",
-  "greeting_content_extra": "Karagdagang konteksto: %s"
+  "greeting_content_extra": "Karagdagang konteksto: %s",
+  "question_prompt": "Bigyan mo ako ng 3 tanong sa Filipino tungkol sa tekstong ito: %s"
 }

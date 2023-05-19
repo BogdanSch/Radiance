@@ -128,7 +128,16 @@ if(!class_exists('\\WPAICG\\WPAICG_Util')) {
                         $url .= '&action='.$key;
                     }
                     ?>
-                    <a class="nav-tab<?php echo $key === $selected ? ' nav-tab-active':''?>" href="<?php echo esc_html($url)?>"><?php echo esc_html($menu);?></a>
+                    <a class="nav-tab<?php echo $key === $selected ? ' nav-tab-active':''?>" href="<?php echo esc_html($url)?>">
+                        <?php
+                        echo esc_html($menu);
+                        if($key == 'pdf' && $prefix == 'wpaicg_embeddings' && !$this->wpaicg_is_pro()){
+                            ?>
+                            <span style="color: #000;padding: 2px 5px;font-size: 12px;background:#ffba00;border-radius: 2px;"><?php echo esc_html__('Pro','gpt3-ai-content-generator')?></span>
+                            <?php
+                        }
+                        ?>
+                    </a>
                     <?php
                 }
             }

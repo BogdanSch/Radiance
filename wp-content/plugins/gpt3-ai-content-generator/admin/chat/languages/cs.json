@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Odpovězte na otázku co nejpravdivěji pomocí zadaného kontextu. Tón: %s Profese: %s Aktuální kontext: %s",
   "greeting_content": "Odpovězte na otázku co nejpravdivěji pomocí zadaného kontextu. Tón: %s Aktuální kontext: %s",
   "greeting_proffesion_content_extra": "Doplňující kontext: %s",
-  "greeting_content_extra": "Doplňující kontext: %s"
+  "greeting_content_extra": "Doplňující kontext: %s",
+  "question_prompt": "Dejte mi 3 otázky v češtině k tomuto textu: %s"
 }

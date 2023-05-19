@@ -43,4 +43,4 @@ function breadcrumbs()
         echo '</ol></div></section>';
     } 
 }
-// add_action('wp_head', 'breadcrumbs');
+add_action('wp_head', 'breadcrumbs');

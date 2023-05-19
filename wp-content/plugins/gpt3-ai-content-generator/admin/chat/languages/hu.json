@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Úgy beszélj, mintha mesterséges intelligencia asszisztens lennél. Válaszoljon a kérdésre a lehető legőszintén a megadott szöveg segítségével. Hang: %s Szakma: %s Jelenlegi szöveg: %s",
   "greeting_content": "Úgy beszélj, mintha mesterséges intelligencia asszisztens lennél. Válaszoljon a kérdésre a lehető legőszintén a megadott szöveg segítségével. Hang: %s Jelenlegi szöveg: %s",
   "greeting_proffesion_content_extra": "További információ: %s",
-  "greeting_content_extra": "További információ: %s"
+  "greeting_content_extra": "További információ: %s",
+  "question_prompt": "Tegyél fel 3 kérdést magyarul ezzel a szöveggel kapcsolatban: %s"
 }

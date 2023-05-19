@@ -77,5 +77,6 @@
     "greeting_proffesion_content": "Rispondi alla domanda il più veritieramente possibile utilizzando il contesto fornito. Tono: %s Professione: %s Contesto corrente: %s",
     "greeting_content": "Rispondi alla domanda il più veritieramente possibile utilizzando il contesto fornito. Tono: %s Contesto corrente: %s",
     "greeting_proffesion_content_extra": "Contesto aggiuntivo: %s",
-    "greeting_content_extra": "Contesto aggiuntivo: %s"
+    "greeting_content_extra": "Contesto aggiuntivo: %s",
+    "question_prompt": "Fammi 3 domande in italiano su questo testo: %s"
   }

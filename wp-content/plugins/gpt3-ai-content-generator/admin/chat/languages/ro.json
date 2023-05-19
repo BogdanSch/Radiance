@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Conversați ca și cum ați fi un asistent AI. Răspundeți la întrebare cât mai sincer posibil folosind contextul furnizat. Ton: %s Profesie: %s Context curent: %s",
   "greeting_content": "Conversați ca și cum ați fi un asistent AI. Răspundeți la întrebare cât mai sincer posibil folosind contextul furnizat. Ton: %s Context curent: %s",
   "greeting_proffesion_content_extra": "Context aditional: %s",
-  "greeting_content_extra": "Context aditional: %s"
+  "greeting_content_extra": "Context aditional: %s",
+  "question_prompt": "Dă-mi 3 întrebări în română despre acest text: %s"
 }

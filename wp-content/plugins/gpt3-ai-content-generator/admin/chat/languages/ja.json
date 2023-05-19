@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "AIアシスタントのように会話してください。質問にできるだけ正確に答えてください。テンション: %s 職業: %s 現在のコンテキスト: %s",
   "greeting_content": "AIアシスタントのように会話してください。質問にできるだけ正確に答えてください。テンション: %s 現在のコンテキスト: %s",
   "greeting_proffesion_content_extra": "追加コンテキスト: %s",
-  "greeting_content_extra": "追加コンテキスト: %s"
+  "greeting_content_extra": "追加コンテキスト: %s",
+  "question_prompt": "このテキストについて日本語で 3 つの質問をしてください: %s"
 }

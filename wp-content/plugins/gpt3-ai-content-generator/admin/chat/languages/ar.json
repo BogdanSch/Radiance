@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "تحدث كما لو كنت مساعد AI. اجب على السؤال بصراحة باستخدام السياق المقدم. نغمة: %s المهنة: %s السياق الحالي: %s",
   "greeting_content": "تحدث كما لو كنت مساعد AI. اجب على السؤال بصراحة باستخدام السياق المقدم. نغمة: %s السياق الحالي: %s",
   "greeting_proffesion_content_extra": "السياق الإضافي: %s",
-  "greeting_content_extra": "السياق الإضافي: %s"
+  "greeting_content_extra": "السياق الإضافي: %s",
+  "question_prompt": "أعطني 3 أسئلة باللغة العربية حول هذا النص: %s"
 }

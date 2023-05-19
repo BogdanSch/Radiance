@@ -17,6 +17,12 @@ if(isset($_POST['wpaicg_save_builder_settings'])){
     else{
         delete_option('wpaicg_pinecone_environment');
     }
+    if(isset($_POST['wpaicg_pinecone_sv']) && !empty($_POST['wpaicg_pinecone_sv'])) {
+        update_option('wpaicg_pinecone_sv', sanitize_text_field($_POST['wpaicg_pinecone_sv']));
+    }
+    else{
+        delete_option('wpaicg_pinecone_sv');
+    }
     if(isset($_POST['wpaicg_builder_enable']) && !empty($_POST['wpaicg_builder_enable'])){
         update_option('wpaicg_builder_enable','yes');
     }
@@ -38,10 +44,61 @@ if(isset($_POST['wpaicg_save_builder_settings'])){
     $wpaicg_embeddings_settings_updated = true;
 }
 $wpaicg_pinecone_api = get_option('wpaicg_pinecone_api','');
+$wpaicg_pinecone_sv = get_option('wpaicg_pinecone_sv','');
 $wpaicg_pinecone_environment = get_option('wpaicg_pinecone_environment','');
 $wpaicg_builder_types = get_option('wpaicg_builder_types',[]);
 $wpaicg_builder_enable = get_option('wpaicg_builder_enable','');
 $wpaicg_instant_embedding = get_option('wpaicg_instant_embedding','yes');
+$wpaicg_pinecone_indexes = get_option('wpaicg_pinecone_indexes','');
+$wpaicg_pinecone_indexes = empty($wpaicg_pinecone_indexes) ? array() : json_decode($wpaicg_pinecone_indexes,true);
+$wpaicg_pinecone_environments = array(
+    'asia-northeast1-gcp' => 'GCP Asia-Northeast-1 (Tokyo)',
+    'asia-northeast1-gcp-free' => 'GCP Asia-Northeast-1 Free (Tokyo)',
+    'asia-northeast2-gcp' => 'GCP Asia-Northeast-2 (Osaka)',
+    'asia-northeast2-gcp-free' => 'GCP Asia-Northeast-2 Free (Osaka)',
+    'asia-northeast3-gcp' => 'GCP Asia-Northeast-3 (Seoul)',
+    'asia-northeast3-gcp-free' => 'GCP Asia-Northeast-3 Free (Seoul)',
+    'asia-southeast1-gcp' => 'GCP Asia-Southeast-1 (Singapore)',
+    'asia-southeast1-gcp-free' => 'GCP Asia-Southeast-1 Free',
+    'eu-west1-gcp' => 'GCP EU-West-1 (Ireland)',
+    'eu-west1-gcp-free' => 'GCP EU-West-1 Free (Ireland)',
+    'eu-west2-gcp' => 'GCP EU-West-2 (London)',
+    'eu-west2-gcp-free' => 'GCP EU-West-2 Free (London)',
+    'eu-west3-gcp' => 'GCP EU-West-3 (Frankfurt)',
+    'eu-west3-gcp-free' => 'GCP EU-West-3 Free (Frankfurt)',
+    'eu-west4-gcp' => 'GCP EU-West-4 (Netherlands)',
+    'eu-west4-gcp-free' => 'GCP EU-West-4 Free (Netherlands)',
+    'eu-west6-gcp' => 'GCP EU-West-6 (Zurich)',
+    'eu-west6-gcp-free' => 'GCP EU-West-6 Free (Zurich)',
+    'eu-west8-gcp' => 'GCP EU-West-8 (Italy)',
+    'eu-west8-gcp-free' => 'GCP EU-West-8 Free (Italy)',
+    'eu-west9-gcp' => 'GCP EU-West-9 (France)',
+    'eu-west9-gcp-free' => 'GCP EU-West-9 Free (France)',
+    'northamerica-northeast1-gcp' => 'GCP Northamerica-Northeast1',
+    'northamerica-northeast1-gcp-free' => 'GCP Northamerica-Northeast1 Free',
+    'southamerica-northeast2-gcp' => 'GCP Southamerica-Northeast2 (Toronto)',
+    'southamerica-northeast2-gcp-free' => 'GCP Southamerica-Northeast2 Free (Toronto)',
+    'southamerica-east1-gcp' => 'GCP Southamerica-East1 (Sao Paulo)',
+    'southamerica-east1-gcp-free' => 'GCP Southamerica-East1 Free (Sao Paulo)',
+    'us-central1-gcp' => 'GCP US-Central-1 (Iowa)',
+    'us-central1-gcp-free' => 'GCP US-Central-1 Free (Iowa)',
+    'us-east1-aws' => 'AWS US-East-1 (Virginia)',
+    'us-east1-aws-free' => 'AWS US-East-1 Free (Virginia)',
+    'us-east-1-aws' => 'AWS US-East-1 (Virginia)',
+    'us-east-1-aws-free' => 'AWS US-East-1 Free (Virginia)',
+    'us-east1-gcp' => 'GCP US-East-1 (South Carolina)',
+    'us-east1-gcp-free' => 'GCP US-East-1 Free (South Carolina)',
+    'us-east4-gcp' =>  'GCP US-East-4 (Virginia)',
+    'us-east4-gcp-free' =>  'GCP US-East-4 Free (Virginia)',
+    'us-west1-gcp' => 'GCP US-West-1 (N. California)',
+    'us-west1-gcp-free' => 'GCP US-West-1 Free (N. California)',
+    'us-west2-gcp' => 'GCP US-West-2 (Oregon)',
+    'us-west2-gcp-free' => 'GCP US-West-2 Free (Oregon)',
+    'us-west3-gcp' => 'GCP US-West-3 (Salt Lake City)',
+    'us-west3-gcp-free' => 'GCP US-West-3 Free (Salt Lake City)',
+    'us-west4-gcp' => 'GCP US-West-4 (Las Vegas)',
+    'us-west4-gcp-free' => 'GCP US-West-4 Free (Las Vegas)'
+);
 if($wpaicg_embeddings_settings_updated){
     ?>
     <div class="notice notice-success">
@@ -79,7 +136,7 @@ if($wpaicg_embeddings_settings_updated){
     <h3>Pinecone</h3>
     <div class="wpaicg-alert">
         <h3><?php echo esc_html__('Steps','gpt3-ai-content-generator')?></h3>
-        <p><?php echo sprintf(esc_html__('1. Begin by watching the video tutorial provided %shere%s.','gpt3-ai-content-generator'),'<a href="https://www.youtube.com/watch?v=NPMLGwFQYrY" target="_blank">','</a>')?></p>
+        <p><?php echo sprintf(esc_html__('1. Begin by watching the video tutorial provided %shere%s.','gpt3-ai-content-generator'),'<a href="https://docs.aipower.org/docs/embeddings" target="_blank">','</a>')?></p>
         <p><?php echo sprintf(esc_html__('2. Obtain your API key from %sPinecone%s.','gpt3-ai-content-generator'),'<a href="https://www.pinecone.io/" target="_blank">','</a>')?></p>
         <p><?php echo esc_html__('3. Create an Index on Pinecone.','gpt3-ai-content-generator')?></p>
         <p><?php echo sprintf(esc_html__('4. Ensure your dimension is set to %s1536%s.','gpt3-ai-content-generator'),'<b>','</b>')?></p>
@@ -91,14 +148,39 @@ if($wpaicg_embeddings_settings_updated){
         <tr>
             <th scope="row"><?php echo esc_html__('Pinecone API','gpt3-ai-content-generator')?></th>
             <td>
-                <input type="text" class="regular-text" name="wpaicg_pinecone_api" value="<?php echo esc_attr($wpaicg_pinecone_api)?>">
+                <input type="text" class="regular-text wpaicg_pinecone_api" name="wpaicg_pinecone_api" value="<?php echo esc_attr($wpaicg_pinecone_api)?>">
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><?php echo esc_html__('Pinecone Environment','gpt3-ai-content-generator')?></th>
+            <td>
+                <select class="wpaicg_pinecone_sv" name="wpaicg_pinecone_sv">
+                <?php
+                foreach ($wpaicg_pinecone_environments as $key=>$wpaicg_pinecone_environment_detail){
+                    echo '<option'.($wpaicg_pinecone_sv == $key ? ' selected':'').' value="'.$key.'">'.$key.'</option>';
+                }
+                ?>
+                </select>
+                <p class="description">Can't find your environment? Let us know at <a href="mailto:support@aipower.org">support@aipower.org</a></p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">&nbsp;</th>
+            <td>
+                <button type="button" class="button button-primary wpaicg_pinecone_indexes"><?php echo esc_html__('Sync Indexes','gpt3-ai-content-generator')?></button>
             </td>
         </tr>
         <tr>
             <th scope="row"><?php echo esc_html__('Pinecone Index','gpt3-ai-content-generator')?></th>
             <td>
-                <input type="text" class="regular-text" name="wpaicg_pinecone_environment" value="<?php echo esc_attr($wpaicg_pinecone_environment)?>">
-                <p style="font-style: italic"><?php echo esc_html__('Example: gptpowerai-de3f510.svc.us-east1-gcp.pinecone.io','gpt3-ai-content-generator')?></p>
+                <select class="wpaicg_pinecone_environment" name="wpaicg_pinecone_environment" old-value="<?php echo esc_attr($wpaicg_pinecone_environment)?>">
+                    <option value=""><?php echo esc_html__('Select Index','gpt3-ai-content-generator')?></option>
+                    <?php
+                    foreach($wpaicg_pinecone_indexes as $wpaicg_pinecone_index){
+                        echo '<option'.($wpaicg_pinecone_environment == $wpaicg_pinecone_index['url'] ? ' selected':'').' value="'.esc_html($wpaicg_pinecone_index['url']).'">'.esc_html($wpaicg_pinecone_index['name']).'</option>';
+                    }
+                    ?>
+                </select>
             </td>
         </tr>
     </table>
@@ -155,3 +237,79 @@ if($wpaicg_embeddings_settings_updated){
     </table>
     <button class="button button-primary" name="wpaicg_save_builder_settings"><?php echo esc_html__('Save','gpt3-ai-content-generator')?></button>
 </form>
+<script>
+    jQuery(document).ready(function($){
+        function wpaicgLoading(btn){
+            btn.attr('disabled','disabled');
+            if(!btn.find('spinner').length){
+                btn.append('<span class="spinner"></span>');
+            }
+            btn.find('.spinner').css('visibility','unset');
+        }
+        function wpaicgRmLoading(btn){
+            btn.removeAttr('disabled');
+            btn.find('.spinner').remove();
+        }
+        $('.wpaicg_pinecone_indexes').click(function (){
+            var btn = $(this);
+            var wpaicg_pinecone_api = $('.wpaicg_pinecone_api').val();
+            var wpaicg_pinecone_sv = $('.wpaicg_pinecone_sv').val();
+            var old_value = $('.wpaicg_pinecone_environment').attr('old-value');
+            if(wpaicg_pinecone_api !== '' && wpaicg_pinecone_sv !== ''){
+                $.ajax({
+                    url: 'https://controller.'+wpaicg_pinecone_sv+'.pinecone.io/databases',
+                    headers: {"Api-Key": wpaicg_pinecone_api},
+                    dataType: 'json',
+                    beforeSend: function (){
+                        wpaicgLoading(btn);
+                        btn.html('<?php echo esc_html__('Syncing...','gpt3-ai-content-generator')?>');
+                    },
+                    success: function (res){
+                        if(res.length){
+                            var selectedLists = [];
+                            var totalIndex = res.length;
+                            var currentIndex = 0;
+                            for(var i=0;i<res.length;i++){
+                                currentIndex = i + 1;
+                                var indexName = res[i];
+                                $.ajax({
+                                    url: 'https://controller.'+wpaicg_pinecone_sv+'.pinecone.io/databases/'+indexName,
+                                    headers: {"Api-Key": wpaicg_pinecone_api},
+                                    dataType: 'json',
+                                    success: function(resi){
+                                        selectedLists.push({name: indexName,url: resi.status.host});
+                                        if(totalIndex === currentIndex){
+                                            btn.html('<?php echo esc_html__('Sync Indexes','gpt3-ai-content-generator')?>');
+                                            $.post('<?php echo admin_url('admin-ajax.php')?>',{
+                                                action: 'wpaicg_pinecone_indexes',
+                                                nonce: '<?php echo wp_create_nonce('wpaicg-ajax-nonce')?>',
+                                                indexes: JSON.stringify(selectedLists),
+                                                api_key: wpaicg_pinecone_api,
+                                                server: wpaicg_pinecone_sv
+                                            });
+                                            wpaicgRmLoading(btn)
+                                            var selectList = '<option value=""><?php echo esc_html__('Select Index','gpt3-ai-content-generator')?></option>';
+                                            for(var j=0;j<selectedLists.length;j++){
+                                                var selectedList = selectedLists[j];
+                                                selectList += '<option'+(old_value === selectedList.url ? ' selected':'')+' value="'+selectedList.url+'">'+selectedList.name+'</option>';
+                                            }
+                                            $('.wpaicg_pinecone_environment').html(selectList);
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    },
+                    error: function (e){
+                        btn.html('<?php echo esc_html__('Sync Indexes','gpt3-ai-content-generator')?>');
+                        wpaicgRmLoading(btn);
+                        alert(e.responseText);
+                    }
+                });
+            }
+            else{
+                alert('<?php echo esc_html__('Please add Pinecone API key and Pinecone Environment before start sync','gpt3-ai-content-generator')?>')
+            }
+        })
+    })
+</script>

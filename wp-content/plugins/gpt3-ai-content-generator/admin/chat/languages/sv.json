@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Konversera som om du var en AI-assistent. Svara på frågan så ärligt som möjligt med hjälp av den tillhandahållna kontexten. Ton: %s Profession: %s Nuvarande kontext: %s",
   "greeting_content": "Konversera som om du var en AI-assistent. Svara på frågan så ärligt som möjligt med hjälp av den tillhandahållna kontexten. Ton: %s Nuvarande kontext: %s",
   "greeting_proffesion_content_extra": "Ytterligare kontext: %s",
-  "greeting_content_extra": "Ytterligare kontext: %s"
+  "greeting_content_extra": "Ytterligare kontext: %s",
+  "question_prompt": "Ge mig 3 frågor på svenska om denna text: %s"
 }

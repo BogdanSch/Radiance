@@ -16,6 +16,11 @@ if(isset($_POST['save_bulk_setting'])) {
     } else {
         delete_option('wpaicg_custom_prompt_enable');
     }
+    if (isset($_POST['wpaicg_rss_new_title']) && !empty($_POST['wpaicg_rss_new_title'])) {
+        update_option('wpaicg_rss_new_title', 1);
+    } else {
+        delete_option('wpaicg_rss_new_title');
+    }
     if (isset($_POST['wpaicg_custom_prompt_auto']) && !empty($_POST['wpaicg_custom_prompt_auto'])) {
         update_option('wpaicg_custom_prompt_auto', wp_kses_post($_POST['wpaicg_custom_prompt_auto']));
     } else {
@@ -28,12 +33,13 @@ if(isset($_POST['save_bulk_setting'])) {
     }
     $success_save = true;
 }
-$wpaicg_restart_queue = get_option('wpaicg_restart_queue', '');
+$wpaicg_restart_queue = get_option('wpaicg_restart_queue', 20);
 $wpaicg_try_queue = get_option('wpaicg_try_queue', '');
 $wpaicg_ai_model = get_option('wpaicg_ai_model','');
 $wpaicg_custom_prompt_enable = get_option('wpaicg_custom_prompt_enable',false);
 $wpaicg_default_custom_prompt = 'Create a compelling and well-researched article of at least 500 words on the topic of "[title]" in English. Structure the article with clear headings enclosed within the appropriate heading tags (e.g., <h1>, <h2>, etc.) and engaging subheadings. Ensure that the content is informative and provides valuable insights to the reader. Incorporate relevant examples, case studies, and statistics to support your points. Organize your ideas using unordered lists with <ul> and <li> tags where appropriate. Conclude with a strong summary that ties together the key takeaways of the article. Remember to enclose headings in the specified heading tags to make parsing the content easier. Additionally, wrap even paragraphs in <p> tags for improved readability.';
 $wpaicg_custom_prompt_auto = get_option('wpaicg_custom_prompt_auto',$wpaicg_default_custom_prompt);
+$wpaicg_rss_new_title = get_option('wpaicg_rss_new_title',false);
 ?>
 <?php
 if($success_save){
@@ -43,6 +49,11 @@ if($success_save){
 <form action="" method="post" class="wpaicg_auto_settings">
     <?php wp_nonce_field('save_bulk_setting_nonce'); ?>
     <table class="form-table">
+        <tr>
+            <td colspan="2" style="padding: 0">
+                <h1 style="font-size: 20px"><strong><?php echo esc_html__('Queue','gpt3-ai-content-generator')?></strong></h1>
+            </td>
+        </tr>
         <tr>
             <th scope="row"><?php echo esc_html__('Restart Failed Jobs After','gpt3-ai-content-generator')?></th>
             <td>
@@ -68,6 +79,11 @@ if($success_save){
                     ?>
                 </select>
                 <?php echo esc_html__('times','gpt3-ai-content-generator')?>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding: 0">
+                <h1 style="font-size: 20px"><strong><?php echo esc_html__('Content Generation','gpt3-ai-content-generator')?></strong></h1>
             </td>
         </tr>
         <tr>
@@ -114,6 +130,17 @@ if($success_save){
                     <button style="color: #fff;background: #df0707;border-color: #df0707;" data-prompt="<?php echo esc_html($wpaicg_default_custom_prompt)?>" class="button wpaicg_custom_prompt_reset" type="button"><?php echo esc_html__('Reset','gpt3-ai-content-generator')?></button>
                 </div>
                 <div class="wpaicg_custom_prompt_auto_error"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding: 0">
+                <h1 style="font-size: 20px"><strong><?php echo esc_html__('RSS','gpt3-ai-content-generator')?></strong></h1>
+            </td>
+        </tr>
+        <tr>
+            <th><?php echo esc_html__('Generate New Title','gpt3-ai-content-generator')?></th>
+            <td>
+                <label><input<?php echo \WPAICG\wpaicg_util_core()->wpaicg_is_pro() ? '' : ' disabled'?><?php echo \WPAICG\wpaicg_util_core()->wpaicg_is_pro() && $wpaicg_rss_new_title ? ' checked':''?> class="wpaicg_rss_new_title" type="checkbox" value="1" name="wpaicg_rss_new_title"><?php echo !\WPAICG\wpaicg_util_core()->wpaicg_is_pro() ? esc_html__('Available in Pro','gpt3-ai-content-generator') : ''?></label>
             </td>
         </tr>
     </table>

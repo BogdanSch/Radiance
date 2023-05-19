@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Soruya en doğru şekilde mevcut bağlam içinde cevap ver. Ton: %s Uzmanlık: %s Mevcut bağlam: %s",
   "greeting_content": "Soruya en doğru şekilde mevcut bağlam içinde cevap ver. Tavır: %s Mevcut bağlam: %s",
   "greeting_proffesion_content_extra": "Ekstra bağlam: %s",
-  "greeting_content_extra": "Ekstra bağlam: %s"
+  "greeting_content_extra": "Ekstra bağlam: %s",
+  "question_prompt": "Bu yazı ile ilgili Türkçe 3 soru ver bana: %s"
 }

@@ -32,6 +32,23 @@ if(!class_exists('\\WPAICG\\WPAICG_Embeddings')) {
                 add_action('admin_footer',[$this,'wpaicg_instant_embedding_footer']);
                 add_action('wp_ajax_wpaicg_instant_embedding',[$this,'wpaicg_instant_embedding']);
             }
+            /*Pinecone sync Indexes*/
+            add_action('wp_ajax_wpaicg_pinecone_indexes',[$this,'wpaicg_pinecone_indexes']);
+        }
+
+        public function wpaicg_pinecone_indexes()
+        {
+            if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
+                die(WPAICG_NONCE_ERROR);
+            }
+            $indexes = sanitize_text_field(str_replace("\\",'',$_REQUEST['indexes']));
+            update_option('wpaicg_pinecone_indexes',$indexes);
+            if(isset($_REQUEST['api_key']) && !empty($_REQUEST['api_key'])){
+                update_option('wpaicg_pinecone_api', sanitize_text_field($_REQUEST['api_key']));
+            }
+            if(isset($_REQUEST['server']) && !empty($_REQUEST['server'])){
+                update_option('wpaicg_pinecone_sv', sanitize_text_field($_REQUEST['server']));
+            }
         }
 
         public function wpaicg_instant_embedding()
@@ -264,7 +281,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Embeddings')) {
                 );
                 $pinecone_ids = '';
                 foreach ($ids as $id){
-                    $pinecone_ids = empty($pinecone_ids) ? 'ids='.$id : '&ids='.$id;
+                    $pinecone_ids .= empty($pinecone_ids) ? 'ids='.$id : '&ids='.$id;
                 }
                 $response = wp_remote_request('https://' . $wpaicg_pinecone_environment . '/vectors/delete?'.$pinecone_ids, array(
                     'method' => 'DELETE',

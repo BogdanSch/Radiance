@@ -18,6 +18,22 @@ if (isset($_POST['wpaicg_delete_running']) && check_admin_referer('wpaicg_delete
     echo '<script>window.location.reload()</script>';
     exit;
 }
+if(!empty($wpaicg_cron_job_last_time)){
+    $wpaicg_timestamp_diff = time() - $wpaicg_cron_job_last_time;
+    if($wpaicg_timestamp_diff > 600){
+        ?>
+        <div class="wpaicg-alert">
+            <p style="color: #f00">
+                <?php echo esc_html__('You can use the button below to restart your queue if it is stuck.','gpt3-ai-content-generator')?>
+            </p>
+            <form action="" method="post">
+                <?php wp_nonce_field('wpaicg_delete_running_action', 'wpaicg_delete_running_nonce'); ?>
+                <button name="wpaicg_delete_running" class="button button-primary"><?php echo esc_html__('Force Refresh','gpt3-ai-content-generator')?></button>
+            </form>
+        </div>
+        <?php
+    }
+}
 ?>
 <div class="wpaicg-alert">
     <?php

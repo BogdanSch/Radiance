@@ -134,6 +134,8 @@ $wpaicg_chat_voice_service = isset($wpaicg_chat_widget['voice_service']) ? $wpai
 $wpaicg_google_voices = get_option('wpaicg_google_voices',[]);
 $wpaicg_roles = wp_roles()->get_names();
 $wpaicg_google_api_key = get_option('wpaicg_google_api_key', '');
+$wpaicg_pinecone_indexes = get_option('wpaicg_pinecone_indexes','');
+$wpaicg_pinecone_indexes = empty($wpaicg_pinecone_indexes) ? array() : json_decode($wpaicg_pinecone_indexes,true);
 ?>
 <style>
     .asdisabled{
@@ -234,10 +236,10 @@ $wpaicg_google_api_key = get_option('wpaicg_google_api_key', '');
         position: relative;
     }
     .wpaicg-mic-icon{
-        display: flex;
         cursor: pointer;
-        position: absolute;
-        right: 47px;
+    }
+    .wp-picker-input-wrap input[type=text]{
+        width: 4rem!important;
     }
     .wpaicg-mic-icon svg{
         width: 16px;
@@ -271,7 +273,7 @@ $wpaicg_google_api_key = get_option('wpaicg_google_api_key', '');
     }
 </style>
 <div class="wpaicg-alert mb-5">
-    <p><?php echo esc_html__('Learn how you can train the chat bot with your content','gpt3-ai-content-generator')?> <u><b><a href="https://youtu.be/NPMLGwFQYrY" target="_blank"><?php echo esc_html__('here','gpt3-ai-content-generator')?></a></u></b>.</p>
+    <p><?php echo esc_html__('Learn how you can train the chat bot with your content','gpt3-ai-content-generator')?> <u><b><a href="https://docs.aipower.org/docs/ChatGPT/chatgpt-wordpress" target="_blank"><?php echo esc_html__('here','gpt3-ai-content-generator')?></a></u></b>.</p>
 </div>
 <?php
 $wpaicg_chat_model = get_option('wpaicg_chat_model','');
@@ -659,6 +661,23 @@ if ( !empty($errors)) {
                         <label class="wpaicg-form-label"><?php echo esc_html__('Delay time','gpt3-ai-content-generator')?>:</label>
                         <input placeholder="<?php echo esc_html__('in seconds. eg. 5','gpt3-ai-content-generator')?>" value="<?php echo esc_html($wpaicg_delay_time)?>" type="text" class="wpaicgchat_delay_time" name="wpaicg_chat_widget[delay_time]">
                     </div>
+                    <?php
+                    if(\WPAICG\wpaicg_util_core()->wpaicg_is_pro()):
+                        ?>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('PDF Icon Color','gpt3-ai-content-generator')?>:</label>
+                            <input value="<?php echo isset($wpaicg_chat_widget['pdf_color']) ? esc_html($wpaicg_chat_widget['pdf_color']): '#222'?>" type="text" class="wpaicgchat_color wpaicg_pdf_color" name="wpaicg_chat_widget[pdf_color]">
+                        </div>
+                    <?php
+                    else:
+                        ?>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('PDF Icon Color','gpt3-ai-content-generator')?>:</label>
+                            <?php echo esc_html__('Available in Pro','gpt3-ai-content-generator')?>
+                        </div>
+                    <?php
+                    endif;
+                    ?>
                 </div>
             </div>
             <!--Parameters-->
@@ -918,6 +937,38 @@ if ( !empty($errors)) {
             <div class="wpaicg-collapse">
                 <div class="wpaicg-collapse-title"><span>+</span> <?php echo esc_html__('Context','gpt3-ai-content-generator')?></div>
                 <div class="wpaicg-collapse-content">
+                    <?php
+                    if(!isset($wpaicg_chat_widget['chat_addition_option']) || $wpaicg_chat_addition){
+                        $wpaicg_chat_addition = true;
+                    }
+                    ?>
+                    <div class="mb-5">
+                        <label class="wpaicg-form-label"><?php echo esc_html__('Additional Context?','gpt3-ai-content-generator')?>:</label>
+                        <input<?php echo $wpaicg_chat_addition == '1' ? ' checked': ''?> name="wpaicg_chat_addition" value="1" type="checkbox" id="wpaicg_chat_addition">
+                        <input name="wpaicg_chat_widget[chat_addition_option]" value="<?php echo $wpaicg_chat_addition ? 0 : 1?>" type="hidden" id="wpaicg_chat_addition_option">
+                    </div>
+                    <?php
+                    $wpaicg_additions_json = file_get_contents(WPAICG_PLUGIN_DIR.'admin/chat/context.json');
+                    $wpaicg_additions = json_decode($wpaicg_additions_json, true);
+                    ?>
+                    <div class="mb-5">
+                        <label class="wpaicg-form-label"><?php echo esc_html__('Template','gpt3-ai-content-generator')?>:</label>
+                        <select<?php echo !$wpaicg_chat_addition ? ' disabled':'';?> class="wpaicg_chat_addition_template">
+                            <option value=""><?php echo esc_html__('Select Template','gpt3-ai-content-generator')?></option>
+                            <?php
+                            foreach($wpaicg_additions as $key=>$wpaicg_addition){
+                                echo '<option value="'.esc_html($wpaicg_addition).'">'.esc_html($key).'</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="mb-5">
+                        <label class="wpaicg-form-label" style="vertical-align:top">
+                            <?php echo esc_html__('Context','gpt3-ai-content-generator')?>:
+                            <small style="font-weight: normal;display: block"><?php echo sprintf(esc_html__('You can add shortcode %s and %s and %s and %s in context','gpt3-ai-content-generator'),'<code>[sitename]</code>','<code>[siteurl]</code>','<code>[domain]</code>','<code>[date]</code>')?></small>
+                        </label>
+                        <textarea<?php echo !$wpaicg_chat_addition ? ' disabled':''?> class="regular-text wpaicg_chat_addition_text" rows="8" id="wpaicg_chat_addition_text" name="wpaicg_chat_addition_text"><?php echo !empty($wpaicg_chat_addition_text) ? esc_html($wpaicg_chat_addition_text) : esc_html__('You are a helpful AI Assistant. Please be friendly.','gpt3-ai-content-generator')?></textarea>
+                    </div>
                     <input value="<?php echo esc_html($wpaicg_chat_icon_url)?>" type="hidden" name="wpaicg_chat_widget[icon_url]" class="wpaicg_chat_icon_url">
                     <input value="<?php echo esc_html($wpaicg_ai_avatar_id)?>" type="hidden" name="wpaicg_chat_widget[ai_avatar_id]" class="wpaicg_ai_avatar_id">
                     <!-- wpaicg_chat_remember_conversation -->
@@ -964,6 +1015,17 @@ if ( !empty($errors)) {
                         <input<?php echo $wpaicg_chat_embedding && $wpaicg_chat_content_aware == 'yes' ? ' checked': ''?><?php echo $wpaicg_embedding_field_disabled || $wpaicg_chat_content_aware == 'no' ? ' disabled':''?> type="checkbox" value="1" name="wpaicg_chat_embedding" id="wpaicg_chat_embedding" class="<?php echo !$wpaicg_chat_embedding && $wpaicg_chat_content_aware == 'yes' ? 'asdisabled' : ''?>">
                     </div>
                     <div class="mb-5">
+                        <label class="wpaicg-form-label"><?php echo esc_html__('Pinecone Index','gpt3-ai-content-generator')?>:</label>
+                        <select<?php echo $wpaicg_embedding_field_disabled || empty($wpaicg_chat_embedding) || $wpaicg_chat_content_aware == 'no' ? ' disabled':''?> name="wpaicg_chat_widget[embedding_index]" id="wpaicg_chat_embedding_index" class="<?php echo !$wpaicg_chat_embedding && $wpaicg_chat_content_aware == 'yes' ? 'asdisabled' : ''?>">
+                            <option value=""><?php echo esc_html__('Default','gpt3-ai-content-generator')?></option>
+                            <?php
+                            foreach($wpaicg_pinecone_indexes as $wpaicg_pinecone_index){
+                                echo '<option'.(isset($wpaicg_chat_widget['embedding_index']) && $wpaicg_chat_widget['embedding_index'] == $wpaicg_pinecone_index['url'] ? ' selected':'').' value="'.esc_html($wpaicg_pinecone_index['url']).'">'.esc_html($wpaicg_pinecone_index['name']).'</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="mb-5">
                         <label class="wpaicg-form-label"><?php echo esc_html__('Method','gpt3-ai-content-generator')?>:</label>
                         <select<?php echo $wpaicg_embedding_field_disabled || empty($wpaicg_chat_embedding) || $wpaicg_chat_content_aware == 'no' ? ' disabled':''?> name="wpaicg_chat_embedding_type" id="wpaicg_chat_embedding_type" class="<?php echo !$wpaicg_chat_embedding && $wpaicg_chat_content_aware == 'yes' ? 'asdisabled' : ''?>">
                             <option<?php echo $wpaicg_chat_embedding_type ? ' selected':'';?> value="openai"><?php echo esc_html__('Embeddings + Completion','gpt3-ai-content-generator')?></option>
@@ -981,37 +1043,50 @@ if ( !empty($errors)) {
                         </select>
                     </div>
                     <?php
-                    if(!isset($wpaicg_chat_widget['chat_addition_option']) || $wpaicg_chat_addition){
-                        $wpaicg_chat_addition = true;
-                    }
-                    ?>
-                    <div class="mb-5">
-                        <label class="wpaicg-form-label"><?php echo esc_html__('Additional Context?','gpt3-ai-content-generator')?>:</label>
-                        <input<?php echo $wpaicg_chat_addition == '1' ? ' checked': ''?> name="wpaicg_chat_addition" value="1" type="checkbox" id="wpaicg_chat_addition">
-                        <input name="wpaicg_chat_widget[chat_addition_option]" value="<?php echo $wpaicg_chat_addition ? 0 : 1?>" type="hidden" id="wpaicg_chat_addition_option">
-                    </div>
+                    if(\WPAICG\wpaicg_util_core()->wpaicg_is_pro()):
+                        ?>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('Enable PDF Upload','gpt3-ai-content-generator')?>:</label>
+                            <input<?php echo $wpaicg_embedding_field_disabled || empty($wpaicg_chat_embedding) || $wpaicg_chat_content_aware == 'no' ? ' disabled':''?><?php echo isset($wpaicg_chat_widget['embedding_pdf']) && $wpaicg_chat_widget['embedding_pdf'] ? ' checked':''?> type="checkbox" value="1" name="wpaicg_chat_widget[embedding_pdf]" class="<?php echo !$wpaicg_chat_embedding && $wpaicg_chat_content_aware == 'yes' ? 'asdisabled' : ''?>" id="wpaicg_chat_embedding_pdf">
+                        </div>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('Limit PDF Pages','gpt3-ai-content-generator')?>:</label>
+                            <select<?php echo $wpaicg_embedding_field_disabled || empty($wpaicg_chat_embedding) || $wpaicg_chat_content_aware == 'no' ? ' disabled':''?> name="wpaicg_chat_widget[pdf_pages]" id="wpaicg_chat_pdf_pages" class="<?php echo !$wpaicg_chat_embedding && $wpaicg_chat_content_aware == 'yes' ? 'asdisabled' : ''?>" style="width: 65px!important;">
+                                <?php
+                                $pdf_pages = isset($wpaicg_chat_widget['pdf_pages']) && !empty($wpaicg_chat_widget['pdf_pages']) ? $wpaicg_chat_widget['pdf_pages'] : 120;
+                                for($i=1;$i <= 120;$i++){
+                                    echo '<option'.($pdf_pages == $i ? ' selected':'').' value="'.esc_html($i).'">'.esc_html($i).'</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label" style="vertical-align:top">
+                                <?php echo esc_html__('PDF Success Message','gpt3-ai-content-generator')?>:
+                                <small style="font-weight: normal;display: block"><?php echo sprintf(esc_html__('You can include the following shortcode in the message: %s.','gpt3-ai-content-generator'),'<code>[questions]</code>')?></small>
+                            </label>
+                            <textarea<?php echo $wpaicg_embedding_field_disabled || empty($wpaicg_chat_embedding) || $wpaicg_chat_content_aware == 'no' ? ' disabled':''?> rows="8" name="wpaicg_chat_widget[embedding_pdf_message]" class="<?php echo !$wpaicg_chat_embedding && $wpaicg_chat_content_aware == 'yes' ? 'asdisabled' : ''?>" id="wpaicg_chat_embedding_pdf_message"><?php echo isset($wpaicg_chat_widget['embedding_pdf_message']) && !empty($wpaicg_chat_widget['embedding_pdf_message']) ? esc_html(str_replace("\\",'',$wpaicg_chat_widget['embedding_pdf_message'])):"Congrats! Your PDF is uploaded now! You can ask questions about your document.\nExample Questions:[questions]"?></textarea>
+                        </div>
                     <?php
-                    $wpaicg_additions_json = file_get_contents(WPAICG_PLUGIN_DIR.'admin/chat/context.json');
-                    $wpaicg_additions = json_decode($wpaicg_additions_json, true);
+                    else:
+                        ?>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('Enable PDF Upload','gpt3-ai-content-generator')?>:</label>
+                            <input type="checkbox" disabled> <?php echo esc_html__('Available in Pro','gpt3-ai-content-generator')?>
+                        </div>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('Limit PDF Pages','gpt3-ai-content-generator')?>:</label>
+                            <select disabled style="width: 65px!important;">
+                                <option><?php echo esc_html__('Available in Pro','gpt3-ai-content-generator')?></option>
+                            </select>
+                        </div>
+                        <div class="mb-5">
+                            <label class="wpaicg-form-label"><?php echo esc_html__('PDF Success Message','gpt3-ai-content-generator')?>:</label>
+                            <textarea disabled rows="8" ><?php echo esc_html__('Available in Pro','gpt3-ai-content-generator')?></textarea>
+                        </div>
+                    <?php
+                    endif;
                     ?>
-                    <div class="mb-5">
-                        <label class="wpaicg-form-label"><?php echo esc_html__('Template','gpt3-ai-content-generator')?>:</label>
-                        <select<?php echo !$wpaicg_chat_addition ? ' disabled':'';?> class="wpaicg_chat_addition_template">
-                            <option value=""><?php echo esc_html__('Select Template','gpt3-ai-content-generator')?></option>
-                            <?php
-                            foreach($wpaicg_additions as $key=>$wpaicg_addition){
-                                echo '<option value="'.esc_html($wpaicg_addition).'">'.esc_html($key).'</option>';
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="mb-5">
-                        <label class="wpaicg-form-label" style="vertical-align:top">
-                            <?php echo esc_html__('Context','gpt3-ai-content-generator')?>:
-                            <small style="font-weight: normal;display: block"><?php echo sprintf(esc_html__('You can add shortcode %s and %s and %s and %s in context','gpt3-ai-content-generator'),'<code>[sitename]</code>','<code>[siteurl]</code>','<code>[domain]</code>','<code>[date]</code>')?></small>
-                        </label>
-                        <textarea<?php echo !$wpaicg_chat_addition ? ' disabled':''?> class="regular-text wpaicg_chat_addition_text" rows="8" id="wpaicg_chat_addition_text" name="wpaicg_chat_addition_text"><?php echo !empty($wpaicg_chat_addition_text) ? esc_html($wpaicg_chat_addition_text) : esc_html__('You are a helpful AI Assistant. Please be friendly.','gpt3-ai-content-generator')?></textarea>
-                    </div>
                 </div>
             </div>
             <!--Logs-->
@@ -1501,6 +1576,14 @@ if ( !empty($errors)) {
                 $('#wpaicg_chat_embedding_type').attr('disabled','disabled');
                 $('#wpaicg_chat_embedding_top').attr('disabled','disabled');
                 $('#wpaicg_chat_embedding_top').val(1);
+                $('#wpaicg_chat_embedding_index').attr('disabled','disabled');
+                $('#wpaicg_chat_embedding_index').addClass('asdisabled');
+                $('#wpaicg_chat_embedding_pdf').attr('disabled','disabled');
+                $('#wpaicg_chat_embedding_pdf').addClass('asdisabled');
+                $('#wpaicg_chat_embedding_pdf_message').attr('disabled','disabled');
+                $('#wpaicg_chat_embedding_pdf_message').addClass('asdisabled');
+                $('#wpaicg_chat_pdf_pages').attr('disabled','disabled');
+                $('#wpaicg_chat_pdf_pages').addClass('asdisabled');
             }
             else{
                 $(this).prop('checked',true);
@@ -1533,6 +1616,14 @@ if ( !empty($errors)) {
                 $('#wpaicg_chat_embedding_top').val(1);
                 $('#wpaicg_chat_embedding_top').removeClass('asdisabled');
                 $('#wpaicg_chat_embedding_top').removeAttr('disabled');
+                $('#wpaicg_chat_embedding_index').removeAttr('disabled');
+                $('#wpaicg_chat_embedding_index').removeClass('asdisabled');
+                $('#wpaicg_chat_embedding_pdf').removeAttr('disabled');
+                $('#wpaicg_chat_embedding_pdf').removeClass('asdisabled');
+                $('#wpaicg_chat_embedding_pdf_message').removeAttr('disabled');
+                $('#wpaicg_chat_embedding_pdf_message').removeClass('asdisabled');
+                $('#wpaicg_chat_pdf_pages').removeAttr('disabled');
+                $('#wpaicg_chat_pdf_pages').removeClass('asdisabled');
             }
             else{
                 $(this).prop('checked',true);
@@ -1552,6 +1643,14 @@ if ( !empty($errors)) {
                 $('#wpaicg_chat_embedding_type').addClass('asdisabled');
                 $('#wpaicg_chat_embedding_top').val(1);
                 $('#wpaicg_chat_embedding_top').addClass('asdisabled');
+                $('#wpaicg_chat_embedding_index').removeAttr('disabled');
+                $('#wpaicg_chat_embedding_index').addClass('asdisabled');
+                $('#wpaicg_chat_embedding_pdf').removeAttr('disabled');
+                $('#wpaicg_chat_embedding_pdf').addClass('asdisabled');
+                $('#wpaicg_chat_embedding_pdf_message').removeAttr('disabled');
+                $('#wpaicg_chat_embedding_pdf_message').addClass('asdisabled');
+                $('#wpaicg_chat_pdf_pages').removeAttr('disabled');
+                $('#wpaicg_chat_pdf_pages').addClass('asdisabled');
             }
             else{
                 $('#wpaicg_chat_embedding_type').removeClass('asdisabled');
@@ -1564,6 +1663,14 @@ if ( !empty($errors)) {
                 $('#wpaicg_chat_embedding_type').attr('disabled','disabled');
                 $('#wpaicg_chat_embedding_top').attr('disabled','disabled');
                 $('#wpaicg_chat_embedding_top').removeClass('asdisabled');
+                $('#wpaicg_chat_embedding_index').attr('disabled','disabled');
+                $('#wpaicg_chat_embedding_index').removeClass('asdisabled');
+                $('#wpaicg_chat_embedding_pdf').attr('disabled','disabled');
+                $('#wpaicg_chat_embedding_pdf').removeClass('asdisabled');
+                $('#wpaicg_chat_embedding_pdf_message').attr('disabled','disabled');
+                $('#wpaicg_chat_embedding_pdf_message').removeClass('asdisabled');
+                $('#wpaicg_chat_pdf_pages').attr('disabled','disabled');
+                $('#wpaicg_chat_pdf_pages').removeClass('asdisabled');
             }
         })
         <?php

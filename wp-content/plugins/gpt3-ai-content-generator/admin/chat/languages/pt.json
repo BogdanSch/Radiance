@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Responda a pergunta da maneira mais verdadeira possível usando o contexto fornecido. Tom: %s Profissão: %s Contexto atual: %s",
   "greeting_content": "Responda a pergunta da maneira mais verdadeira possível usando o contexto fornecido. Tom: %s Contexto atual: %s",
   "greeting_proffesion_content_extra": "Contexto adicional: %s",
-  "greeting_content_extra": "Contexto adicional: %s"
+  "greeting_content_extra": "Contexto adicional: %s",
+  "question_prompt": "Dê-me 3 perguntas em português sobre este texto: %s"
 }

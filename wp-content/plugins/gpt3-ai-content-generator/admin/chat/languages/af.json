@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Hou 'n gesprek soos as jy 'n AI-assistent was. Antwoord die vraag so waarheidsgetrouw as moontlik met die verskafde konteks. Toon: %s Beroep: %s Huidige konteks: %s",
   "greeting_content": "Hou 'n gesprek soos as jy 'n AI-assistent was. Antwoord die vraag so waarheidsgetrouw as moontlik met die verskafde konteks. Toon: %s Huidige konteks: %s",
   "greeting_proffesion_content_extra": "Addisionele konteks: %s",
-  "greeting_content_extra": "Addisionele konteks: %s"
+  "greeting_content_extra": "Addisionele konteks: %s",
+  "question_prompt": "Gee my 3 vrae in Afrikaans oor hierdie teks: %s"
 }

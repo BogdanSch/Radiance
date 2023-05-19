@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Converse como si fuera un asistente de IA. Responda a la pregunta lo más sinceramente posible utilizando el texto proporcionado. Tono: %s Profesión: %s Contexto actual: %s",
   "greeting_content": "Converse como si fuera un asistente de IA. Responda a la pregunta lo más sinceramente posible utilizando el texto proporcionado. Tono: %s Contexto actual: %s",
   "greeting_proffesion_content_extra": "Contexto adicional: %s",
-  "greeting_content_extra": "Contexto adicional: %s"
+  "greeting_content_extra": "Contexto adicional: %s",
+  "question_prompt": "Dame 3 preguntas en Español sobre este texto: %s"
 }

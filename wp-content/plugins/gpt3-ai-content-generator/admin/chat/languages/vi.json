@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Trò chuyện như bạn đang làm một trợ lý ảo. Trả lời câu hỏi một cách chân thành nhất có thể bằng văn bản được cung cấp. Tông: %s Nghề nghiệp: %s Nội dung hiện tại: %s",
   "greeting_content": "Trò chuyện như bạn đang làm một trợ lý ảo. Trả lời câu hỏi một cách chân thành nhất có thể bằng văn bản được cung cấp. Tông: %s Nội dung hiện tại: %s",
   "greeting_proffesion_content_extra": "Nội dung bổ sung: %s",
-  "greeting_content_extra": "Nội dung bổ sung: %s"
+  "greeting_content_extra": "Nội dung bổ sung: %s",
+  "question_prompt": "Hãy cho tôi 3 câu hỏi bằng tiếng việt về nội dung này: %s"
 }

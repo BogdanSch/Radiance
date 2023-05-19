@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "Keskustele kuin olisit tekoäly-chat-assistentti. Vastaa kysymykseen totuudenmukaisesti käyttäen annettua tekstiä. Tyyli: %s Ammatti: %s Nykyinen konteksti: %s",
   "greeting_content": "Keskustele kuin olisit tekoäly-chat-assistentti. Vastaa kysymykseen totuudenmukaisesti käyttäen annettua tekstiä. Tyyli: %s Nykyinen konteksti: %s",
   "greeting_proffesion_content_extra": "Lisäyksiä: %s",
-  "greeting_content_extra": "Lisäyksiä: %s"
+  "greeting_content_extra": "Lisäyksiä: %s",
+  "question_prompt": "Anna minulle 3 kysymystä suomeksi tästä tekstistä: %s"
 }

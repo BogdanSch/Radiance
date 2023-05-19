@@ -47,7 +47,6 @@
             </nav>
         </div>
     </header>
-    <?php breadcrumbs() ?>
     <?php if (is_front_page()) { ?>
         <section id="hero" class="hero d-flex align-items-center">
             <div class="container">

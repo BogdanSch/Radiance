@@ -33,8 +33,10 @@ if(empty($wpaicg_pinecone_api) && empty($wpaicg_pinecone_environment) && $wpaicg
         \WPAICG\wpaicg_util_core()->wpaicg_tabs('wpaicg_embeddings', array(
             'content' => esc_html__('Content Builder','gpt3-ai-content-generator'),
             'logs' => esc_html__('Entries','gpt3-ai-content-generator'),
+            'pdf' => esc_html__('PDF','gpt3-ai-content-generator'),
             'builder' => esc_html__('Index Builder','gpt3-ai-content-generator'),
-            'settings' => esc_html__('Settings','gpt3-ai-content-generator')
+            'settings' => esc_html__('Settings','gpt3-ai-content-generator'),
+            'troubleshoot' => esc_html__('Troubleshoot','gpt3-ai-content-generator'),
         ), $wpaicg_action);
         if(!$wpaicg_action || $wpaicg_action == 'content'){
             $wpaicg_action = '';
@@ -55,6 +57,16 @@ elseif($wpaicg_action == 'settings'){
 }
 elseif($wpaicg_action == 'builder'){
     include __DIR__.'/builder.php';
+}
+elseif($wpaicg_action == 'pdf') {
+    if (\WPAICG\wpaicg_util_core()->wpaicg_is_pro()) {
+        include WPAICG_PLUGIN_DIR . 'lib/views/pdf/index.php';
+    } else {
+        include __DIR__ . '/pdf.php';
+    }
+}
+elseif($wpaicg_action == 'troubleshoot'){
+    include __DIR__.'/troubleshoot.php';
 }
 ?>
 </div>

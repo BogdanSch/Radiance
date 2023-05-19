@@ -28,6 +28,7 @@ require_once __DIR__.'/classes/wpaicg_template.php';
 require_once __DIR__.'/classes/wpaicg_editor.php';
 require_once __DIR__.'/classes/wpaicg_elevenlabs.php';
 require_once __DIR__.'/classes/wpaicg_google_speech.php';
+require_once __DIR__.'/classes/wpaicg_troubleshoot.php';
 if(\WPAICG\wpaicg_util_core()->wpaicg_is_pro()){
     if(file_exists(__DIR__.'/lib/wpaicg__premium_only.php')){
         require_once __DIR__.'/lib/wpaicg__premium_only.php';

@@ -1,10 +1,6 @@
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
     <?php get_sidebar("footer") ?>
-    <!-- <div class="footer-newsletter">
-        <div class="container">
-        </div>
-    </div> -->
     <div class="footer-top">
         <div class="container">
             <div class="row gy-4">
@@ -13,7 +9,7 @@
                         <img src="<?php bloginfo('template_directory') ?>/assets/img/logo.png" alt="">
                         <span>FlexStart</span>
                     </a>
-                    <p>FlexStart is the theme based on bootstrap and developed by Bohdan Shcherbak</p>
+                    <p>FlexStart is the theme based on bootstrap and modified for Wordpress by Bohdan Shcherbak</p>
                     <div class="social-links mt-3">
                         <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
                         <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -23,13 +19,18 @@
                 </div>
                 <div class="col-lg-2 col-6 footer-links">
                     <h4>Useful Links</h4>
-                    <ul>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
-                    </ul>
+                    <?php
+                    if (has_nav_menu('footer')) {
+                        wp_nav_menu([
+                            'theme_location' => 'footer',
+                            'container' => false,
+                            'menu_class' => 'menu',
+                            'fallback_cb' => false,
+                            'depth' => 2,
+                            'walker' => new Radiance_Nav_Footer_Walker(),
+                        ]);
+                    }
+                    ?>
                 </div>
 
                 <div class="col-lg-2 col-6 footer-links">

@@ -25,3 +25,8 @@ form.search-form{
 	display: flex;
 }
 /* Search - End */
+/* Blog - Start */
+.blog{
+	padding: 0 !important;
+}
+/* Blog - End */

@@ -77,5 +77,6 @@
   "greeting_proffesion_content": "AI 비서처럼 대화하십시오. 제공된 컨텍스트를 사용하여 질문에 가능한 정확하게 대답하십시오. 톤: %s 직업: %s 현재 컨텍스트: %s",
   "greeting_content": "AI 비서처럼 대화하십시오. 제공된 컨텍스트를 사용하여 질문에 가능한 정확하게 대답하십시오. 톤: %s 현재 컨텍스트: %s",
   "greeting_proffesion_content_extra": "추가 컨텍스트: %s",
-  "greeting_content_extra": "추가 컨텍스트: %s"
+  "greeting_content_extra": "추가 컨텍스트: %s",
+  "question_prompt": "이 텍스트에 대해 한국어로 3가지 질문을 해주세요: %s"
 }

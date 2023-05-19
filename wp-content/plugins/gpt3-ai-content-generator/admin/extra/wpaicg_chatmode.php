@@ -23,13 +23,24 @@ if($checkRole){
         if(empty($wpaicg_action)){
             $wpaicg_action = 'shortcode';
         }
-        \WPAICG\wpaicg_util_core()->wpaicg_tabs('wpaicg_chatgpt', array(
+        $menus = array(
             'shortcode' => esc_html__('Shortcode','gpt3-ai-content-generator'),
             'widget' => esc_html__('Widget','gpt3-ai-content-generator'),
             'bots' => esc_html__('Chat Bots','gpt3-ai-content-generator'),
             'logs' => esc_html__('Logs','gpt3-ai-content-generator'),
             'settings' => esc_html__('Settings','gpt3-ai-content-generator')
-        ), $wpaicg_action);
+        );
+        if(\WPAICG\wpaicg_util_core()->wpaicg_is_pro()){
+            $new_menus = array();
+            foreach ($menus as $key=>$menu){
+                $new_menus[$key] = $menu;
+                if($key == 'bots'){
+                    $new_menus['pdf'] = esc_html__('PDF','gpt3-ai-content-generator');
+                }
+            }
+            $menus = $new_menus;
+        }
+        \WPAICG\wpaicg_util_core()->wpaicg_tabs('wpaicg_chatgpt',$menus , $wpaicg_action);
         if(!$wpaicg_action || $wpaicg_action == 'shortcode'){
             $wpaicg_action = '';
         }
@@ -48,6 +59,8 @@ if($checkRole){
                 include __DIR__.'/wpaicg_chatlog.php';
             elseif($wpaicg_action == 'settings'):
                 include __DIR__.'/wpaicg_chat_settings.php';
+            elseif($wpaicg_action == 'pdf'):
+                include WPAICG_PLUGIN_DIR.'lib/views/chat/embeddings.php';
             endif;
             ?>
         </div>

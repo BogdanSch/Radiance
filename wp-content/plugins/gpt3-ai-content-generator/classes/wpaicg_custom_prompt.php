@@ -91,6 +91,7 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Custom_Prompt' ) ) {
         public function generator()
         {
             global  $wpdb ;
+            update_option( '_wpaicg_cron_added', time() );
             $sql = "SELECT * FROM " . $wpdb->posts . " WHERE post_type='wpaicg_bulk' AND post_status='pending' ORDER BY post_date ASC";
             $wpaicg_single = $wpdb->get_row( $sql );
             update_option( '_wpaicg_crojob_bulk_last_time', time() );
@@ -324,6 +325,16 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Custom_Prompt' ) ) {
                                         'ID'          => $wpaicg_single->ID,
                                         'post_status' => 'publish',
                                     ));
+                                    /*Save Last Content*/
+                                    if($wpaicg_single->post_mime_type == 'sheets'){
+                                        update_option('wpaicg_cronjob_sheets_content',time());
+                                    }
+                                    elseif($wpaicg_single->post_mime_type == 'rss'){
+                                        update_option('wpaicg_cronjob_rss_content',time());
+                                    }
+                                    else{
+                                        update_option('wpaicg_cronjob_bulk_content',time());
+                                    }
                                 }
 
                             }

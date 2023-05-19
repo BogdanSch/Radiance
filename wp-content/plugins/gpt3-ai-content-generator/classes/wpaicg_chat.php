@@ -226,6 +226,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                         'embedding' =>  false,
                         'embedding_type' =>  false,
                         'embedding_top' =>  false,
+                        'embedding_index' => '',
                         'no_answer' => '',
                         'fontsize' => 13,
                         'fontcolor' => '#fff',
@@ -282,6 +283,9 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                     $wpaicg_chat_best_of = isset($wpaicg_settings['best_of']) && !empty($wpaicg_settings['best_of']) ? $wpaicg_settings['best_of'] :$wpaicg_chat_best_of;
                     $wpaicg_chat_frequency_penalty = isset($wpaicg_settings['frequency_penalty']) && !empty($wpaicg_settings['frequency_penalty']) ? $wpaicg_settings['frequency_penalty'] :$wpaicg_chat_frequency_penalty;
                     $wpaicg_chat_presence_penalty = isset($wpaicg_settings['presence_penalty']) && !empty($wpaicg_settings['presence_penalty']) ? $wpaicg_settings['presence_penalty'] :$wpaicg_chat_presence_penalty;
+                    if(isset($wpaicg_settings['embedding_index']) && !empty($wpaicg_settings['embedding_index'])){
+                        $wpaicg_pinecone_environment = $wpaicg_settings['embedding_index'];
+                    }
                     if(is_user_logged_in() && $wpaicg_settings['user_limited'] && $wpaicg_settings['user_tokens'] > 0){
                         $wpaicg_limited_tokens = true;
                         $wpaicg_limited_tokens_number = $wpaicg_settings['user_tokens'];
@@ -380,6 +384,9 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                         $wpaicg_moderation_model = $wpaicg_chat_pro->model($wpaicg_chat_widget);
                         $wpaicg_moderation_notice = $wpaicg_chat_pro->notice($wpaicg_chat_widget);
                     }
+                    if(isset($wpaicg_chat_widget['embedding_index']) && !empty($wpaicg_chat_widget['embedding_index'])){
+                        $wpaicg_pinecone_environment = $wpaicg_chat_widget['embedding_index'];
+                    }
                 }
                 if(isset($_REQUEST['bot_id']) && !empty($_REQUEST['bot_id'])){
                     $wpaicg_bot = get_post(sanitize_text_field($_REQUEST['bot_id']));
@@ -457,6 +464,9 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                             $wpaicg_moderation_notice = $wpaicg_chat_pro->notice($wpaicg_chat_widget);
                         }
                         $wpaicg_chat_source = $wpaicg_bot_type.'ID: '.$wpaicg_bot->ID;
+                        if(isset($wpaicg_chat_widget['embedding_index']) && !empty($wpaicg_chat_widget['embedding_index'])){
+                            $wpaicg_pinecone_environment = $wpaicg_chat_widget['embedding_index'];
+                        }
                     }
                 }
                 if(!is_user_logged_in()){
@@ -575,28 +585,35 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                 $wpaicg_embedding_content = '';
                 if($wpaicg_chat_embedding){
                     /*Using embeddings only*/
-                    $wpaicg_embeddings_result = $this->wpaicg_embeddings_result($open_ai,$wpaicg_pinecone_api, $wpaicg_pinecone_environment, $wpaicg_message, $wpaicg_chat_embedding_top);
-                    if(!$wpaicg_chat_embedding_type || empty($wpaicg_chat_embedding_type)){
-                        $wpaicg_result['status'] = $wpaicg_embeddings_result['status'];
-                        $wpaicg_result['data'] = empty($wpaicg_embeddings_result['data']) ? $wpaicg_chat_no_answer : $wpaicg_embeddings_result['data'];
-                        $wpaicg_result['msg'] = empty($wpaicg_embeddings_result['data']) ? $wpaicg_chat_no_answer : $wpaicg_embeddings_result['data'];
-                        $this->wpaicg_save_chat_log($wpaicg_chat_log_id, $wpaicg_chat_log_data, 'ai',$wpaicg_result['data']);
-                        wp_send_json($wpaicg_result);
-                        exit;
+                    $namespace = false;
+                    if(isset($_REQUEST['namespace']) && !empty($_REQUEST['namespace'])){
+                        $namespace = sanitize_text_field($_REQUEST['namespace']);
                     }
-                    else{
-                        $wpaicg_result['status'] = $wpaicg_embeddings_result['status'];
-                        if($wpaicg_result['status'] == 'error'){
+                    $wpaicg_embeddings_result = $this->wpaicg_embeddings_result($open_ai,$wpaicg_pinecone_api, $wpaicg_pinecone_environment, $wpaicg_message, $wpaicg_chat_embedding_top,$namespace);
+                    if($wpaicg_embeddings_result['status'] == 'empty'){
+                        $wpaicg_chat_with_embedding = false;
+                    }
+                    else {
+                        if (!$wpaicg_chat_embedding_type || empty($wpaicg_chat_embedding_type)) {
+                            $wpaicg_result['status'] = $wpaicg_embeddings_result['status'];
+                            $wpaicg_result['data'] = empty($wpaicg_embeddings_result['data']) ? $wpaicg_chat_no_answer : $wpaicg_embeddings_result['data'];
                             $wpaicg_result['msg'] = empty($wpaicg_embeddings_result['data']) ? $wpaicg_chat_no_answer : $wpaicg_embeddings_result['data'];
-                            $this->wpaicg_save_chat_log($wpaicg_chat_log_id, $wpaicg_chat_log_data, 'ai',$wpaicg_result['data']);
+                            $this->wpaicg_save_chat_log($wpaicg_chat_log_id, $wpaicg_chat_log_data, 'ai', $wpaicg_result['data']);
                             wp_send_json($wpaicg_result);
                             exit;
+                        } else {
+                            $wpaicg_result['status'] = $wpaicg_embeddings_result['status'];
+                            if ($wpaicg_result['status'] == 'error') {
+                                $wpaicg_result['msg'] = empty($wpaicg_embeddings_result['data']) ? $wpaicg_chat_no_answer : $wpaicg_embeddings_result['data'];
+                                $this->wpaicg_save_chat_log($wpaicg_chat_log_id, $wpaicg_chat_log_data, 'ai', $wpaicg_result['data']);
+                                wp_send_json($wpaicg_result);
+                                exit;
+                            } else {
+                                $wpaicg_total_tokens += $wpaicg_embeddings_result['tokens']; // Add embedding tokens
+                                $wpaicg_embedding_content = $wpaicg_embeddings_result['data'];
+                            }
+                            $wpaicg_chat_with_embedding = true;
                         }
-                        else{
-                            $wpaicg_total_tokens += $wpaicg_embeddings_result['tokens']; // Add embedding tokens
-                            $wpaicg_embedding_content = $wpaicg_embeddings_result['data'];
-                        }
-                        $wpaicg_chat_with_embedding = true;
                     }
                 }
                 if ($wpaicg_chat_remember_conversation == 'yes') {
@@ -781,7 +798,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                         if(is_user_logged_in() && $wpaicg_limited_tokens){
                             WPAICG_Account::get_instance()->save_log('chat', $wpaicg_total_tokens);
                         }
-//                        $wpaicg_result['prompt'] = $prompt;
+                        //$wpaicg_result['prompt'] = $prompt;
                         $wpaicg_result['status'] = 'success';
                         $wpaicg_result['log'] = $wpaicg_chat_log_id;
                         //$wpaicg_result['data_request'] = $wpaicg_data_request;
@@ -876,7 +893,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
             }
         }
 
-        public function wpaicg_embeddings_result($open_ai,$wpaicg_pinecone_api,$wpaicg_pinecone_environment,$wpaicg_message, $wpaicg_chat_embedding_top)
+        public function wpaicg_embeddings_result($open_ai,$wpaicg_pinecone_api,$wpaicg_pinecone_environment,$wpaicg_message, $wpaicg_chat_embedding_top, $namespace = false)
         {
             $result = array('status' => 'error','data' => '');
             if(!empty($wpaicg_pinecone_api) && !empty($wpaicg_pinecone_environment) ) {
@@ -895,12 +912,16 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                             'Content-Type' => 'application/json',
                             'Api-Key' => $wpaicg_pinecone_api
                         );
+                        $pinecone_body = array(
+                            'vector' => $embedding,
+                            'topK' => $wpaicg_chat_embedding_top
+                        );
+                        if($namespace){
+                            $pinecone_body['namespace'] = $namespace;
+                        }
                         $response = wp_remote_post('https://' . $wpaicg_pinecone_environment . '/query', array(
                             'headers' => $headers,
-                            'body' => json_encode(array(
-                                'vector' => $embedding,
-                                'topK' => $wpaicg_chat_embedding_top
-                            ))
+                            'body' => json_encode($pinecone_body)
                         ));
                         if (is_wp_error($response)) {
                             $result['data'] = esc_html($response->get_error_message());
@@ -919,6 +940,9 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                                     $result['data'] = $data;
                                     $result['status'] = 'success';
                                 }
+                                else{
+                                    $result['status'] = 'empty';
+                                }
                             }
                             else{
                                 $result['data'] = esc_html__('Pinecone return empty','gpt3-ai-content-generator');
@@ -928,7 +952,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                 }
             }
             else{
-                $wpaicg_result['data'] = esc_html__('Missing PineCone Settings','gpt3-ai-content-generator');
+                $result['data'] = esc_html__('Missing PineCone Settings','gpt3-ai-content-generator');
             }
             return $result;
         }
