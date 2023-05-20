@@ -1,17 +1,4 @@
 <?php
-/*
-Plugin Name: Breadcrumbs
-Plugin URI: https://example.com/
-Description: Breadcrumbs, navigation scheme
-Version: 1.0
-Author: Bohdan Shcherbak
-Author URI: https://example.com/
-License: GPL2
-*/
-if (!function_exists('add_action')) {
-    echo "Hi there! I'm just a plugin, no much I can do when called directly.";
-    exit;
-}
 function breadcrumbs()
 {
     if (!is_front_page()) {

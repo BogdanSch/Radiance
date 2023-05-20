@@ -26,7 +26,7 @@
         <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
             <a href="<?php _e(site_url()); ?>" class="logo d-flex align-items-center">
                 <img src="<?php bloginfo('template_directory') ?>/assets/img/logo.png" alt="logo">
-                <span>FlexStart</span>
+                <span><?php _e(get_bloginfo("title")) ?></span>
             </a>
             <nav id="navbar" class="navbar">
                 <?php

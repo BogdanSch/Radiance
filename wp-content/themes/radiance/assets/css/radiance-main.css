@@ -17,6 +17,9 @@ img{
 .wp-block-button:hover a{
 	color: #fff;
 }
+body.blog{
+	padding: 0 !important;
+}
 /* General - End */
 /* Pagination - Start */
 .page-link:hover{
@@ -30,6 +33,6 @@ form.search-form{
 /* Search - End */
 /* Blog - Start */
 .blog{
-	padding: 0 !important;
+	padding: 60px 0 !important;
 }
 /* Blog - End */
