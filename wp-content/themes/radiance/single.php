@@ -44,37 +44,30 @@
                                 <div class="tags mb-4">
                                     <?php the_tags('', ', '); ?>
                                 </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        <strong>
-                                            About
-                                            <a href="<?php echo $author_URL; ?>"><?php the_author(); ?></a>
-                                        </strong>
-                                    </div>
-                                    <div class="card-body justify-content-space-between">
-                                        <div class="author-image">
-                                            <?php echo get_avatar($author_ID, 90, '', false, ['class' => 'img-circle']); ?>
-                                        </div>
-                                        <p>
-                                            <?php echo nl2br(get_the_author_meta('description')); ?>
-                                        </p>
-                                    </div>
-                                </div>
+
                                 <?php
                             }
-                        }
-                        ?>
+                        } ?>
                     </article>
-                    <div class="blog-pagination">
-                        <ul class="pagination justify-content-center mb-4">
-                            <li>
-                                <?php previous_posts_link("← Older"); ?>
-                            </li>
-                            <li>
-                                <?php next_posts_link("Newer →"); ?>
-                            </li>
-                        </ul>
+                    <div class="blog-author d-flex align-items-center">
+                        <div class="author-image">
+                            <?php echo get_avatar($author_ID, 90, '', false, ['class' => 'img-circle']); ?>
+                        </div>
+                        <div class="blog-author__body">
+                            <strong>
+                                About
+                                <a href="<?php echo $author_URL; ?>"><?php the_author(); ?></a>
+                            </strong>
+                            <p>
+                                <?php echo nl2br(get_the_author_meta('description')); ?>
+                            </p>
+                        </div>
                     </div>
+                    <?php
+                    if (comments_open() || get_comments_number()) {
+                        comments_template();
+                    }
+                    ?>
                 </div>
                 <?php get_sidebar(); ?>
             </div>
