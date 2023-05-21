@@ -5,7 +5,7 @@
  */
 get_header(); ?>
 <main id="main">
-    <section class="content">
+    <section class="content" data-aos="fade-up" data-aos-duration="1000">
         <div class="container">
             <?php
             if (have_posts()) {

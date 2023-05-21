@@ -21,6 +21,18 @@ body.blog{
 	padding: 0 !important;
 }
 /* General - End */
+/* Categories list - Start */
+.wp-block-categories-list{
+	list-style: none;
+}
+.wp-block-categories-list a{
+	color: #012970;
+	transition: .3s;
+}
+.wp-block-categories-list a:hover{
+	color: #4154f1;
+}
+/* Categories list - End */
 /* Pagination - Start */
 .page-link:hover{
 	background-color: #002df7;

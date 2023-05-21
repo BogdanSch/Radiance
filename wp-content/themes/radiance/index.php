@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 
 <main id="main" class="main">
-    <section class="content">
+    <section class="content" data-aos="fade-up" data-aos-duration="1000">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mt-2">

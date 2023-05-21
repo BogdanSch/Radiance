@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 <main class="main">
-    <section class="blog" id="blog">
+    <section class="blog" id="blog" data-aos="fade-up" data-aos-duration="1000">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

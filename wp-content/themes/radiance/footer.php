@@ -1,12 +1,11 @@
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
+<footer id="footer" class="footer" data-aos="fade-up" data-aos-duration="1000">
     <?php get_sidebar("footer") ?>
     <div class="footer-top">
         <div class="container">
             <div class="row gy-4">
                 <div class="col-lg-5 col-md-12 footer-info">
                     <a href="index.html" class="logo d-flex align-items-center">
-                        <img src="<?php bloginfo('template_directory') ?>/assets/img/logo.png" alt="">
+                        <img src="<?php bloginfo('template_directory') ?>/assets/img/logo.png" alt="logo">
                         <span>FlexStart</span>
                     </a>
                     <p>FlexStart is the theme based on bootstrap and modified for Wordpress by Bohdan Shcherbak</p>

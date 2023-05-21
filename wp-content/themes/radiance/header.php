@@ -21,7 +21,7 @@
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php body_class(); ?> data-aos-easing="ease-in-out" data-aos-duration="1000" data-aos-delay="0">
     <header id="header" class="header fixed-top">
         <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
             <a href="<?php _e(site_url()); ?>" class="logo d-flex align-items-center">

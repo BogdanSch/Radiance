@@ -1,10 +1,10 @@
 <?php get_header(); ?>
 <main id="main">
     <section id="blog" class="blog">
-        <div class="container aos-init aos-animate" data-aos="fade-up">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-8 entries">
-                    <article class="entry entry-single">
+                    <article class="entry entry-single" data-aos="fade-up" data-aos-duration="1000">
                         <?php if (have_posts()) {
                             while (have_posts()) {
                                 the_post();
@@ -49,7 +49,7 @@
                             }
                         } ?>
                     </article>
-                    <div class="blog-author d-flex align-items-center">
+                    <div class="blog-author d-flex align-items-center" data-aos="fade-up" data-aos-duration="1000">
                         <div class="author-image">
                             <?php echo get_avatar($author_ID, 90, '', false, ['class' => 'img-circle']); ?>
                         </div>

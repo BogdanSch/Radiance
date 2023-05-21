@@ -1,4 +1,4 @@
-<article class="entry">
+<article class="entry" data-aos="fade-up" data-aos-duration="1000">
     <div class="entry-img">
         <?php
         if (has_post_thumbnail()) {

@@ -2,7 +2,7 @@
     return;
 }
 ?>
-<div class="blog-comments">
+<div class="blog-comments" data-aos="fade-up" data-aos-duration="1000">
     <?php
     $comments_count = get_comments_number();
     _e('<h4 class="comments-count">' . $comments_count . ' Comments</h4>');
