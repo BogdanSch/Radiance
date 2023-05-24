@@ -9,10 +9,12 @@ include get_theme_file_path('includes/custom-nav-walker.php');
 include get_theme_file_path('includes/custom-pagination-links.php');
 include get_theme_file_path('includes/custom-nav-footer-walker.php');
 include get_theme_file_path('includes/breadcrumbs.php');
+include get_theme_file_path('includes/social-links.php');
 // Hooks
 add_action('wp_enqueue_scripts', 'radiance_enqueue');
 add_action('widgets_init', 'radiance_widgets');
 add_action('after_setup_theme', 'radiance_setup_theme');
+add_action('customize_register', 'radiance_social_register');
 add_filter('next_posts_link_attributes', 'posts_link_attributes');
 add_filter('previous_posts_link_attributes', 'posts_link_attributes');
 // Shortcodes

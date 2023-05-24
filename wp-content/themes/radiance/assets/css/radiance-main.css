@@ -3,48 +3,59 @@
 	width: 7px;
 	background-color: rgb(224, 224, 224);
 }
+
 ::-webkit-scrollbar-thumb {
 	background: rgb(143, 143, 143);
 	border-radius: 50px;
 }
-ul{
+
+ul {
 	padding-left: 0;
 }
-img{
+
+img {
 	max-width: 100%;
 	object-fit: cover;
 }
-.wp-block-button:hover a{
+
+.wp-block-button:hover a {
 	color: #fff;
 }
-body.blog{
+
+body.blog {
 	padding: 0 !important;
 }
+
 /* General - End */
 /* Categories list - Start */
-.wp-block-categories-list{
+.wp-block-categories-list {
 	list-style: none;
 }
-.wp-block-categories-list a{
+
+.wp-block-categories-list a {
 	color: #012970;
 	transition: .3s;
 }
-.wp-block-categories-list a:hover{
+
+.wp-block-categories-list a:hover {
 	color: #4154f1;
 }
+
 /* Categories list - End */
 /* Pagination - Start */
-.page-link:hover{
+.page-link:hover {
 	background-color: #002df7;
 }
+
 /* Pagination - End */
 /* Search - Start */
-form.search-form{
+form.search-form {
 	display: flex;
 }
+
 /* Search - End */
 /* Blog - Start */
-.blog{
+.blog {
 	padding: 60px 0 !important;
 }
 /* Blog - End */
