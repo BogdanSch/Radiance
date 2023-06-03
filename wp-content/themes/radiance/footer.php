@@ -1,3 +1,4 @@
+</main>
 <footer id="footer" class="footer" data-aos="fade-up" data-aos-duration="1000">
     <?php get_sidebar("footer") ?>
     <div class="footer-top">
