@@ -14,14 +14,13 @@
                         $social_links = get_theme_mod('social_media_links');
                         if ($social_links) {
                             foreach ($social_links as $social_link) {
-                                if (!empty($link)) {
-                                    $icon_class = 'fa fa-' . $platform;
-                                    echo '<a href="' . esc_url($link) . '"><i class="' . esc_attr($icon_class) . '"></i></a>';
+                                if (!empty($social_link)) {
+                                    $platform = parse_url($social_link, PHP_URL_HOST); // Extract the current platform from the full link
+                                    $platform = str_replace('.com', '', $platform);
+                                    $icon_class = 'bi bi-' . $platform;
+                                    _e('<a href="' . esc_url($social_link) . '" class="'.$platform.'"><i class="' . esc_attr($icon_class) . '"></i></a>');
                                 }
                             }
-                        }
-                        else{
-                            print_r($social_links);
                         }
                         ?>
                         <!-- <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
