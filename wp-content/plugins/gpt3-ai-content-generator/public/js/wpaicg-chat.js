@@ -457,7 +457,7 @@ function wpaicgChatInit() {
             wpaicgData.append('audio', blob, 'wpaicg-chat-recording.wav');
         } else if (wpaicg_question !== '') {
             wpaicgData.append('message', wpaicg_question);
-            wpaicgMessage += wpaicg_question;
+            wpaicgMessage += wpaicg_question.replace(/\n/g,'<br>');
         }
         wpaicgData.append('bot_id',wpaicg_bot_id);
         wpaicgMessage += '</li>';
@@ -677,7 +677,7 @@ function wpaicgChatInit() {
     if (wpaicgChatTyping && wpaicgChatTyping.length) {
         for (let i = 0; i < wpaicgChatTyping.length; i++) {
             wpaicgChatTyping[i].addEventListener('keyup', function (event) {
-                if (event.which === 13 || event.keyCode === 13) {
+                if ((event.which === 13 || event.keyCode === 13) && !event.shiftKey) {
                     let parentChat = wpaicgChatTyping[i].closest('.wpaicg-chatbox');
                     let chatTyping = parentChat.querySelectorAll('.wpaicg-chatbox-typing')[0];
                     wpaicgSendChatMessage(parentChat, chatTyping, 'widget');
@@ -688,7 +688,7 @@ function wpaicgChatInit() {
     if (wpaicgShortcodeTyping && wpaicgShortcodeTyping.length) {
         for (let i = 0; i < wpaicgShortcodeTyping.length; i++) {
             wpaicgShortcodeTyping[i].addEventListener('keyup', function (event) {
-                if (event.which === 13 || event.keyCode === 13) {
+                if ((event.which === 13 || event.keyCode === 13) && !event.shiftKey) {
                     let parentChat = wpaicgShortcodeTyping[i].closest('.wpaicg-chat-shortcode');
                     let chatTyping = parentChat.querySelectorAll('.wpaicg-chat-shortcode-typing')[0];
                     wpaicgSendChatMessage(parentChat, chatTyping, 'shortcode');

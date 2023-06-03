@@ -206,7 +206,7 @@ $wpaicg_pinecone_indexes = empty($wpaicg_pinecone_indexes) ? array() : json_deco
     .wpaicg_chat_widget_content .wpaicg-chat-message{
         color: <?php echo esc_html($wpaicg_chat_fontcolor)?>;
     }
-    .wpaicg_chat_widget_content input.wpaicg-chatbox-typing{
+    .wpaicg_chat_widget_content textarea.wpaicg-chatbox-typing{
         background-color: <?php echo esc_html($wpaicg_bg_text_field)?>;
         border-color: <?php echo esc_html($wpaicg_border_text_field)?>;
     }
@@ -222,7 +222,7 @@ $wpaicg_pinecone_indexes = empty($wpaicg_pinecone_indexes) ? array() : json_deco
         margin-top:2px;
         margin-bottom: 2px;
     }
-    .wpaicg_chat_widget_content input.wpaicg-chatbox-typing:focus{
+    .wpaicg_chat_widget_content textarea.wpaicg-chatbox-typing:focus{
         outline: none;
     }
     .wpaicg_chat_widget .wpaicg_toggle{

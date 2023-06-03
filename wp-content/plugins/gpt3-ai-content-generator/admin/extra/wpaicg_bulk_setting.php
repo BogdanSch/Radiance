@@ -66,6 +66,7 @@ if($success_save){
                     ?>
                 </select>
                 <?php echo esc_html__('minutes','gpt3-ai-content-generator')?>
+                <a href="https://docs.aipower.org/docs/AutoGPT/auto-content-writer/bulk-editor#auto-restart-failed-jobs" target="_blank">?</a>
             </td>
         </tr>
         <tr>
@@ -79,6 +80,7 @@ if($success_save){
                     ?>
                 </select>
                 <?php echo esc_html__('times','gpt3-ai-content-generator')?>
+                <a href="https://docs.aipower.org/docs/AutoGPT/auto-content-writer/bulk-editor#auto-restart-failed-jobs" target="_blank">?</a>
             </td>
         </tr>
         <tr>
@@ -90,6 +92,7 @@ if($success_save){
             <th><?php echo esc_html__('Enable Custom Prompt','gpt3-ai-content-generator')?></th>
             <td>
                 <label><input<?php echo $wpaicg_custom_prompt_enable ? ' checked':''?> class="wpaicg_custom_prompt_enable" type="checkbox" value="1" name="wpaicg_custom_prompt_enable"></label>
+                <a href="https://docs.aipower.org/docs/AutoGPT/auto-content-writer/bulk-editor#using-custom-prompt" target="_blank">?</a>
                 <div style="<?php echo $wpaicg_custom_prompt_enable ? '' : 'display:none'?>" class="wpaicg_custom_prompt_guide">
                     <h3><?php echo esc_html__('Best Practices and Tips','gpt3-ai-content-generator')?></h3>
                     <ol>
@@ -141,6 +144,7 @@ if($success_save){
             <th><?php echo esc_html__('Generate New Title','gpt3-ai-content-generator')?></th>
             <td>
                 <label><input<?php echo \WPAICG\wpaicg_util_core()->wpaicg_is_pro() ? '' : ' disabled'?><?php echo \WPAICG\wpaicg_util_core()->wpaicg_is_pro() && $wpaicg_rss_new_title ? ' checked':''?> class="wpaicg_rss_new_title" type="checkbox" value="1" name="wpaicg_rss_new_title"><?php echo !\WPAICG\wpaicg_util_core()->wpaicg_is_pro() ? esc_html__('Available in Pro','gpt3-ai-content-generator') : ''?></label>
+                <a href="https://docs.aipower.org/docs/AutoGPT/auto-content-writer/rss#generate-new-title" target="_blank">?</a>
             </td>
         </tr>
     </table>

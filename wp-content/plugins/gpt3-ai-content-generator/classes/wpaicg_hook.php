@@ -237,20 +237,20 @@ if(!class_exists('\\WPAICG\\WPAICG_Hook')) {
                     color: <?php echo esc_html($wpaicg_chat_fontcolor)?>;
                 }
                 .wpaicg_chat_widget_content .wpaicg-chatbox-type{
-                    <?php
-                    if($wpaicg_include_footer):
-                    ?>
+                <?php
+                if($wpaicg_include_footer):
+                ?>
                     padding: 5px 5px 0 5px;
-                    <?php
-                    endif;
-                    ?>
+                <?php
+                endif;
+                ?>
                     border-top: 0;
                     background: rgb(0 0 0 / 19%);
                 }
                 .wpaicg_chat_widget_content .wpaicg-chat-message{
                     color: <?php echo esc_html($wpaicg_chat_fontcolor)?>;
                 }
-                .wpaicg_chat_widget_content input.wpaicg-chatbox-typing{
+                .wpaicg_chat_widget_content textarea.wpaicg-chatbox-typing{
                     background-color: <?php echo esc_html($wpaicg_bg_text_field)?>;
                     border-color: <?php echo esc_html($wpaicg_border_text_field)?>;
                 }
@@ -266,7 +266,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Hook')) {
                     margin-top:2px;
                     margin-bottom: 2px;
                 }
-                .wpaicg_chat_widget_content input.wpaicg-chatbox-typing:focus{
+                .wpaicg_chat_widget_content textarea.wpaicg-chatbox-typing:focus{
                     outline: none;
                 }
                 .wpaicg_chat_widget .wpaicg_toggle{
@@ -329,7 +329,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Hook')) {
                     border-radius: 4px;
                     white-space: pre-wrap;
                 }
-                input.wpaicg-chat-shortcode-typing,input.wpaicg-chatbox-typing{
+                textarea.wpaicg-chat-shortcode-typing,textarea.wpaicg-chatbox-typing{
                     height: 30px;
                 }
                 .wpaicg_chat_widget_content .wpaicg-chatbox-content,.wpaicg-chat-shortcode-content{
@@ -358,6 +358,16 @@ if(!class_exists('\\WPAICG\\WPAICG_Hook')) {
                 .wpaicg_chatbox_line:after {
                     left: 0.5em;
                     margin-right: -50%;
+                }
+                .wpaicg-chat-shortcode-typing::-webkit-scrollbar,.wpaicg-chatbox-typing::-webkit-scrollbar{
+                    width: 5px
+                }
+                .wpaicg-chat-shortcode-typing::-webkit-scrollbar-track,.wpaicg-chatbox-typing::-webkit-scrollbar-track{
+                    -webkit-box-shadow:inset 0 0 6px rgba(0, 0, 0, 0.15);border-radius:5px;
+                }
+                .wpaicg-chat-shortcode-typing::-webkit-scrollbar-thumb,.wpaicg-chatbox-typing::-webkit-scrollbar-thumb{
+                    border-radius:5px;
+                    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.75);
                 }
             </style>
             <script>
@@ -592,6 +602,27 @@ if(!class_exists('\\WPAICG\\WPAICG_Hook')) {
                 .wpaicg_chatbox_line:after {
                     left: 0.5em;
                     margin-right: -50%;
+                }
+                .wpaicg-chat-shortcode-typing::-webkit-scrollbar,.wpaicg-chatbox-typing::-webkit-scrollbar{
+                    width: 5px
+                }
+                .wpaicg-chat-shortcode-typing::-webkit-scrollbar-track,.wpaicg-chatbox-typing::-webkit-scrollbar-track{
+                    -webkit-box-shadow:inset 0 0 6px rgba(0, 0, 0, 0.15);border-radius:5px;
+                }
+                .wpaicg-chat-shortcode-typing::-webkit-scrollbar-thumb,.wpaicg-chatbox-typing::-webkit-scrollbar-thumb{
+                    border-radius:5px;
+                    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.75);
+                }
+                .wpaicg-woocommerce-content-btn.button-primary{
+                    background: #d63638;
+                    border-color: #d63638;
+                }
+                .wpaicg-woocommerce-content-btn.button-primary:hover{
+                    background: #8d0000;
+                    border-color: #8d0000;
+                }
+                .wpcgai_form_row label{
+                    vertical-align: top;
                 }
             </style>
             <?php

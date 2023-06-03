@@ -138,7 +138,7 @@ foreach($roles->get_names() as $role => $name){
                             if(!$has_checked && in_array('wpaicg_'.$key.'_'.$key_role, $role_modules)){
                                 $has_checked = true;
                             }
-                            if(!\WPAICG\wpaicg_util_core()->wpaicg_is_pro() && ($key_role == 'google-sheets' || $key_role == 'pdf' || $key_role == 'rss' || ($key_role == 'pdf' && $key == 'embeddings'))){
+                            if(!\WPAICG\wpaicg_util_core()->wpaicg_is_pro() && ($key_role == 'google-sheets' || $key_role == 'tweet' || $key_role == 'pdf' || $key_role == 'rss' || ($key_role == 'pdf' && $key == 'embeddings'))){
                                 ?>
                                 <div class="wpaicg-grid-1">
                                     <div class="wpaicg-role-item">

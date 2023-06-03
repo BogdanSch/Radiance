@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             echo '<option'.($wpaicg_ai_model == 'gpt-4-32k' ? ' selected':'').' value="gpt-4-32k">gpt-4-32k ('.esc_html__('Limited Beta','gpt3-ai-content-generator').')</option>';
             ?>
         </select>
-        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/model-configuration" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/gpt-models#model-configuration" target="_blank">?</a>
         <a class="wpaicg_sync_finetune" href="javascript:void(0)"><?php echo esc_html__('Sync','gpt3-ai-content-generator')?></a>
     </div>
     <?php
@@ -37,7 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             }
             ?>
         </select>
-        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/model-configuration#rate-limit-buffer" target="_blank">?</a>
+        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/gpt-models#rate-limit-buffer" target="_blank">?</a>
     </div>
 
     <div class="wpcgai_form_row">

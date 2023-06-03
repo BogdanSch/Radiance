@@ -1,5 +1,5 @@
 <?php
-function breadcrumbs()
+function breadcrumbs_radiance()
 {
     if (!is_front_page()) {
         echo '<section class="breadcrumbs">
@@ -39,4 +39,4 @@ function breadcrumbs()
         echo '</ol></div></section>';
     }
 }
-add_action('wp_head', 'breadcrumbs');
+add_action('wp_head', 'breadcrumbs_radiance');

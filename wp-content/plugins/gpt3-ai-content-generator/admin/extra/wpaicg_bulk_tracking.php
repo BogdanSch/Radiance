@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 if(isset($_GET['sub_action']) && sanitize_text_field($_GET['sub_action']) == 'delete' && isset($_GET['id']) && !empty($_GET['id'])){
     $wpaicg_delete_id = sanitize_text_field($_GET['id']);
-    if(!wp_verify_nonce($_GET['_wpnonce'], 'wpaicg_delete_'.$wpaicg_delete_id)){
+    if(!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'wpaicg_delete_'.$wpaicg_delete_id)){
         die(WPAICG_NONCE_ERROR);
     }
     $wpdb->delete($wpdb->posts,array('post_type' => 'wpaicg_bulk', 'ID' => $wpaicg_delete_id));

@@ -4,11 +4,11 @@ Tags: chatgpt, gpt, openai, ai, gpt4, chatbot, speech, whisper, image generator,
 Requires at least: 5.0.0
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable tag: 1.7.6
+Stable tag: 1.7.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
-ChatGPT, Content Writer, Auto Content Writer, AutoGPT, PDF Chat, ChatPDF, Chatbot, Image Generator, AI Assistant, WooCommerce Product Writer, Audio Converter, Speech-to-Post, SEO optimizer, AI Training, Embeddings, Title Suggestions, FAQ/Knowledgebase builder and hundreds of ready to use prompts and forms.
+ChatGPT, Content Writer, Auto Content Writer, AutoGPT, PDF Chat, ChatPDF, Chatbot, Twitter bot, Image Generator, AI Assistant, WooCommerce Product Writer, Audio Converter, Speech-to-Post, SEO optimizer, AI Training, Embeddings, Title Suggestions, FAQ/Knowledgebase builder and hundreds of ready to use prompts and forms.
  
 == Description ==
 
@@ -46,6 +46,8 @@ Please read documentation here: [https://docs.aipower.org/](https://docs.aipower
 * Role Manager
 * Token Sale
 * Comment Replier
+* Twitter bot
+* WooCommerce Bulk Writer
 * 40 langauge support
 
 == How to Generate OpenAI API Key ==
@@ -138,6 +140,7 @@ https://www.youtube.com/watch?v=hetYOlR-ms4
 * ElevenLabs Text to Speech
 * Google Text to Speech
 * Pixabay integration
+* WooCommerce Bulk Writer
 * [PREMIUM] PDF chat.
 * [PREMIUM] Moderation for chat bot.
 * [PREMIUM] Ability to add keywords
@@ -242,6 +245,72 @@ The PHP max execution time setting determines the maximum amount of time a PHP s
 This message is coming from OpenAI, not from our plugin. It means that you have reached the limit of your OpenAI API quota, which is determined by your plan and billing details. Our plugin works on a "bring your own API key" model, serving as a bridge between WordPress and OpenAI, so the issue is not related to the plugin itself. To resolve this issue, you'll need to check your OpenAI account and ensure that you have enough quota for your needs, or upgrade your plan if necessary.
 
 == Changelog ==
+
+= 1.7.16 =
+
+- Fixed authenticated option issue.
+- Fixed nonce verification issues.
+
+= 1.7.15 =
+
+**New**
+
+The WooCommerce Bulk Writer is here! You can now generate content for your products in bulk with a single click. See the documentationm [here](https://docs.aipower.org/docs/woocommerce#bulk-product-writer).
+
+**Improvement**
+
+You can now use **Shift + Enter** to create a line break in the chat bot.
+
+= 1.7.14 =
+
+Added documentation links for AutoGPT.
+
+= 1.7.13 =
+
+Fixed some broken links.
+
+= 1.7.12 =
+
+Added search functionality for Embeddings.
+
+Now, you can quickly access your embeddings through a search box found under the **Embeddings - Entries** and **Embeddings - Index Builder** sections.
+
+This update allows for more efficient navigation and management of your embeddings.
+
+= 1.7.11 =
+
+We've made an update to the chat bot's message input. Instead of using a text field, we have now transitioned to a textarea.
+
+This change was made for two main reasons:
+
+- The text field doesn't display a carriage return.
+- The textarea allows for the copying and pasting of large text amounts, maintaining line breaks effectively.
+
+P.S.: You might need to clear your cache for the changes to take effect.
+
+= 1.7.10 =
+
+Fixed an issue in AutoGPT - Queue tab.
+
+= 1.7.9 =
+
+Update links in the License Activation UI.
+
+= 1.7.8 =
+
+- Fixed an issue where OpenAI was not providing a clear error message when an incorrect API key was entered.
+
+= 1.7.7 =
+
+**New (Pro only)**
+
+Twitter Social Poster feature - Now automate your Twitter posts with Blog2Tweet and Twitter Writer. Define your keywords and time interval and let GPT writes your tweets.
+
+Documentation [here](https://docs.aipower.org/docs/AutoGPT/social-poster/twitter).
+
+**Enhancement**
+
+Improved keyword extraction for Pixabay and Pexels.
 
 = 1.7.6 =
 

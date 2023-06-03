@@ -18,11 +18,21 @@ if(isset($_GET['sub_action']) && sanitize_text_field($_GET['sub_action']) == 're
     </div>
 </div>
 <div class="tablenav top">
-    <div class="alignleft actions bulkactions">
-        <a href="<?php echo admin_url('admin.php?page=wpaicg_embeddings&action=builder')?>"><?php echo esc_html__('Indexed','gpt3-ai-content-generator')?> (<?php echo esc_html($wpaicg_total_indexed)?>)</a> |
-        <?php echo esc_html__('Failed','gpt3-ai-content-generator')?> (<?php echo esc_html(count($wpaicg_total_errors))?>) |
-        <a href="<?php echo admin_url('admin.php?page=wpaicg_embeddings&action=builder&sub=skip')?>"><?php echo esc_html__('Skipped','gpt3-ai-content-generator')?> (<?php echo esc_html(count($wpaicg_total_skips))?>)</a>
-    </div>
+    <form action="" method="get">
+        <div class="alignleft actions bulkactions">
+            <a href="<?php echo admin_url('admin.php?page=wpaicg_embeddings&action=builder')?>"><?php echo esc_html__('Indexed','gpt3-ai-content-generator')?> (<?php echo esc_html($wpaicg_total_indexed)?>)</a> |
+            <?php echo esc_html__('Failed','gpt3-ai-content-generator')?> (<?php echo esc_html(count($wpaicg_total_errors))?>) |
+            <a href="<?php echo admin_url('admin.php?page=wpaicg_embeddings&action=builder&sub=skip')?>"><?php echo esc_html__('Skipped','gpt3-ai-content-generator')?> (<?php echo esc_html(count($wpaicg_total_skips))?>)</a>
+        </div>
+        <p class="search-box">
+            <input type="hidden" name="page" value="wpaicg_embeddings">
+            <input type="hidden" name="action" value="builder">
+            <input type="hidden" name="sub" value="errors">
+            <?php wp_nonce_field('wpaicg_chatlogs_search_nonce', 'wpaicg_nonce'); ?>
+            <input value="<?php echo esc_html($search)?>" name="wsearch" type="text" placeholder="<?php echo esc_html__('Type for search','gpt3-ai-content-generator')?>">
+            <button class="button button-primary"><?php echo esc_html__('Search','gpt3-ai-content-generator')?></button>
+        </p>
+    </form>
 </div>
 <table class="wp-list-table widefat fixed striped table-view-list posts">
     <thead>

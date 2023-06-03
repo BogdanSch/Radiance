@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-if (isset($_GET['wpaicg_nonce']) && !wp_verify_nonce($_GET['wpaicg_nonce'], 'wpaicg_audiolog_search_nonce')) {
+if (isset($_GET['search']) && !empty($_GET['search']) && !wp_verify_nonce($_GET['wpaicg_nonce'], 'wpaicg_audiolog_search_nonce')) {
     die(WPAICG_NONCE_ERROR);
 }
 if(isset($_GET['audio_delete']) && !empty($_GET['audio_delete'])){

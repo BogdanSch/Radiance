@@ -21,6 +21,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     }
     ?>
 </div>
+<div class="wpaicg_agent_guide_tweet" style="display: none">
+    <?php
+    if(\WPAICG\wpaicg_util_core()->wpaicg_is_pro()){
+        include WPAICG_LIBS_DIR.'views/twitter/alert.php';
+    }
+    else{
+        echo esc_html__('You need to upgrade to Pro to use this agent','gpt3-ai-content-generator');
+    }
+    ?>
+</div>
 <?php
 function wpaicgHumanTime($time){
     $wpaicg_current_timestamp = time();
@@ -69,7 +79,14 @@ $agents = array(
         'status' => 'error',
         'last_run' => __('Never','gpt3-ai-content-generator'),
         'last_content' => __('Never','gpt3-ai-content-generator'),
-    )
+    ),
+    'tweet' => array(
+        'name' => __('Twitter','gpt3-ai-content-generator'),
+        'link' => admin_url('admin.php?page=wpaicg_bulk_content&wpaicg_action=tweet'),
+        'status' => 'error',
+        'last_run' => __('Never','gpt3-ai-content-generator'),
+        'last_content' => __('Never','gpt3-ai-content-generator'),
+    ),
 );
 if(!current_user_can('wpaicg_bulk_content_tracking')){
     unset($agents['editor']);
@@ -82,6 +99,9 @@ if(!current_user_can('wpaicg_bulk_content_rss')){
 }
 if(!current_user_can('wpaicg_embeddings_builder')){
     unset($agents['embeddings']);
+}
+if(!current_user_can('wpaicg_bulk_content_tweet')){
+    unset($agents['tweet']);
 }
 if(isset($agents['editor'])){
     $wpaicg_cron_added = get_option('_wpaicg_cron_added','');
@@ -136,6 +156,20 @@ if(isset($agents['rss']) && \WPAICG\wpaicg_util_core()->wpaicg_is_pro()){
         }
         if(!empty($wpaicg_crojob_last_content)){
             $agents['rss']['last_content'] = wpaicgHumanTime($wpaicg_crojob_last_content);
+        }
+    }
+}
+if(isset($agents['tweet']) && \WPAICG\wpaicg_util_core()->wpaicg_is_pro()){
+    $wpaicg_cron_added = get_option('wpaicg_cron_tweet_added','');
+    if(!empty($wpaicg_cron_added)){
+        $agents['tweet']['status'] = 'success';
+        $wpaicg_crojob_last_time = get_option('wpaicg_cron_tweet_last_time','');
+        $wpaicg_crojob_last_content = get_option('wpaicg_cronjob_tweet_content','');
+        if(!empty($wpaicg_crojob_last_time)){
+            $agents['tweet']['last_run'] = wpaicgHumanTime($wpaicg_crojob_last_time);
+        }
+        if(!empty($wpaicg_crojob_last_content)){
+            $agents['tweet']['last_content'] = wpaicgHumanTime($wpaicg_crojob_last_content);
         }
     }
 }
@@ -229,19 +263,11 @@ if(isset($agents['rss']) && \WPAICG\wpaicg_util_core()->wpaicg_is_pro()){
             if(startList < 0){
                 startList = 0;
             }
-            console.log(startList);
             for(var i=startList;i < endList;i++){
                 var item = listAgents[i];
                 if(typeof item !== "undefined") {
                     var item_name = item.name;
                     if(item.key === 'sheets' || item.key === 'rss') {
-                        <?php
-                        if(!\WPAICG\wpaicg_util_core()->wpaicg_is_pro()):
-                        ?>
-                        item_name += '&nbsp;<span style="color: #000;padding: 2px 5px;font-size: 12px;background:#ffba00;border-radius: 2px;">Pro</span>';
-                        <?php
-                        endif;
-                        ?>
                     }
                     var html = '<tr>';
                     html += '<td>';

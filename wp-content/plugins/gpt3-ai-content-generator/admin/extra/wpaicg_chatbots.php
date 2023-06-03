@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 global $wpdb,$wp;
 if(isset($_GET['wpaicg_bot_delete']) && !empty($_GET['wpaicg_bot_delete'])){
-    if(!wp_verify_nonce($_GET['_wpnonce'], 'wpaicg_delete_'.sanitize_text_field($_GET['wpaicg_bot_delete']))){
+    if(!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'wpaicg_delete_'.sanitize_text_field($_GET['wpaicg_bot_delete']))){
         die(WPAICG_NONCE_ERROR);
     }
     wp_delete_post(sanitize_text_field($_GET['wpaicg_bot_delete']));
@@ -128,7 +128,7 @@ $wpaicg_pinecone_indexes = empty($wpaicg_pinecone_indexes) ? array() : json_deco
         align-items: center;
         padding: 5px;
     }
-    input.wpaicg-chat-shortcode-typing {
+    textarea.wpaicg-chat-shortcode-typing {
         flex: 1;
         border: 1px solid #ccc;
         border-radius: 3px;
@@ -137,6 +137,9 @@ $wpaicg_pinecone_indexes = empty($wpaicg_pinecone_indexes) ? array() : json_deco
         line-height: 2;
         box-shadow: 0 0 0 transparent;
         margin: 0;
+        resize: vertical; /* allows the user to resize the textarea vertically */
+        overflow: auto;
+        word-wrap: break-word;
     }
     .wpaicg-chat-shortcode-content ul {
         overflow-y: auto;
@@ -1081,7 +1084,7 @@ $wpaicg_pinecone_indexes = empty($wpaicg_pinecone_indexes) ? array() : json_deco
                         <span class="wpaicg-bot-thinking" style="display: none;background-color: <?php echo esc_html($wpaicg_chat_bgcolor)?>;color:<?php echo esc_html($wpaicg_chat_fontcolor)?>"><span class="wpaicg_chatbot_ai_thinking_view"><?php echo esc_html__('AI thinking','gpt3-ai-content-generator')?></span>&nbsp;<span class="wpaicg-jumping-dots"><span class="wpaicg-dot-1">.</span><span class="wpaicg-dot-2">.</span><span class="wpaicg-dot-3">.</span></span></span>
                     </div>
                     <div class="wpaicg-chat-shortcode-type" style="background-color: <?php echo esc_html($wpaicg_chat_bgcolor)?>;">
-                        <input style="border-color: <?php echo esc_html($wpaicg_border_text_field)?>;background-color: <?php echo esc_html($wpaicg_bg_text_field)?>" type="text" class="wpaicg-chat-shortcode-typing" placeholder="<?php echo esc_html__('Type message..','gpt3-ai-content-generator')?>">
+                        <textarea style="border-color: <?php echo esc_html($wpaicg_border_text_field)?>;background-color: <?php echo esc_html($wpaicg_bg_text_field)?>" type="text" class="wpaicg-chat-shortcode-typing" placeholder="<?php echo esc_html__('Type message..','gpt3-ai-content-generator')?>"></textarea>
                         <div class="wpaicg_chat_additions">
                             <span class="wpaicg-mic-icon" data-type="shortcode" style="<?php echo $wpaicg_audio_enable ? '' : 'display:none'?>;color: <?php echo esc_html($wpaicg_mic_color)?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M176 0C123 0 80 43 80 96V256c0 53 43 96 96 96s96-43 96-96V96c0-53-43-96-96-96zM48 216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 89.1 66.2 162.7 152 174.4V464H104c-13.3 0-24 10.7-24 24s10.7 24 24 24h72 72c13.3 0 24-10.7 24-24s-10.7-24-24-24H200V430.4c85.8-11.7 152-85.3 152-174.4V216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 70.7-57.3 128-128 128s-128-57.3-128-128V216z"/></svg>
@@ -1508,11 +1511,11 @@ $wpaicg_bots = new WP_Query($args);
             modalContent.find('.wpaicg-chat-shortcode-type').css({
                 'background-color': bgcolor
             });
-            modalContent.find('input.wpaicg-chat-shortcode-typing').css({
+            modalContent.find('textarea.wpaicg-chat-shortcode-typing').css({
                 'background-color': inputbg,
                 'border-color':inputborder
             });
-            modalContent.find('input.wpaicg-chat-shortcode-typing').attr('placeholder', placeholder);
+            modalContent.find('textarea.wpaicg-chat-shortcode-typing').attr('placeholder', placeholder);
             modalContent.find('.wpaicg-chat-shortcode-send').css({
                 'color': sendcolor
             })

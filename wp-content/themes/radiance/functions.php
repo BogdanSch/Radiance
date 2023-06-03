@@ -8,7 +8,7 @@ include get_theme_file_path('includes/widgets.php');
 include get_theme_file_path('includes/custom-nav-walker.php');
 include get_theme_file_path('includes/custom-pagination-links.php');
 include get_theme_file_path('includes/custom-nav-footer-walker.php');
-include get_theme_file_path('includes/breadcrumbs.php');
+include get_theme_file_path('includes/breadcrumbs-radiance.php');
 include get_theme_file_path('includes/social-links.php');
 // Hooks
 add_action('wp_enqueue_scripts', 'radiance_enqueue');

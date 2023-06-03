@@ -939,6 +939,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Generator')) {
                         if($keyword['status'] == 'success'){
                             $query = trim($keyword['data']);
                             $query = str_replace('#','',$query);
+                            $query = trim(preg_replace('/(?<!\ )[A-Z]/', ' $0', $query));
                         }
                     }
                 }
@@ -997,6 +998,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Generator')) {
                         if($keyword['status'] == 'success'){
                             $query = trim($keyword['data']);
                             $query = str_replace('#','',$query);
+                            $query = trim(preg_replace('/(?<!\ )[A-Z]/', ' $0', $query));
                         }
                     }
                 }
@@ -1099,10 +1101,14 @@ if(!class_exists('\\WPAICG\\WPAICG_Generator')) {
             }
             else{
                 $complete = $this->openai->completion($opts);
+
             }
             $complete = json_decode( $complete );
             if ( isset( $complete->error ) ) {
                 $result['msg'] = trim($complete->error->message);
+                if(empty($result['msg']) && isset($complete->error->code) && $complete->error->code == 'invalid_api_key'){
+                    $result['msg'] = 'Incorrect API key provided. You can find your API key at https://platform.openai.com/account/api-keys.';
+                }
                 if(strpos($result['msg'],'exceeded your current quota') !== false){
                     $result['msg'] .= ' '.esc_html__('Please note that this message is coming from OpenAI and it is not related to our plugin. It means that you do not have enough credit from OpenAI. You can check your usage here: https://platform.openai.com/account/usage','gpt3-ai-content-generator');
                 }

@@ -54,6 +54,7 @@ if(!is_array($wpaicg_editor_button_menus) || count($wpaicg_editor_button_menus) 
     <p><?php echo esc_html__('AI Assistant is a feature that allows you to add a button to the WordPress editor that will help you to create content. You can add your own menus with your own prompts.','gpt3-ai-content-generator')?></p>
     <p><?php echo esc_html__('AI Assistant is compatible with both Gutenberg and Classic Editor.','gpt3-ai-content-generator')?></p>
     <p><?php echo esc_html__('Use the form below to add, modify, or remove menus as needed.','gpt3-ai-content-generator')?></p>
+    <p><?php echo sprintf(esc_html__('For more information, please see %s.','gpt3-ai-content-generator'),'<a href="https://docs.aipower.org/docs/content-writer/ai-assistant" target="_blank">'.esc_html__('this documentation','gpt3-ai-content-generator').'</a>')?></p>
     <div class="wpaicg_editor_menus">
         <?php
         if($wpaicg_editor_button_menus && is_array($wpaicg_editor_button_menus) && count($wpaicg_editor_button_menus)){

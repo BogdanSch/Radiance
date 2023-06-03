@@ -210,6 +210,9 @@ if(!class_exists('\\WPAICG\\WPAICG_Audio')) {
             $result = json_decode($completion);
             if($result && isset($result->error)){
                 $wpaicg_result['msg'] = $result->error->message;
+                if(empty($wpaicg_result['msg']) && isset($result->error->code) && $result->error->code == 'invalid_api_key'){
+                    $wpaicg_result['msg'] = 'Incorrect API key provided. You can find your API key at https://platform.openai.com/account/api-keys.';
+                }
                 wp_send_json($wpaicg_result);
             }
             $wpaicg_result['status'] = 'success';

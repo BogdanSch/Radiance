@@ -845,6 +845,9 @@ if(!class_exists('\\WPAICG\\WPAICG_Embeddings')) {
                     $response = json_decode($response,true);
                     if(isset($response['error']) && !empty($response['error'])) {
                         $wpaicg_result['msg'] = $response['error']['message'];
+                        if(empty($wpaicg_result['msg']) && isset($response['error']['code']) && $response['error']['code'] == 'invalid_api_key'){
+                            $wpaicg_result['msg'] = 'Incorrect API key provided. You can find your API key at https://platform.openai.com/account/api-keys.';
+                        }
                     }
                     else{
                         $embedding = $response['data'][0]['embedding'];

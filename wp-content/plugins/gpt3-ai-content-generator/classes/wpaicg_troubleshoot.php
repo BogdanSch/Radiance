@@ -29,7 +29,13 @@ if(!class_exists('\\WPAICG\\WPAICG_TroubleShoot')) {
             }
             $key = sanitize_text_field($_REQUEST['key']);
             $value = sanitize_text_field($_REQUEST['value']);
-            update_option($key, $value);
+            if(in_array($key,array(
+                'wpaicg_troubleshoot_pinecone_api',
+                'wpaicg_troubleshoot_pinecone_env',
+                'wpaicg_openai_trouble_api'
+            ))) {
+                update_option($key, $value);
+            }
         }
 
         public function wpaicg_troubleshoot_add_vector()

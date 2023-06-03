@@ -41,14 +41,19 @@ if($wpaicg_builder_types && is_array($wpaicg_builder_types) && count($wpaicg_bui
 ?>
 <?php
 $wpaicg_embedding_page = isset($_GET['wpage']) && !empty($_GET['wpage']) ? sanitize_text_field($_GET['wpage']) : 1;
-$wpaicg_embeddings = new WP_Query(array(
+$args = array(
     'post_type' => 'wpaicg_builder',
     'posts_per_page' => 40,
     'paged' => $wpaicg_embedding_page,
     'order' => 'DESC',
     'orderby' => 'meta_value',
     'meta_key' => 'wpaicg_start'
-));
+);
+if(!empty($search)){
+    $wpaicg_total_indexed = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->posts." p LEFT JOIN ".$wpdb->postmeta." m ON m.post_id = p.ID WHERE p.post_type='wpaicg_builder' AND p.post_title LIKE %s AND m.meta_key='wpaicg_indexed' AND m.meta_value='yes'",'%'.$search.'%'));
+    $args['s'] = $search;
+}
+$wpaicg_embeddings = new WP_Query($args);
 
 ?>
 <div class="tablenav top">
@@ -59,11 +64,20 @@ $wpaicg_embeddings = new WP_Query(array(
     </div>
 </div>
 <div class="tablenav top">
+    <form action="" method="get">
     <div class="alignleft actions bulkactions">
         <?php echo esc_html__('Indexed','gpt3-ai-content-generator')?> (<?php echo esc_html($wpaicg_total_indexed)?>) |
         <a href="<?php echo admin_url('admin.php?page=wpaicg_embeddings&action=builder&sub=errors')?>"><?php echo esc_html__('Failed','gpt3-ai-content-generator')?> (<?php echo esc_html(count($wpaicg_total_errors))?>)</a> |
         <a href="<?php echo admin_url('admin.php?page=wpaicg_embeddings&action=builder&sub=skip')?>"><?php echo esc_html__('Skipped','gpt3-ai-content-generator')?> (<?php echo esc_html(count($wpaicg_total_skips))?>)</a>
     </div>
+    <p class="search-box">
+        <input type="hidden" name="page" value="wpaicg_embeddings">
+        <input type="hidden" name="action" value="builder">
+        <?php wp_nonce_field('wpaicg_chatlogs_search_nonce', 'wpaicg_nonce'); ?>
+        <input value="<?php echo esc_html($search)?>" name="wsearch" type="text" placeholder="<?php echo esc_html__('Type for search','gpt3-ai-content-generator')?>">
+        <button class="button button-primary"><?php echo esc_html__('Search','gpt3-ai-content-generator')?></button>
+    </p>
+    </form>
 </div>
 <table class="wp-list-table widefat fixed striped table-view-list posts">
     <thead>

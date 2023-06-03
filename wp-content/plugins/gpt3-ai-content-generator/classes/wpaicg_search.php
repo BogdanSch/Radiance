@@ -81,6 +81,9 @@ if(!class_exists('\\WPAICG\\WPAICG_Search')) {
                 $response = json_decode($response, true);
                 if (isset($response['error']) && !empty($response['error'])) {
                     $result['data'] = $response['error']['message'];
+                    if(empty($result['msg']) && isset($response['error']['code']) && $response['error']['code'] == 'invalid_api_key'){
+                        $result['msg'] = 'Incorrect API key provided. You can find your API key at https://platform.openai.com/account/api-keys.';
+                    }
                 } else {
                     $result['data'] = esc_html(__('No result found','gpt3-ai-content-generator'));
                     $embedding = $response['data'][0]['embedding'];

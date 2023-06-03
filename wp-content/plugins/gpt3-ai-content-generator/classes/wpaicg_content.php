@@ -73,6 +73,9 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Content' ) ) {
             $completion = json_decode($completion);
             if($completion && isset($completion->error)){
                 $wpaicg_result['msg'] = $completion->error->message;
+                if(empty($wpaicg_result['msg']) && isset($completion->error->code) && $completion->error->code == 'invalid_api_key'){
+                    $wpaicg_result['msg'] = 'Incorrect API key provided. You can find your API key at https://platform.openai.com/account/api-keys.';
+                }
                 wp_send_json($wpaicg_result);
             }
             $text_generated = trim($completion->text);

@@ -546,6 +546,9 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                     $completion = json_decode($completion);
                     if($completion && isset($completion->error)){
                         $wpaicg_result['msg'] = $completion->error->message;
+                        if(empty($wpaicg_result['msg']) && isset($completion->error->code) && $completion->error->code == 'invalid_api_key'){
+                            $wpaicg_result['msg'] = 'Incorrect API key provided. You can find your API key at https://platform.openai.com/account/api-keys.';
+                        }
                         wp_send_json($wpaicg_result);
                     }
                     $wpaicg_message = $completion->text;
@@ -778,6 +781,9 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                         $wpaicg_result['status'] = 'error';
                         //$wpaicg_result['data_request'] = $wpaicg_data_request;
                         $wpaicg_result['msg'] = esc_html(trim($complete->error->message));
+                        if(empty($wpaicg_result['msg']) && isset($complete->error->code) && $complete->error->code == 'invalid_api_key'){
+                            $result['msg'] = 'Incorrect API key provided. You can find your API key at https://platform.openai.com/account/api-keys.';
+                        }
                         $wpaicg_result['log'] = $wpaicg_chat_log_id;
                         //$wpaicg_result['messages'] = $wpaicg_chatgpt_messages;
                         //$wpaicg_result['prompt'] = $prompt;
@@ -904,6 +910,9 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                 $response = json_decode($response, true);
                 if (isset($response['error']) && !empty($response['error'])) {
                     $result['data'] = $response['error']['message'];
+                    if(empty($result['data']) && isset($response['error']['code']) && $response['error']['code'] == 'invalid_api_key'){
+                        $result['data'] = 'Incorrect API key provided. You can find your API key at https://platform.openai.com/account/api-keys.';
+                    }
                 } else {
                     $embedding = $response['data'][0]['embedding'];
                     if (!empty($embedding)) {

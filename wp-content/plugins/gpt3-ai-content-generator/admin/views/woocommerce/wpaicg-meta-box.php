@@ -137,7 +137,6 @@ else {
                         }
                     }
                     else{
-                        $('.wpcgai_lds-ellipsis').hide();
                         wpaicg_generator_process.find('.wpaicg-generating-process-'+wpaicg_step).addClass('wpaicg-error');
                         wpaicg_generator_process.find('.wpaicg-generating-process-'+wpaicg_step+' span').html('<?php echo esc_html__('Error','gpt3-ai-content-generator')?>');
                         wpaicg_ShowError(res.msg, window['wpaicgTimer']);

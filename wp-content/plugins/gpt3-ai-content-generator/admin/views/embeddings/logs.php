@@ -3,6 +3,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 $wpaicg_embedding_page = isset($_GET['wpage']) && !empty($_GET['wpage']) ? sanitize_text_field($_GET['wpage']) : 1;
 $wpaicg_sub_action = isset($_GET['sub']) && !empty($_GET['sub']) ? sanitize_text_field($_GET['sub']) : false;
+$search = isset($_GET['wsearch']) && !empty($_GET['wsearch']) ? sanitize_text_field($_GET['wsearch']) : '';
+if (isset($_GET['wsearch']) && !empty($_GET['wsearch']) && !wp_verify_nonce($_GET['wpaicg_nonce'], 'wpaicg_embedding_search_nonce')) {
+    die(WPAICG_NONCE_ERROR);
+}
 if($wpaicg_sub_action == 'reindexall'){
     $ids = $wpdb->get_results("SELECT ID FROM ".$wpdb->posts." WHERE post_type='wpaicg_embeddings'");
     $ids = wp_list_pluck($ids,'ID');
@@ -21,13 +25,17 @@ if($wpaicg_sub_action == 'deleteall'){
     echo '<script>window.location.href = "'.admin_url('admin.php?page=wpaicg_embeddings&action=logs').'";</script>';
     exit;
 }
-$wpaicg_embeddings = new WP_Query(array(
+$args = array(
     'post_type' => 'wpaicg_embeddings',
     'posts_per_page' => 40,
     'paged' => $wpaicg_embedding_page,
     'order' => 'DESC',
     'orderby' => 'date'
-));
+);
+if(!empty($search)){
+    $args['s'] = $search;
+}
+$wpaicg_embeddings = new WP_Query($args);
 ?>
 <style>
     .wpaicg_modal{
@@ -45,6 +53,15 @@ $wpaicg_embeddings = new WP_Query(array(
         border-color: #cb0000;
     }
 </style>
+<form action="" method="get">
+    <input type="hidden" name="page" value="wpaicg_embeddings">
+    <input type="hidden" name="action" value="logs">
+    <?php wp_nonce_field('wpaicg_embedding_search_nonce', 'wpaicg_nonce'); ?>
+    <div class="wpaicg-d-flex mb-5">
+        <input style="width: 100%" value="<?php echo esc_html($search)?>" class="regular-text" name="wsearch" type="text" placeholder="<?php echo esc_html__('Type for search','gpt3-ai-content-generator')?>">
+        <button class="button button-primary"><?php echo esc_html__('Search','gpt3-ai-content-generator')?></button>
+    </div>
+</form>
 <?php
 if($wpaicg_embeddings->have_posts()):
 ?>

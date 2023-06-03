@@ -20,11 +20,448 @@ if ( !class_exists( '\\WPAICG\\WPAICG_WooCommerce' ) ) {
             add_action('add_meta_boxes_product', array($this,'wpaicg_register_meta_box'));
             add_action('wp_ajax_wpaicg_product_generator',array($this,'wpaicg_product_generator'));
             add_action('wp_ajax_wpaicg_product_save',array($this,'wpaicg_product_save'));
+            add_action('manage_posts_extra_tablenav',[$this,'wpaicg_woocommerce_content_button']);
+            add_action('admin_footer',[$this,'wpaicg_woocommerce_content_footer']);
+            add_action('wp_ajax_wpaicg_woo_content_generator',[$this,'wpaicg_woo_content_generator']);
+        }
+
+        public function wpaicg_woo_content_generator()
+        {
+            global $wpdb;
+            $wpaicg_result = array('status' => 'error','msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-action' ) ) {
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
+                wp_send_json($wpaicg_result);
+            }
+            $open_ai = WPAICG_OpenAI::get_instance()->openai();
+            if(!$open_ai){
+                $wpaicg_result['msg'] = esc_html__('Missing API Setting','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+                exit;
+            }
+            if(
+                isset($_REQUEST['title'])
+                && !empty($_REQUEST['title'])
+                && isset($_REQUEST['id'])
+                && !empty($_REQUEST['id'])
+                && isset($_REQUEST['step'])
+                && !empty($_REQUEST['step'])
+            ) {
+                $temperature = floatval($open_ai->temperature);
+                $max_tokens = intval($open_ai->max_tokens);
+                $top_p = floatval($open_ai->top_p);
+                $best_of = intval($open_ai->best_of);
+                $frequency_penalty = floatval($open_ai->frequency_penalty);
+                $presence_penalty = floatval($open_ai->presence_penalty);
+                $wpai_language = sanitize_text_field($open_ai->wpai_language);
+                $wpaicg_language_file = plugin_dir_path(dirname(__FILE__)) . 'admin/languages/' . $wpai_language . '.json';
+                if (!file_exists($wpaicg_language_file)) {
+                    $wpaicg_language_file = plugin_dir_path(dirname(__FILE__)) . 'admin/languages/en.json';
+                }
+                $wpaicg_language_json = file_get_contents($wpaicg_language_file);
+                $wpaicg_languages = json_decode($wpaicg_language_json, true);
+                $wpaicg_woo_generate_title = isset($_REQUEST['wpaicg_woo_generate_title']) && !empty($_REQUEST['wpaicg_woo_generate_title']) ? true : false;
+                $wpaicg_woo_meta_description = isset($_REQUEST['wpaicg_woo_meta_description']) && !empty($_REQUEST['wpaicg_woo_meta_description']) ? true : false;
+                $wpaicg_woo_generate_description = isset($_REQUEST['wpaicg_woo_generate_description']) && !empty($_REQUEST['wpaicg_woo_generate_description']) ? true : false;
+                $wpaicg_woo_generate_short = isset($_REQUEST['wpaicg_woo_generate_short']) && !empty($_REQUEST['wpaicg_woo_generate_short']) ? true : false;
+                $wpaicg_woo_generate_tags = isset($_REQUEST['wpaicg_woo_generate_tags']) && !empty($_REQUEST['wpaicg_woo_generate_tags']) ? true : false;
+                $wpaicg_woo_custom_prompt = isset($_REQUEST['wpaicg_woo_custom_prompt']) && !empty($_REQUEST['wpaicg_woo_custom_prompt']) ? true : false;
+                $wpaicg_woo_custom_prompt_title = isset($_REQUEST['wpaicg_woo_custom_prompt_title']) && !empty($_REQUEST['wpaicg_woo_custom_prompt_title']) ? sanitize_text_field($_REQUEST['wpaicg_woo_custom_prompt_title']) : get_option('wpaicg_woo_custom_prompt_title',esc_html__('Write a SEO friendly product title: %s.','gpt3-ai-content-generator'));
+                $wpaicg_woo_custom_prompt_short = isset($_REQUEST['wpaicg_woo_custom_prompt_short']) && !empty($_REQUEST['wpaicg_woo_custom_prompt_short']) ? sanitize_text_field($_REQUEST['wpaicg_woo_custom_prompt_short']) : get_option('wpaicg_woo_custom_prompt_short',esc_html__('Summarize this product in 2 short sentences: %s.','gpt3-ai-content-generator'));
+                $wpaicg_woo_custom_prompt_description = isset($_REQUEST['wpaicg_woo_custom_prompt_description']) && !empty($_REQUEST['wpaicg_woo_custom_prompt_description']) ? sanitize_text_field($_REQUEST['wpaicg_woo_custom_prompt_description']) : get_option('wpaicg_woo_custom_prompt_description',esc_html__('Write a detailed product description about: %s.','gpt3-ai-content-generator'));
+                $wpaicg_woo_custom_prompt_meta = isset($_REQUEST['wpaicg_woo_custom_prompt_meta']) && !empty($_REQUEST['wpaicg_woo_custom_prompt_meta']) ? sanitize_text_field($_REQUEST['wpaicg_woo_custom_prompt_meta']) : get_option('wpaicg_woo_custom_prompt_meta',esc_html__('Write a meta description about: %s. Max: 155 characters.','gpt3-ai-content-generator'));
+                $wpaicg_woo_custom_prompt_keywords = isset($_REQUEST['wpaicg_woo_custom_prompt_keywords']) && !empty($_REQUEST['wpaicg_woo_custom_prompt_keywords']) ? sanitize_text_field($_REQUEST['wpaicg_woo_custom_prompt_keywords']) : get_option('wpaicg_woo_custom_prompt_keywords',esc_html__('Suggest keywords for this product: %s.','gpt3-ai-content-generator'));
+                if(!$wpaicg_woo_custom_prompt){
+                    $wpaicg_woo_custom_prompt_title = $wpaicg_languages['woo_product_title'];
+                    $wpaicg_woo_custom_prompt_short = $wpaicg_languages['woo_product_short'];
+                    $wpaicg_woo_custom_prompt_description = $wpaicg_languages['woo_product_description'];
+                    $wpaicg_woo_custom_prompt_meta = $wpaicg_languages['meta_desc_prompt'];
+                    $wpaicg_woo_custom_prompt_keywords = $wpaicg_languages['woo_product_tags'];
+                }
+                $wpaicg_ai_model = get_option('wpaicg_ai_model','text-davinci-003');
+                $wpaicg_generator = WPAICG_Generator::get_instance();
+                $wpaicg_generator->openai($open_ai);
+                $wpaicg_generator->sleep_request();
+                $title = sanitize_text_field($_REQUEST['title']);
+                $id = sanitize_text_field($_REQUEST['id']);
+                $step = sanitize_text_field($_REQUEST['step']);
+                if($step === 'title'){
+                    $prompt = sprintf($wpaicg_woo_custom_prompt_title,$title);
+                }
+                if($step === 'meta'){
+                    $prompt = sprintf($wpaicg_woo_custom_prompt_meta,$title);
+                }
+                if($step === 'description'){
+                    $prompt = sprintf($wpaicg_woo_custom_prompt_description,$title);
+                }
+                if($step === 'short'){
+                    $prompt = sprintf($wpaicg_woo_custom_prompt_short,$title);
+                }
+                if($step === 'tags'){
+                    $prompt = sprintf($wpaicg_woo_custom_prompt_keywords,$title);
+                }
+                if($wpaicg_ai_model == 'gpt-3.5-turbo' || $wpaicg_ai_model == 'gpt-4' || $wpaicg_ai_model == 'gpt-4-32k'){
+                    $prompt = $wpaicg_languages['fixed_prompt_turbo'].' '.$prompt;
+                }
+                $opts = array(
+                    'model' => $wpaicg_ai_model,
+                    'prompt' => $prompt,
+                    'temperature' => $temperature,
+                    'max_tokens' => $max_tokens,
+                    'frequency_penalty' => $frequency_penalty,
+                    'presence_penalty' => $presence_penalty,
+                    'top_p' => $top_p,
+                    'best_of' => $best_of,
+                );
+                $wpaicg_result['prompt'] = $prompt;
+                $complete = $wpaicg_generator->wpaicg_request($opts);
+                if($complete['status'] == 'error'){
+                    $wpaicg_result['msg'] = $complete['msg'];
+                }
+                else{
+                    $result = $complete['data'];
+                    $wpaicg_result['data'] = trim($result);
+                    $wpaicg_result['status'] = 'success';
+                    if($step === 'tags'){
+                        $tags = preg_split( "/\r\n|\n|\r/", $result );
+                        $tags = preg_replace( '/^\\d+\\.\\s/', '', $tags );
+                        if(is_array($tags)){
+                            $tags = $tags[0];
+                            $tags = array_map('trim', explode(',', $tags));
+                            $wpaicg_result['data'] = array();
+                            if($tags && is_array($tags) && count($tags)){
+                                $post_tags = wp_get_post_terms($id,'product_tag');
+                                if($post_tags && is_array($post_tags) && count($post_tags)){
+                                    $terms_id = wp_list_pluck($post_tags,'term_id');
+                                    wp_remove_object_terms($id, $terms_id,'product_tag');
+                                }
+                                $terms_id = array();
+                                foreach($tags as $tag){
+                                    $product_tag = term_exists($tag,'product_tag');
+                                    if(!$product_tag){
+                                        $product_tag = wp_insert_term($tag,'product_tag');
+                                    }
+                                    $term = get_term($product_tag['term_id'],'product_tag');
+                                    $wpaicg_result['data'][$term->slug] = $tag;
+                                    $terms_id[] = (int)$term->term_id;
+                                }
+                                wp_add_object_terms($id, $terms_id,'product_tag');
+                            }
+                        }
+                    }
+                    elseif($step == 'title'){
+                        wp_update_post(array(
+                            'ID' => $id,
+                            'post_title' => trim($result)
+                        ));
+                    }
+                    elseif($step == 'meta'){
+                        $seo_option = get_option('_yoast_wpseo_metadesc',false);
+                        $seo_plugin_activated = wpaicg_util_core()->seo_plugin_activated();
+                        if($seo_plugin_activated == '_yoast_wpseo_metadesc' && $seo_option){
+                            update_post_meta($id,$seo_plugin_activated,$result);
+                        }
+                        $seo_option = get_option('_aioseo_description',false);
+                        if($seo_plugin_activated == '_aioseo_description' && $seo_option){
+                            update_post_meta($id,$seo_plugin_activated,$result);
+                            $check = $wpdb->get_row($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."aioseo_posts WHERE post_id=%d",$id));
+                            if($check){
+                                $wpdb->update($wpdb->prefix,'aioseo_posts', array(
+                                    'description' => $result
+                                ), array(
+                                    'post_id' => $id
+                                ));
+                            }
+                            else{
+                                $wpdb->insert($wpdb->prefix.'aioseo_posts',array(
+                                    'post_id' => $id,
+                                    'description' => $result,
+                                    'created' => date('Y-m-d H:i:s'),
+                                    'updated' => date('Y-m-d H:i:s')
+                                ));
+                            }
+                        }
+                        $seo_option = get_option('rank_math_description',false);
+                        if($seo_plugin_activated == 'rank_math_description' && $seo_option){
+                            update_post_meta($id,$seo_plugin_activated,$result);
+                        }
+                        update_post_meta($id,'_wpaicg_meta_description', $result);
+                    }
+                    elseif($step == 'description'){
+                        wp_update_post(array(
+                            'ID' => $id,
+                            'post_content' => trim($result)
+                        ));
+                    }
+                    elseif($step == 'short'){
+                        wp_update_post(array(
+                            'ID' => $id,
+                            'post_excerpt' => trim($result)
+                        ));
+                    }
+                }
+
+            }
+            else{
+                $wpaicg_result['msg'] = esc_html__('Missing request parameters','gpt3-ai-content-generator');
+            }
+            wp_send_json($wpaicg_result);
+        }
+
+        public function wpaicg_woocommerce_content_footer()
+        {
+            ?>
+            <div class="wpaicg-woo-content-default" style="display: none">
+                <?php
+                include WPAICG_PLUGIN_DIR.'admin/views/settings/woocommerce.php';
+                ?>
+            </div>
+            <script>
+                jQuery(document).ready(function ($){
+                    function wpaicgLoading(btn){
+                        btn.attr('disabled','disabled');
+                        if(!btn.find('spinner').length){
+                            btn.append('<span class="spinner"></span>');
+                        }
+                        btn.find('.spinner').css('visibility','unset');
+                    }
+                    function wpaicgRmLoading(btn){
+                        btn.removeAttr('disabled');
+                        btn.find('.spinner').remove();
+                    }
+                    var ids = [];
+                    var titles = {};
+                    var wpaicgWooContentAjax = false;
+                    var wpaicgWooContentWorking = true;
+                    var wpaicgWooContentSuccess = 0;
+                    var wooGenerateContent = $('.wpaicg-woocommerce-content-btn');
+                    var wpaicgSteps = [];
+                    var hasGenerateTitle = false;
+                    var hasGenerateTags = false;
+                    var wpaicgFirstStep = '';
+                    var wpaicgLastStep = '';
+                    wooGenerateContent.click(function (){
+                        if(!wpaicgWooContentAjax){
+                            ids = [];
+                            titles = {};
+                            let form = $(this).closest('#posts-filter');
+                            form.find('.wp-list-table th.check-column input[type=checkbox]:checked').each(function (idx, item){
+                                let post_id = $(item).val();
+                                ids.push(post_id);
+                                let row = form.find('#post-'+post_id);
+                                let post_name = row.find('.column-title .row-title').text();
+                                if(post_name === ''){
+                                    post_name = row.find('.column-name .row-title').text();
+                                }
+                                titles[post_id] = post_name.trim();
+                            });
+                            if(ids.length === 0){
+                                alert('<?php echo esc_html__('Please select a product to generate.','gpt3-ai-content-generator')?>');
+                            }
+                            else{
+                                wpaicgWooContentWorking = true;
+                                $('.wpaicg_modal_title').html('<?php echo esc_html__('WooCommerce Content Generator','gpt3-ai-content-generator')?><span style="font-weight: bold;font-size: 16px;background: #fba842;padding: 1px 5px;border-radius: 3px;display: inline-block;margin-left: 6px;color: #222;" class="wpaicg-woocontent-remain">0/'+ids.length+'</span>');
+                                $('.wpaicg_modal').css({
+                                    top: '5%',
+                                    height: '90%'
+                                });
+                                $('.wpaicg_modal_content').css({
+                                    'max-height': 'calc(100% - 103px)',
+                                    'overflow-y': 'auto'
+                                });
+                                var woo_content_message = '<?php echo esc_html__('This will generate content for [numbers] products. Do you want to continue?','gpt3-ai-content-generator')?>';
+                                var html = '<form action="" method="post" id="wpaicg-woo-content-form">';
+                                html += '<input type="hidden" name="action" value="wpaicg_woo_content_generator">';
+                                html += '<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('wpaicg-ajax-action')?>">';
+                                html += $('.wpaicg-woo-content-default').html();
+                                html += '<p><?php echo esc_html__('If you would like to change your default settings please go to Settings - WooCommerce and adjust your settings.','gpt3-ai-content-generator')?></p>'
+                                html += '<p>'+woo_content_message.replace('[numbers]',ids.length)+'</p>';
+                                html += '<button class="button button-primary wpaicg_woo_content_btn"><?php echo esc_html__('Start','gpt3-ai-content-generator')?></button>';
+                                html += '&nbsp;<button type="button" class="button wpaicg_woo_content_cancel" style="display: none"><?php echo esc_html__('Cancel','gpt3-ai-content-generator')?></button>';
+                                html += '<div class="wpaicg-woo-content-modal-content" style="padding:10px 0px"></div>';
+                                html += '</form>';
+                                $('.wpaicg_modal_content').html(html);
+                                $('#wpaicg-woo-content-form h3').hide();
+                                $('#wpaicg-woo-content-form .wpaicg_woo_token_sale').hide();
+                                $('.wpaicg-overlay').show();
+                                $('.wpaicg_modal').show();
+                            }
+                        }
+                        else{
+                            alert('<?php echo esc_html__('Please wait old generate task finished','gpt3-ai-content-generator')?>');
+                        }
+                    });
+                    $(document).on('submit','#wpaicg-woo-content-form',function(e){
+                        e.preventDefault();
+                        wpaicgSteps = [];
+                        var form = $(e.currentTarget);
+                        if(form.find('input[name=wpaicg_woo_generate_title]:checked').length){
+                            wpaicgSteps.push('title');
+                            hasGenerateTitle = true;
+                        }
+                        else{
+                            hasGenerateTitle = false;
+                        }
+                        if(form.find('input[name=wpaicg_woo_meta_description]:checked').length){
+                            wpaicgSteps.push('meta');
+                        }
+                        if(form.find('input[name=wpaicg_woo_generate_description]:checked').length){
+                            wpaicgSteps.push('description');
+                        }
+                        if(form.find('input[name=wpaicg_woo_generate_short]:checked').length){
+                            wpaicgSteps.push('short');
+                        }
+                        if(form.find('input[name=wpaicg_woo_generate_tags]:checked').length){
+                            wpaicgSteps.push('tags');
+                            hasGenerateTags = true;
+                        }
+                        else{
+                            hasGenerateTags = false;
+                        }
+                        if(ids.length === 0){
+                            alert('<?php echo esc_html__('Please select a product to generate.','gpt3-ai-content-generator')?>');
+                        }
+                        else if(wpaicgSteps.length === 0){
+                            alert('<?php echo esc_html__('Please enter at least one step for generate.','gpt3-ai-content-generator')?>');
+                        }
+                        else{
+                            $('.wpaicg-woo-content-modal-content').empty();
+                            wpaicgFirstStep = wpaicgSteps[0];
+                            wpaicgLastStep = wpaicgSteps[wpaicgSteps.length-1];
+                            $('.wpaicg_modal_close').hide();
+                            var btn = $('.wpaicg_woo_content_btn');
+                            wpaicgLoading(btn);
+                            $('.wpaicg_woo_content_cancel').show();
+                            wpaicgWooContentSuccess = 0;
+                            wpaicgWooContentGenerator(0,0,ids);
+                        }
+                    });
+                    $(document).on('click','.wpaicg_woo_content_cancel',function (){
+                        var btn = $('.wpaicg_woo_content_btn');
+                        wpaicgRmLoading(btn);
+                        $('.wpaicg_woo_content_cancel').hide();
+                        if(wpaicgWooContentAjax){
+                            wpaicgWooContentAjax.abort();
+                            wpaicgWooContentAjax = false;
+                        }
+                    });
+                    function wpaicgWooContentGenerator(start,step,ids){
+                        var btn = $('.wpaicg_woo_content_btn');
+                        var contentEl = $('.wpaicg-woo-content-modal-content');
+                        var data = $('#wpaicg-woo-content-form').serialize();
+                        var currentStep = wpaicgSteps[step];
+                        var currentStepText = wpaicgSteps[step];
+                        var nextID = start;
+                        var id = ids[start];
+                        if(start + 1 > ids.length){
+                            $('.wpaicg_modal_close').show();
+                            wpaicgWooContentAjax = false;
+                            wpaicgRmLoading(btn);
+                            $('.wpaicg_woo_content_cancel').hide();
+                        }
+                        else {
+                            data += '&id='+id;
+                            data += '&title='+titles[id];
+                            data += '&step='+currentStep;
+                            if(currentStepText === 'short'){
+                                currentStepText = 'short description';
+                            }
+                            wpaicgWooContentAjax = $.ajax({
+                                url: '<?php echo admin_url('admin-ajax.php')?>',
+                                data: data,
+                                type: 'POST',
+                                beforeSend: function () {
+                                    if(!$('#wpaicg-product-generate-'+id).length){
+                                        contentEl.append('<div class="wpaicg-product-generate-pending" id="wpaicg-product-generate-'+id+'" style="background: #ebebeb;border-radius: 3px;padding: 5px;margin-bottom: 5px;border: 1px solid #dfdfdf;"><div style="display: flex; justify-content: space-between;"><span>'+titles[id]+'</span><span style="font-style: italic" class="wpaicg-product-generate-status"><?php echo esc_html__('Generating...','gpt3-ai-content-generator')?></span></div></div>');
+                                    }
+                                },
+                                dataType: 'JSON',
+                                success: function (res) {
+                                    var product = $('#wpaicg-product-generate-'+id);
+                                    if(res.status === 'success'){
+                                        var row = $('#post-'+id);
+                                        product.append('<div style="color: #0f8f00;font-size: 12px;">['+currentStepText+']&nbsp;<?php echo esc_html__('OK','gpt3-ai-content-generator')?></div>');
+                                        if(currentStep === 'title'){
+                                            row.find('.column-name a.row-title').html(res.data);
+                                        }
+                                        if(currentStep === 'tags'){
+                                            row.find('.column-product_tag').empty();
+                                            if(typeof res.data !== "undefined"){
+                                                var key = 0;
+                                                $.each(res.data,function(slug, tag){
+                                                    var html = '';
+                                                    if(key > 0){
+                                                        html += ', ';
+                                                    }
+                                                    html += '<a href="<?php echo admin_url('edit.php?product_tag=')?>'+slug+'&post_type=product">'+tag+'</a>';
+                                                    row.find('.column-product_tag').append(html);
+                                                    key += 1;
+                                                })
+                                            }
+                                        }
+                                        if(currentStep === wpaicgLastStep) {
+                                            wpaicgWooContentSuccess += 1;
+                                            $('.wpaicg-woocontent-remain').html(wpaicgWooContentSuccess + '/' + ids.length);
+                                            product.css({
+                                                'background-color': '#cde5dd'
+                                            });
+                                            product.removeClass('wpaicg-product-generate-pending');
+                                            product.find('.wpaicg-product-generate-status').html('<?php echo esc_html__('Done', 'gpt3-ai-content-generator')?>');
+                                            product.find('.wpaicg-product-generate-status').css({
+                                                'font-style': 'normal',
+                                                'font-weight': 'bold',
+                                                'color': '#008917'
+                                            });
+                                        }
+                                    }
+                                    else{
+                                        product.css({
+                                            'background-color': '#e5cdcd'
+                                        });
+                                        product.find('.wpaicg-product-generate-status').html('<?php echo esc_html__('Error','gpt3-ai-content-generator')?>');
+                                        product.find('.wpaicg-product-generate-status').css({
+                                            'font-style': 'normal',
+                                            'font-weight': 'bold',
+                                            'color': '#e30000'
+                                        })
+                                        product.append('<div style="color: #e30000;font-size: 12px;">['+currentStepText+']&nbsp;' + res.msg + '</div>');
+                                    }
+                                    if(currentStep === wpaicgLastStep){
+                                        nextID = start+1;
+                                        step = 0;
+                                    }
+                                    else{
+                                        step = step+1;
+                                    }
+                                    wpaicgWooContentGenerator(nextID,step,ids);
+                                },
+                                error: function (request, status, error) {
+                                    $('.wpaicg_modal_close').show();
+                                }
+                            });
+                        }
+                    }
+                })
+            </script>
+            <?php
+        }
+
+        public function wpaicg_woocommerce_content_button()
+        {
+            global $post_type;
+            if($post_type == 'product' && current_user_can('wpaicg_woocommerce_content')){
+                ?>
+                <div class="alignleft actions">
+                    <a style="height: 32px" href="javascript:void(0)" class="button button-primary wpaicg-woocommerce-content-btn"><?php echo esc_html__('Generate Content','gpt3-ai-content-generator')?></a>
+                </div>
+                <?php
+            }
         }
 
         public function wpaicg_register_meta_box()
         {
-            if(current_user_can('wpaicg_woocommerce')) {
+            if(current_user_can('wpaicg_woocommerce_product_writer')) {
                 add_meta_box('wpaicg-woocommerce-generator', esc_html__('AI Power Product Writer','gpt3-ai-content-generator'), [$this, 'wpaicg_meta_box']);
             }
         }
