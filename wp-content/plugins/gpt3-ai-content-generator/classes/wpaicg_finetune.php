@@ -92,6 +92,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_data_insert()
         {
             $wpaicg_result = array('status' => 'error','msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_manual')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -120,6 +125,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_upload_convert()
         {
             $wpaicg_result = array('status' => 'error','msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_data')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -195,6 +205,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_data_converter_count()
         {
             global $wpdb;
+            if(!current_user_can('wpaicg_finetune_data')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg_data_converter_count' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -216,6 +231,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_data_converter()
         {
             $wpaicg_result = array('status' => 'error','msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_data')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -293,6 +313,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_create_finetune_modal()
         {
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_files')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -338,6 +363,10 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_download()
         {
             $open_ai = WPAICG_OpenAI::get_instance()->openai();
+            if(!current_user_can('wpaicg_finetune_file-tunes')){
+                echo esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                exit;
+            }
             if(isset($_REQUEST['id']) && !empty($_REQUEST['id'])) {
                 $id = sanitize_text_field($_REQUEST['id']);
                 if (!$open_ai) {
@@ -367,6 +396,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_create_finetune()
         {
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_files')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -428,6 +462,10 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_finetune_upload()
         {
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_upload')){
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -487,6 +525,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_get_finetune_file()
         {
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_files')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -576,6 +619,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_other_finetune()
         {
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_file-tunes')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -619,6 +667,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_delete_finetune_file()
         {
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_files')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -652,6 +705,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_delete_finetune()
         {
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_files')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -690,6 +748,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         public function wpaicg_cancel_finetune()
         {
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_file-tunes')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -724,6 +787,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         {
             global $wpdb;
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_file-tunes')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -851,6 +919,11 @@ if(!class_exists('\\WPAICG\\WPAICG_FineTune')){
         {
             global $wpdb;
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_finetune_files')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;

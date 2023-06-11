@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 $wpaicg_action = isset($_GET['action']) && !empty($_GET['action']) && in_array(sanitize_text_field($_GET['action']), array('embeddings','fine-tunes','files','data','manual','upload')) ? sanitize_text_field($_GET['action']) : 'preparation';
-$checkRole = \WPAICG\wpaicg_roles()->user_can('wpaicg_finetune',empty($wpaicg_action) ? 'preparation' : $wpaicg_action);
+$checkRole = \WPAICG\wpaicg_roles()->user_can('wpaicg_finetune',empty($wpaicg_action) ? 'preparation' : ($wpaicg_action == 'fine-tunes' ? 'file-tunes':$wpaicg_action));
 if($checkRole){
     echo '<script>window.location.href="'.$checkRole.'"</script>';
     exit;
@@ -17,7 +17,6 @@ if($checkRole){
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 </style>
-<p class="wpaicg_notice_text_rw"><?php echo sprintf(esc_html__('Love our plugin? Support us with a quick review: %s[Write a Review]%s - Thank you! ❤️ 😊','gpt3-ai-content-generator'),'<a href="https://wordpress.org/support/plugin/gpt3-ai-content-generator/reviews/#new-post" target="_blank">','</a>')?></p>
 <div class="wrap fs-section">
     <h2 class="nav-tab-wrapper">
         <?php

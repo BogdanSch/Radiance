@@ -37,6 +37,10 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
         {
             global $wpdb;
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_chatgpt_bots')){
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'wpaicg_chatbot_save' ) ) {
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
                 wp_send_json($wpaicg_result);
@@ -782,7 +786,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                         //$wpaicg_result['data_request'] = $wpaicg_data_request;
                         $wpaicg_result['msg'] = esc_html(trim($complete->error->message));
                         if(empty($wpaicg_result['msg']) && isset($complete->error->code) && $complete->error->code == 'invalid_api_key'){
-                            $result['msg'] = 'Incorrect API key provided. You can find your API key at https://platform.openai.com/account/api-keys.';
+                            $wpaicg_result['msg'] = 'Incorrect API key provided. You can find your API key at https://platform.openai.com/account/api-keys.';
                         }
                         $wpaicg_result['log'] = $wpaicg_chat_log_id;
                         //$wpaicg_result['messages'] = $wpaicg_chatgpt_messages;

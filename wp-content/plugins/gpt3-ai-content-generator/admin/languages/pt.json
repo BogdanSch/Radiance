@@ -105,7 +105,7 @@
   "tagline_text": "Escreva um slogan sobre ",
   "introduction": "Introdução",
   "conclusion": "Conclusão",
-  "faq_text": "% perguntas e respostas sobre %s",
+  "faq_text": "%s perguntas e respostas sobre %s",
   "faq_heading": "Perguntas e respostas",
   "style_text": "Estilo de escrita: %s",
   "keyword_text": ". Palavras-chave: %s.",

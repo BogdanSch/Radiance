@@ -90,17 +90,6 @@ msgstr ""
 msgid "Free users can only generate 5 pieces of content at a time. Please %sclick here%s to upgrade to the Pro plan to unlock more."
 msgstr ""
 
-#: admin/extra/wpaicg_bulk.php:32
-#: admin/extra/wpaicg_chatmode.php:20
-#: admin/extra/wpaicg_forms.php:20
-#: admin/extra/wpaicg_promptbase.php:20
-#: admin/extra/wpaicg_single.php:26
-#: admin/views/audio/index.php:20
-#: admin/views/embeddings/index.php:26
-#: admin/views/finetune/index.php:20
-msgid "Love our plugin? Support us with a quick review: %s[Write a Review]%s - Thank you! ❤️ 😊"
-msgstr ""
-
 #: admin/extra/wpaicg_bulk.php:38
 #: admin/extra/wpaicg_bulk_queue.php:84
 msgid "Bulk Editor"
@@ -5689,27 +5678,27 @@ msgstr ""
 
 #: admin/views/settings/woocommerce.php:38
 #: classes/wpaicg_woocommerce.php:199
-msgid "Write a SEO friendly product title: %s."
+msgid "Compose an SEO-optimized title in English for the following product: %s. Ensure it is engaging, concise, and includes relevant keywords to maximize its visibility on search engines."
 msgstr ""
 
 #: admin/views/settings/woocommerce.php:39
 #: classes/wpaicg_woocommerce.php:205
-msgid "Summarize this product in 2 short sentences: %s."
+msgid "Provide a compelling and concise summary in English for the following product: %s, highlighting its key features, benefits, and unique selling points."
 msgstr ""
 
 #: admin/views/settings/woocommerce.php:40
 #: classes/wpaicg_woocommerce.php:208
-msgid "Write a detailed product description about: %s."
+msgid "Craft a comprehensive and engaging product description in English for: %s. Include specific details, features, and benefits, as well as the value it offers to the customer, thereby creating a compelling narrative around the product."
 msgstr ""
 
 #: admin/views/settings/woocommerce.php:41
 #: classes/wpaicg_woocommerce.php:211
-msgid "Suggest keywords for this product: %s."
+msgid "Propose a set of relevant keywords in English for the following product: %s. The keywords should be directly related to the product, enhancing its discoverability. Please present these keywords in a comma-separated format, avoiding the use of symbols such as -, #, etc."
 msgstr ""
 
 #: admin/views/settings/woocommerce.php:42
 #: classes/wpaicg_woocommerce.php:202
-msgid "Write a meta description about: %s. Max: 155 characters."
+msgid "Craft a compelling and concise meta description in English for: %s. Aim to highlight its key features and benefits within a limit of 155 characters, while incorporating relevant keywords for SEO effectiveness."
 msgstr ""
 
 #: admin/views/settings/woocommerce.php:45

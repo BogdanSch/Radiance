@@ -313,6 +313,14 @@ if(isset($atts) && is_array($atts) && isset($atts['id']) && !empty($atts['id']))
         <?php
         $wpaicg_fields = [];
         if($wpaicg_item['fields'] !== '') {
+            if(is_string($wpaicg_item['fields'])) {
+                if (strpos($wpaicg_item['fields'], '\"') !== false) {
+                    $wpaicg_item['fields'] = str_replace('\"', '&quot;', $wpaicg_item['fields']);
+                }
+                if (strpos($wpaicg_item['fields'], "\'") !== false) {
+                    $wpaicg_item['fields'] = str_replace('\\', '', $wpaicg_item['fields']);
+                }
+            }
             $wpaicg_fields = $wpaicg_item['type'] == 'custom' ? json_decode($wpaicg_item['fields'],true) : $wpaicg_item['fields'];
         }
         $wpaicg_response_type = isset($wpaicg_item['editor']) && $wpaicg_item['editor'] == 'div' ? 'div' : 'textarea';

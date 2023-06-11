@@ -122,6 +122,9 @@ if(!class_exists('\\WPAICG\\WPAICG_Util')) {
                 if(is_string($key)){
                     $capability .= '_'.$key;
                 }
+                if($capability == 'wpaicg_finetune_fine-tunes'){
+                    $capability = 'wpaicg_finetune_file-tunes';
+                }
                 if(current_user_can($capability) || in_array('administrator', (array)wp_get_current_user()->roles)){
                     $url = admin_url('admin.php?page='.$prefix);
                     if(is_string($key)){

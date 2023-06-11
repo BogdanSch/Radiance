@@ -1,0 +1,30 @@
+.carousel-caption {
+    text-align: left !important;
+}
+
+.post_name {
+    color: white !important;
+    text-decoration: none;
+}
+
+.post_name:hover {
+    text-decoration: none;
+}
+
+@media screen and (min-width: 541px) {
+    .post_image {
+        height: 400px;
+    }
+}
+
+@media screen and (min-width: 281px) and (max-width: 540px) {
+    .post_image {
+        height: 200px;
+    }
+}
+
+@media screen and (max-width: 280px) {
+    .post_image {
+        height: 125px;
+    }
+}

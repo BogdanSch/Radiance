@@ -55,53 +55,60 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         ?>" >
         <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/max-tokens#adjusting-the-max-tokens-setting" target="_blank">?</a>
     </div>
-
     <div class="wpcgai_form_row">
-        <label class="wpcgai_label"><?php echo esc_html__('Top P','gpt3-ai-content-generator')?>:</label>
-        <input type="text" class="regular-text" id="label_top_p" name="wpaicg_settings[top_p]" value="<?php
-        echo  esc_html( $existingValue['top_p'] ) ;
-        ?>" >
-        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/top-p#adjusting-the-top_p-setting" target="_blank">?</a>
+            <label class="wpcgai_label"><?php echo esc_html__('Api Key','gpt3-ai-content-generator')?>:</label>
+            <input type="text" class="regular-text" id="label_api_key" name="wpaicg_settings[api_key]" value="<?php
+            echo  esc_html( $existingValue['api_key'] ) ;
+            ?>" >
+            <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/api-key#how-to-generate-an-openai-api-key" target="_blank">?</a>
+            <a class="wpcgai_help_link" href="https://beta.openai.com/account/api-keys" target="_blank"><?php echo esc_html__('Get Your Api Key','gpt3-ai-content-generator')?></a>
     </div>
-
-    <div class="wpcgai_form_row">
-        <label class="wpcgai_label"><?php echo esc_html__('Best Of','gpt3-ai-content-generator')?>:</label>
-        <input type="text" class="regular-text" id="label_best_of" name="wpaicg_settings[best_of]" value="<?php
-        echo  esc_html( $existingValue['best_of'] ) ;
-        ?>" >
-        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/best-of#adjusting-the-best-of-setting" target="_blank">?</a>
+    <div class="wpaicg_more_ai_settings" style="display: none">
+        <div class="wpcgai_form_row">
+            <label class="wpcgai_label"><?php echo esc_html__('Top P','gpt3-ai-content-generator')?>:</label>
+            <input type="text" class="regular-text" id="label_top_p" name="wpaicg_settings[top_p]" value="<?php
+            echo  esc_html( $existingValue['top_p'] ) ;
+            ?>" >
+            <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/top-p#adjusting-the-top_p-setting" target="_blank">?</a>
+        </div>
+        <div class="wpcgai_form_row">
+            <label class="wpcgai_label"><?php echo esc_html__('Best Of','gpt3-ai-content-generator')?>:</label>
+            <input type="text" class="regular-text" id="label_best_of" name="wpaicg_settings[best_of]" value="<?php
+            echo  esc_html( $existingValue['best_of'] ) ;
+            ?>" >
+            <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/best-of#adjusting-the-best-of-setting" target="_blank">?</a>
+        </div>
+        <div class="wpcgai_form_row">
+            <label class="wpcgai_label"><?php echo esc_html__('Frequency Penalty','gpt3-ai-content-generator')?>:</label>
+            <input type="text" class="regular-text" id="label_frequency_penalty" name="wpaicg_settings[frequency_penalty]" value="<?php
+            echo  esc_html( $existingValue['frequency_penalty'] ) ;
+            ?>" >
+            <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/frequency-penalty#adjusting-the-frequency-penalty" target="_blank">?</a>
+        </div>
+        <div class="wpcgai_form_row">
+            <label class="wpcgai_label"><?php echo esc_html__('Presence Penalty','gpt3-ai-content-generator')?>:</label>
+            <input type="text" class="regular-text" id="label_presence_penalty" name="wpaicg_settings[presence_penalty]" value="<?php
+            echo  esc_html( $existingValue['presence_penalty'] ) ;
+            ?>" >
+            <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/presence-penalty#adjusting-the-presence-penalty" target="_blank">?</a>
+        </div>
     </div>
-
-    <div class="wpcgai_form_row">
-        <label class="wpcgai_label"><?php echo esc_html__('Frequency Penalty','gpt3-ai-content-generator')?>:</label>
-        <input type="text" class="regular-text" id="label_frequency_penalty" name="wpaicg_settings[frequency_penalty]" value="<?php
-        echo  esc_html( $existingValue['frequency_penalty'] ) ;
-        ?>" >
-        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/frequency-penalty#adjusting-the-frequency-penalty" target="_blank">?</a>
-    </div>
-
-    <div class="wpcgai_form_row">
-        <label class="wpcgai_label"><?php echo esc_html__('Presence Penalty','gpt3-ai-content-generator')?>:</label>
-        <input type="text" class="regular-text" id="label_presence_penalty" name="wpaicg_settings[presence_penalty]" value="<?php
-        echo  esc_html( $existingValue['presence_penalty'] ) ;
-        ?>" >
-        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/presence-penalty#adjusting-the-presence-penalty" target="_blank">?</a>
-    </div>
-
-    <div class="wpcgai_form_row">
-        <label class="wpcgai_label"><?php echo esc_html__('Api Key','gpt3-ai-content-generator')?>:</label>
-        <input type="text" class="regular-text" id="label_api_key" name="wpaicg_settings[api_key]" value="<?php
-        echo  esc_html( $existingValue['api_key'] ) ;
-        ?>" >
-        <a class="wpcgai_help_link" href="https://docs.aipower.org/docs/ai-engine/openai/api-key#how-to-generate-an-openai-api-key" target="_blank">?</a>
-        <a class="wpcgai_help_link" href="https://beta.openai.com/account/api-keys" target="_blank"><?php echo esc_html__('Get Your Api Key','gpt3-ai-content-generator')?></a>
-        <p><?php echo sprintf(esc_html__('Watch this tutorial: %sHow to Setup OpenAI API Key%s','gpt3-ai-content-generator'),'<a href="https://youtu.be/d0GSPU4P7FI" target="_blank">','</a>')?></p>
-        <p><?php echo sprintf(esc_html__('Please note that our plugin works with the OpenAI API. To use it, you need to create an account on OpenAI and %sobtain your API key%s. OpenAI provides $5 in free credit for new users. If you encounter the message %s"You exceeded your current quota, please check your plan and billing details."%s it indicates that you have exhausted your OpenAI quota and need to purchase additional credit from OpenAI.','gpt3-ai-content-generator'),'<a href="https://beta.openai.com/account/api-keys" target="_blank">','</a>','<b>','</b>')?></p>
-        <p><?php echo esc_html__('Purchasing our plugin does not provide any credit from OpenAI. When you buy our plugin, you gain access to the pro features of the plugin, but it does not include any API credit. You will still need to purchase credit from OpenAI separately.','gpt3-ai-content-generator')?></p>
+    <div class="mb-5">
+        <a href="javascript:void(0)" class="wpaicg_show_ai_settings">[<?php echo esc_html__('+ Advance Settings','gpt3-ai-content-generator')?>]</a>
     </div>
 </div>
 <script>
     jQuery(document).ready(function ($){
+        $('.wpaicg_show_ai_settings').click(function (){
+                $(this).toggleClass('wpaig_opened_ai');
+                $('.wpaicg_more_ai_settings').slideToggle();
+                if($(this).hasClass('wpaig_opened_ai')){
+                    $(this).html('[<?php echo esc_html__('- Hide Advance Settings','gpt3-ai-content-generator')?>]');
+                }
+                else{
+                    $(this).html('[<?php echo esc_html__('+ Advance Settings','gpt3-ai-content-generator')?>]');
+                }
+            })
         $('#wpaicg_ai_model').on('change', function (){
             if($(this).val() === 'gpt-3.5-turbo' || $(this).val() === 'gpt-4' || $(this).val() === 'gpt-4-32k'){
                 $('.wpaicg_sleep_time').show();

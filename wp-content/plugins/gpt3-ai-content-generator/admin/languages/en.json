@@ -111,9 +111,9 @@
   "keyword_text": ". Keywords: %s.",
   "avoid_text": " Exclude following keywords: %s.",
   "mycta": "Write a Call to action about: %s  and create a href tag link to: %s.",
-  "woo_product_title": "Write a SEO friendly product title: %s.",
-  "woo_product_short": "Summarize this product in 2 short sentences: %s.",
-  "woo_product_description": "Write a detailed product description about: %s.",
-  "woo_product_tags": "Suggest keywords for this product: %s.",
+  "woo_product_title": "Compose an SEO-optimized title in English for the following product: %s. Ensure it is engaging, concise, and includes relevant keywords to maximize its visibility on search engines.",
+  "woo_product_short": "Provide a compelling and concise summary in English for the following product: %s, highlighting its key features, benefits, and unique selling points.",
+  "woo_product_description": "Craft a comprehensive and engaging product description in English for: %s. Include specific details, features, and benefits, as well as the value it offers to the customer, thereby creating a compelling narrative around the product.",
+  "woo_product_tags": "Propose a set of relevant keywords in English for the following product: %s. The keywords should be directly related to the product, enhancing its discoverability. Please present these keywords in a comma-separated format, avoiding the use of symbols such as '-', '#', etc.",
   "regenerate_prompt": "Suggest 5 different title for: %s."
 }

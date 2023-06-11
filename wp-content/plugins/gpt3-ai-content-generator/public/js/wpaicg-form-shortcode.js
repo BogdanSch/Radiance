@@ -264,7 +264,7 @@ var wpaicgPlayGround = {
     },
     process: function(queryString,eventID,wpaicgFormData,formID,wpaicgStop,wpaicgSaveResult,wpaicgGenerateBtn,wpaicgMaxLines){
         var wpaicg_PlayGround = this;
-        var wpaicg_break_newline = wpaicgUserLoggedIn ? '<br/><br />': '\n\n';
+        var wpaicg_break_newline = wpaicgUserLoggedIn ? '<br/>': '\n';
         var startTime = new Date();
         var wpaicg_response_events = 0;
         var wpaicg_newline_before = false;
@@ -305,11 +305,11 @@ var wpaicgPlayGround = {
                         wpaicg_newline_before = true;
                         if(wpaicgFormData.response === 'textarea'){
                             if(!wpaicg_PlayGround.editor(formID)){
-                                content_generated = content_generated.replace(/\n/g,'<br><br>');
+                                content_generated = content_generated.replace(/\n/g,'<br>');
                             }
                         }
                         else{
-                            content_generated = content_generated.replace(/\n/g,'<br><br>');
+                            content_generated = content_generated.replace(/\n/g,'<br>');
                         }
                         wpaicg_PlayGround.setContent(wpaicgFormData.response,formID,currentContent + content_generated);
                     }
@@ -406,7 +406,7 @@ var wpaicgPlayGround = {
         },
         url: function (url){
             try {
-                new URL(string);
+                new URL(url);
                 return true;
             } catch (err) {
                 return false;

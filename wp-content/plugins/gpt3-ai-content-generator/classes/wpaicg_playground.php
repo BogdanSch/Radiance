@@ -25,6 +25,11 @@ if(!class_exists('\\WPAICG\\WPAICG_Playground')) {
         public function wpaicg_comparison()
         {
             $wpaicg_result = array('status' => 'error');
+            if(!current_user_can('wpaicg_single_content_comparison')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'wpaicg_comparison_generator' ) ) {
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
                 wp_send_json($wpaicg_result);

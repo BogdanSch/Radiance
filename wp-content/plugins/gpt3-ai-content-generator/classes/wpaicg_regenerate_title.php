@@ -27,6 +27,11 @@ if(!class_exists('\\WPAICG\\WPAICG_Regenerate_Title')) {
         public function wpaicg_regenerate_save()
         {
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_suggester')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -52,6 +57,11 @@ if(!class_exists('\\WPAICG\\WPAICG_Regenerate_Title')) {
         public function wpaicg_regenerate_title()
         {
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_suggester')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -82,7 +92,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Regenerate_Title')) {
                     $wpaicg_languages = json_decode( $wpaicg_language_json, true );
                     $prompt = isset($wpaicg_languages['regenerate_prompt']) && !empty($wpaicg_languages['regenerate_prompt']) ? $wpaicg_languages['regenerate_prompt'] : 'Suggest me 5 different title for: %s.';
                     $prompt = sprintf($prompt, $title);
-                    $wpaicg_ai_model = get_option('wpaicg_ai_model','text-davinci-003');
+                    $wpaicg_ai_model = get_option('wpaicg_ai_model','gpt-3.5-turbo');
                     $wpaicg_generator = WPAICG_Generator::get_instance();
                     $wpaicg_generator->openai($open_ai);
                     if($wpaicg_ai_model == 'gpt-3.5-turbo' || $wpaicg_ai_model == 'gpt-4' || $wpaicg_ai_model == 'gpt-4-32k'){

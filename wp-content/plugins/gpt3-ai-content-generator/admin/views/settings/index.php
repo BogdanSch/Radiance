@@ -294,9 +294,9 @@ $wpaicg_custom_models = array_merge(array('text-davinci-003','text-curie-001','t
                 <li><a href="#tabs-6"><?php echo esc_html__('SEO','gpt3-ai-content-generator')?></a></li>
                 <li><a href="#tabs-7"><?php echo esc_html__('WooCommerce','gpt3-ai-content-generator')?></a></li>
                 <li><a href="#tabs-5"><?php echo esc_html__('Image','gpt3-ai-content-generator')?></a></li>
-                <li><a href="#tabs-8"><?php echo esc_html__('SearchGPT','gpt3-ai-content-generator')?></a></li>
-                <li><a href="#tabs-10"><?php echo esc_html__('Comment','gpt3-ai-content-generator')?></a></li>
                 <li><a href="#tabs-9"><?php echo esc_html__('AI Assistant','gpt3-ai-content-generator')?></a></li>
+                <li><a href="#tabs-10"><?php echo esc_html__('Comment','gpt3-ai-content-generator')?></a></li>
+                <li><a href="#tabs-8"><?php echo esc_html__('Search','gpt3-ai-content-generator')?></a></li>
             </ul>
             <?php
             include WPAICG_PLUGIN_DIR.'admin/views/settings/how-to.php';
@@ -305,9 +305,9 @@ $wpaicg_custom_models = array_merge(array('text-davinci-003','text-curie-001','t
             include WPAICG_PLUGIN_DIR.'admin/views/settings/seo.php';
             include WPAICG_PLUGIN_DIR.'admin/views/settings/woocommerce.php';
             include WPAICG_PLUGIN_DIR.'admin/views/settings/image.php';
-            include WPAICG_PLUGIN_DIR.'admin/views/settings/search.php';
             include WPAICG_PLUGIN_DIR.'admin/views/settings/editor.php';
             include WPAICG_PLUGIN_DIR.'admin/views/settings/comment.php';
+            include WPAICG_PLUGIN_DIR.'admin/views/settings/search.php';
             ?>
             <div style="padding: 1em 1.4em;"><input type="submit" value="<?php echo esc_html__('Save','gpt3-ai-content-generator')?>" name="wpaicg_submit" class="button button-primary button-large"></div>
         </form>

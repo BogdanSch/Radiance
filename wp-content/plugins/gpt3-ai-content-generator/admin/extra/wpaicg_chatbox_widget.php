@@ -77,6 +77,7 @@ $wpaicg_chat_rounded = isset($wpaicg_chat_widget['chat_rounded']) && !empty($wpa
 $wpaicg_chat_to_speech = isset($wpaicg_chat_widget['chat_to_speech']) ? $wpaicg_chat_widget['chat_to_speech'] : false;
 $wpaicg_elevenlabs_voice = isset($wpaicg_chat_widget['elevenlabs_voice']) ? $wpaicg_chat_widget['elevenlabs_voice'] : '';
 $wpaicg_elevenlabs_api = get_option('wpaicg_elevenlabs_api', '');
+$wpaicg_google_api_key = get_option('wpaicg_google_api_key', '');
 $wpaicg_elevenlabs_hide_error = get_option('wpaicg_elevenlabs_hide_error', false);
 if(empty($wpaicg_elevenlabs_api) && empty($wpaicg_google_api_key)){
     $wpaicg_chat_to_speech = false;

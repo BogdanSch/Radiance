@@ -25,6 +25,10 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Custom_Prompt' ) ) {
         public function wpaicg_generate_custom_prompt()
         {
             $wpaicg_result = array('status' => 'error','tokens' => 0, 'length' => 0);
+            if(!current_user_can('wpaicg_single_content_express')){
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if(
                 isset($_REQUEST['wpai_preview_title'])
                 && !empty($_REQUEST['wpai_preview_title'])

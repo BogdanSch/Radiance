@@ -121,12 +121,7 @@ ol ol {
   color: #2271b1;
 }
 
-
-.modal-open {
-  overflow: hidden;
-}
-
-.modal {
+.modal-wpaicg {
   display: none;
   overflow: hidden;
   position: fixed;
@@ -142,7 +137,7 @@ ol ol {
   overflow: scroll !important;
 }
 
-.modal-dialog {
+.modal-wpaicg-dialog {
   position: relative;
   width: auto;
   margin: 10px;
@@ -161,7 +156,7 @@ ol ol {
   outline: 0;
 }
 
-.modal-backdrop {
+.modal-wpaicg-backdrop {
   position: fixed;
   top: 0;
   right: 0;
@@ -226,7 +221,7 @@ button.close {
 }
 
 @media (min-width: 768px) {
-  .modal-dialog {
+  .modal-wpaicg-dialog {
     width: 600px;
     margin: 30px auto;
   }
@@ -263,14 +258,10 @@ button.close {
   visibility: hidden;
 }
 
-.modal-backdrop {
+.modal-wpcgai-backdrop {
   z-index: -999;
 }
 
-body.modal-open {
-  overflow: hidden !important;
-  position: fixed !important;
-}
 
 .wpcgai_input {
   box-sizing: border-box;

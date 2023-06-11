@@ -38,6 +38,10 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Content' ) ) {
         {
             $mime_types = ['mp3' => 'audio/mpeg','mp4' => 'video/mp4','mpeg' => 'video/mpeg','m4a' => 'audio/m4a','wav' => 'audio/wav','webm' => 'video/webm'];
             $wpaicg_result = array('status' => 'error', 'msg' => esc_html__('Something went wrong','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_single_content_speech')){
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
@@ -112,6 +116,10 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Content' ) ) {
                 'status' => 'error',
                 'msg'    => esc_html__('Something went wrong','gpt3-ai-content-generator'),
             );
+            if(!current_user_can('wpaicg_bulk_content_csv')){
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
                 wp_send_json($wpaicg_result);
@@ -199,6 +207,10 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Content' ) ) {
                 'status' => 'error',
                 'msg'    => esc_html__('Something went wrong','gpt3-ai-content-generator'),
             );
+            if(!current_user_can('wpaicg_bulk_content_editor')){
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if (!isset($_POST['wpaicg_nonce']) || !wp_verify_nonce($_POST['wpaicg_nonce'], 'wpaicg_nonce_action')) {
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
                 wp_send_json($wpaicg_result);
@@ -251,6 +263,10 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Content' ) ) {
                 'status' => 'error',
                 'msg'    => esc_html__('Something went wrong','gpt3-ai-content-generator'),
             );
+            if(!current_user_can('wpaicg_bulk_content_editor')){
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
                 wp_send_json($wpaicg_result);
@@ -326,6 +342,10 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Content' ) ) {
                 'status' => 'error',
                 'msg'    => esc_html__('Something went wrong','gpt3-ai-content-generator'),
             );
+            if(!current_user_can('wpaicg_bulk_content_editor')){
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'wpaicg_bulk_save' ) ) {
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
                 wp_send_json($wpaicg_result);
@@ -530,7 +550,7 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Content' ) ) {
                 $wpaicg_restart_queue = get_option('wpaicg_restart_queue','');
                 $wpaicg_try_queue = get_option('wpaicg_try_queue','');
                 if(!empty($wpaicg_restart_queue) && !empty($wpaicg_try_queue)) {
-                    $wpaicg_fix_sql = $wpdb->prepare("SELECT p.ID,(SELECT m.meta_value FROM ".$wpdb->postmeta." m WHERE m.post_id=p.ID AND m.meta_key='wpaicg_try_queue_time') as try_time FROM ".$wpdb->posts." p WHERE (p.post_status='draft' OR p.post_status='trash') AND p.post_type='wpaicg_bulk' AND p.post_modified <  NOW() - INTERVAL %d MINUTE",$wpaicg_restart_queue);
+                    $wpaicg_fix_sql = $wpdb->prepare("SELECT p.post_parent,p.ID,(SELECT m.meta_value FROM ".$wpdb->postmeta." m WHERE m.post_id=p.ID AND m.meta_key='wpaicg_try_queue_time') as try_time FROM ".$wpdb->posts." p WHERE (p.post_status='draft' OR p.post_status='trash') AND p.post_type='wpaicg_bulk' AND p.post_modified <  NOW() - INTERVAL %d MINUTE",$wpaicg_restart_queue);
                     $in_progress_posts = $wpdb->get_results($wpaicg_fix_sql);
                     if($in_progress_posts && is_array($in_progress_posts) && count($in_progress_posts)){
                         foreach($in_progress_posts as $in_progress_post){
@@ -832,6 +852,10 @@ if ( !class_exists( '\\WPAICG\\WPAICG_Content' ) ) {
                 'status' => 'error',
                 'msg'    => esc_html__('Something went wrong','gpt3-ai-content-generator'),
             );
+            if(!current_user_can('edit_posts')){
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
                 wp_send_json($wpaicg_result);

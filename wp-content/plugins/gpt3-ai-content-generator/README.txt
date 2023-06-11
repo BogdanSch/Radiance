@@ -4,7 +4,7 @@ Tags: chatgpt, gpt, openai, ai, gpt4, chatbot, speech, whisper, image generator,
 Requires at least: 5.0.0
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable tag: 1.7.16
+Stable tag: 1.7.28
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
@@ -245,6 +245,61 @@ The PHP max execution time setting determines the maximum amount of time a PHP s
 This message is coming from OpenAI, not from our plugin. It means that you have reached the limit of your OpenAI API quota, which is determined by your plan and billing details. Our plugin works on a "bring your own API key" model, serving as a bridge between WordPress and OpenAI, so the issue is not related to the plugin itself. To resolve this issue, you'll need to check your OpenAI account and ensure that you have enough quota for your needs, or upgrade your plan if necessary.
 
 == Changelog ==
+
+= 1.7.28 =
+
+- Added an option to show / hide advanced options under Settings - AI Engine.
+
+= 1.7.27 =
+
+- Fixed embedding issue for Non-Latin languages.
+- Security improvements in various modules.
+- Added ChatGPT - Settings and Train your AI - Trainings tab to the Role Manager.
+
+= 1.7.26 =
+
+- Security improvements in AutoGPT.
+- Fixed an issue in AutoGPT queue.
+
+= 1.7.25 =
+
+- Security improvements in Audio Converter.
+
+= 1.7.24 =
+
+- Security improvements.
+
+= 1.7.23 =
+
+- Fixed an issue in AI Forms.
+
+= 1.7.22 =
+
+- Improved WooCommerce custom prompts.
+
+= 1.7.21 =
+
+- Fixed a CSS conflict with Kadence theme.
+
+= 1.7.20 =
+
+- Fixed an issue where the functions of pitch and voice speed were inversely applied in Google Voice Chat.
+
+= 1.7.19 =
+
+- Fixed an issue where an incorrect API key resulted in a non-responsive chat widget. It now returns a proper error message from OpenAI.
+- Fixed an issue where the chat widget failed to operate for Google Voice Chat if the ElevenLabs API key was empty.
+
+= 1.7.18 =
+
+- Fixed an issue with FAQ content in Content Writer when Portuguese language was selected.
+- Fixed special character issue in AI Forms.
+- Fixed special character issue in WooCommerce Custom Prompt.
+- Fixed an issue where line breaks were double when Inline mode was selected in AI forms.
+
+= 1.7.17 =
+
+- Fixed an issue causing a "must be URL" error when validating website addresses in AI Forms.
 
 = 1.7.16 =
 

@@ -25,6 +25,11 @@ if(!class_exists('\\WPAICG\\WPAICG_Template')) {
         public function wpaicg_template_delete()
         {
             $wpaicg_result = array('status' => 'error', 'msg'=>'Missing request');
+            if(!current_user_can('wpaicg_single_content_custom')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
                 wp_send_json($wpaicg_result);
@@ -42,6 +47,11 @@ if(!class_exists('\\WPAICG\\WPAICG_Template')) {
         public function wpaicg_save_template()
         {
             $wpaicg_result = array('status' => 'error', 'msg'=>esc_html__('Missing request','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_single_content_custom')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'wpaicg_custom_mode_generator' ) ) {
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
                 wp_send_json($wpaicg_result);
@@ -95,6 +105,11 @@ if(!class_exists('\\WPAICG\\WPAICG_Template')) {
         public function wpaicg_template_post()
         {
             $wpaicg_result = array('status' => 'error', 'msg'=>esc_html__('Missing request','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_single_content_custom')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
                 wp_send_json($wpaicg_result);
@@ -147,7 +162,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Template')) {
                         'post_type' => 'wpaicg_slog',
                         'post_status' => 'publish'
                     ));
-                    $wpaicg_ai_model = get_option('wpaicg_ai_model', 'text-davinci-003');
+                    $wpaicg_ai_model = get_option('wpaicg_ai_model', 'gpt-3.5-turbo');
                     if (isset($_REQUEST['model']) && !empty($_REQUEST['model'])) {
                         $wpaicg_ai_model = sanitize_text_field($_REQUEST['model']);
                     }
@@ -170,6 +185,11 @@ if(!class_exists('\\WPAICG\\WPAICG_Template')) {
         public function wpaicg_template_generator()
         {
             $wpaicg_result = array('status' => 'error', 'msg'=>esc_html__('Missing request','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_single_content_custom')){
+                $wpaicg_result['status'] = 'error';
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'wpaicg_custom_mode_generator' ) ) {
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;
                 wp_send_json($wpaicg_result);

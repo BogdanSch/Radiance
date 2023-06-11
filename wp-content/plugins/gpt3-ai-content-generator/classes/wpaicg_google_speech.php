@@ -197,7 +197,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Google_Speech')) {
                 $speed = sanitize_text_field($_REQUEST['speed']);
             }
             if(isset($_REQUEST['pitch']) && !empty($_REQUEST['pitch'])) {
-                $speed = sanitize_text_field($_REQUEST['pitch']);
+                $pitch = sanitize_text_field($_REQUEST['pitch']);
             }
             if(isset($_REQUEST['text']) && !empty($_REQUEST['text'])){
                 $text = sanitize_text_field($_REQUEST['text']);

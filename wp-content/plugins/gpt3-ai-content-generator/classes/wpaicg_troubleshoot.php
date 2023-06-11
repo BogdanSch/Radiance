@@ -27,6 +27,9 @@ if(!class_exists('\\WPAICG\\WPAICG_TroubleShoot')) {
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg-ajax-nonce' ) ) {
                 die(WPAICG_NONCE_ERROR);
             }
+            if(!current_user_can('manage_options')){
+                die(esc_html__('You do not have permission for this action.','gpt3-ai-content-generator'));
+            }
             $key = sanitize_text_field($_REQUEST['key']);
             $value = sanitize_text_field($_REQUEST['value']);
             if(in_array($key,array(

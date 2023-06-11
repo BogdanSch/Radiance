@@ -91,6 +91,10 @@ if(!class_exists('\\WPAICG\\WPAICG_Comment')) {
         {
             global $wpdb;
             $wpaicg_result = array('status' => 'error','msg' => esc_html__('Missing parameters in request','gpt3-ai-content-generator'));
+            if(!current_user_can('wpaicg_comment_reply')){
+                $wpaicg_result['msg'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'wpaicg_comment_replier' ) ) {
                 $wpaicg_result['status'] = 'error';
                 $wpaicg_result['msg'] = WPAICG_NONCE_ERROR;

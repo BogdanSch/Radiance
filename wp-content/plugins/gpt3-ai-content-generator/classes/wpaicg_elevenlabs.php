@@ -48,6 +48,10 @@ if(!class_exists('\\WPAICG\\WPAICG_ElevenLabs')) {
 
         public function wpaicg_sync_voices(){
             $result = array('status' => 'error', 'message' => __('Missing parameters','gpt3-ai-content-generator'));
+            if(!current_user_can('manage_options')){
+                $wpaicg_result['message'] = esc_html__('You do not have permission for this action.','gpt3-ai-content-generator');
+                wp_send_json($wpaicg_result);
+            }
             if ( ! wp_verify_nonce( $_POST['nonce'], 'wpaicg_sync_voices' ) ) {
                 $result['message'] = WPAICG_NONCE_ERROR;
             }

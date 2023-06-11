@@ -44,7 +44,8 @@ if(!class_exists('\\WPAICG\\WPAICG_Roles')) {
                     'widget' => array('name' => 'Widget'),
                     'bots' => array('name' => 'Chat Bots'),
                     'pdf' => array('name' => 'PDF'),
-                    'logs' => array('name' => 'Logs')
+                    'logs' => array('name' => 'Logs'),
+                    'settings' => array('name' => 'Settings')
                 )
             ),
             'image_generator' => array(
