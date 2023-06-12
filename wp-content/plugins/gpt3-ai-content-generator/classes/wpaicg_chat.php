@@ -351,7 +351,7 @@ if(!class_exists('\\WPAICG\\WPAICG_Chat')) {
                     $wpaicg_user_aware = isset($wpaicg_chat_widget['user_aware']) ? $wpaicg_chat_widget['user_aware'] : 'no';
                     $wpaicg_token_limit_message = isset($wpaicg_chat_widget['limited_message']) ? $wpaicg_chat_widget['limited_message'] : $wpaicg_token_limit_message;
                     $wpaicg_save_request = isset($wpaicg_chat_widget['log_request']) && $wpaicg_chat_widget['log_request'] ? true : false;
-                    if(is_user_logged_in() && $wpaicg_chat_widget['user_limited'] && $wpaicg_chat_widget['user_tokens'] > 0){
+                    if(is_user_logged_in() && isset($wpaicg_chat_widget['user_limited']) && $wpaicg_chat_widget['user_limited'] && $wpaicg_chat_widget['user_tokens'] > 0){
                         $wpaicg_limited_tokens = true;
                         $wpaicg_limited_tokens_number = $wpaicg_chat_widget['user_tokens'];
                     }

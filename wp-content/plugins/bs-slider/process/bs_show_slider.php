@@ -36,7 +36,7 @@ function bs_show_slider($content)
             $html .= '<img src="' . get_the_post_thumbnail_url($query->post->ID, 'thumbnail') . '" class="d-block w-100 h-100" alt="post-image">';
             $html .= '<div class="carousel-caption d-none d-md-block">';
             $html .= '<a href="' . get_permalink($query->post->ID) . '">' . $query->post->post_title . '</a>';
-            $html .= '<p >' . $query->post->post_date . '</p>';
+            $html .= '<p >' . date('F j, Y', strtotime($query->post->post_date)) . '</p>';
             $html .= '</div></div>';
             $count++;
         }
