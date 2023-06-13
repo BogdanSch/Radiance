@@ -1,8 +1,8 @@
-/* .carousel-item img{
-    max-width: 100% !important;
-    object-fit: cover !important;
-    background-size: cover !important;
-} */
+.carousel-item img{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
 .carousel-item a{
     color: #fff;
     font-weight: 600;

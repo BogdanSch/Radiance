@@ -10,14 +10,14 @@ function register_settings()
     register_setting('bs-settings-group', 'bs_category_name');
     register_setting('bs-settings-group', 'bs_tag');
     register_setting('bs-settings-group', 'bs_count');
+    register_setting('bs-settings-group', 'bs_show_indicators');
+    register_setting('bs-settings-group', 'bs_text_color');
 }
 function bs_settings_page()
 {
     $bs_post_types = get_post_types(['public' => true]);
     unset($bs_post_types['attachment']);
-    $bs_categories = get_categories([
-        'taxonomy' => 'category'
-    ]);
+    $bs_categories = get_categories(['taxonomy' => 'category']);
     $bs_categories["empty"]["name"] = "";
     ?>
     <div class="wrap">
@@ -53,14 +53,28 @@ function bs_settings_page()
                 </tr>
                 <tr valign="top">
                     <th scope="row">Count</th>
-                    <td><input type="number" name="bs_count" value="<?php echo get_option('bs_count'); ?>" min="1"
-                            max="12" /></td>
+                    <td>
+                        <input type="number" name="bs_count" value="<?php echo get_option('bs_count'); ?>" min="1"
+                            max="12" />
+                    </td>
                 </tr>
-
+                <tr valign="top">
+                    <th scope="row">Show slider indicators</th>
+                    <td>
+                        <input type="checkbox" id="bs_show_indicators" name="bs_show_indicators" value="1" <?php checked(1, get_option('bs_show_indicators'), true); ?>>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row">Text color</th>
+                    <td>
+                        <input type="color" id="bs_text_color" name="bs_text_color"
+                            value="<?php echo esc_attr(get_option('bs_text_color', '#000000')); ?>">
+                    </td>
+                </tr>
             </table>
-            <p class="submit">
+            <div class="submit">
                 <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
-            </p>
+            </div>
         </form>
     </div>
 <?php } ?>
