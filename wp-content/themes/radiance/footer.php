@@ -25,8 +25,6 @@
                         }
                         ?>
                     </div>
-
-
                 </div>
                 <div class="col-lg-2 col-6 footer-links">
                     <h4>Useful Links</h4>
