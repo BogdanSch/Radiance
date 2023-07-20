@@ -33,12 +33,12 @@ $post = new cArticle(get_the_ID());
             'after' => '</div>',
         ];
         wp_link_pages($defaults);
-        edit_post_link("Edit");
         ?>
     </p>
     <div class="tags mb-4">
         <?php echo $post->getTagsString(); ?>
     </div>
+    <?php edit_post_link("Edit"); ?>
 </article>
 <div class="blog-author d-flex align-items-center" data-aos="fade-up" data-aos-duration="1000">
     <div class="author-image">
