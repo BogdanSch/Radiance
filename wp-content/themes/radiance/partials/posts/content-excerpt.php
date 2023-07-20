@@ -1,3 +1,4 @@
+
 <article class="entry" data-aos="fade-up" data-aos-duration="1000">
     <div class="entry-img">
         <?php

@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="card-header">
-                        <?php _e('What are you searhing for today?', 'radiance'); ?>
+                        <?php _e('What are you searhing today?', 'radiance'); ?>
                     </div>
                     <div class="card-body">
                         <?php get_search_form(); ?>
