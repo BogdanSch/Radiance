@@ -55,15 +55,19 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6 d-flex flex-column justify-content-center">
-                            <h1 data-aos="fade-up">We offer modern solutions for growing your business</h1>
-                            <h2 data-aos="fade-up" data-aos-delay="400">We are team of talented designers making websites
-                                with
-                                Bootstrap</h2>
+                            <h1 data-aos="fade-up">
+                                <?php echo get_theme_mod('hero_title', 'We offer modern solutions for growing your business'); ?>
+                            </h1>
+                            <h2 data-aos="fade-up" data-aos-delay="400">
+                                <?php echo get_theme_mod('hero_description', 'We are a team of talented designers making websites with Bootstrap'); ?>
+                            </h2>
                             <div data-aos="fade-up" data-aos-delay="500">
                                 <div class="text-center text-lg-start">
-                                    <a href="#about"
+                                    <a href="<?php echo esc_url(get_theme_mod('hero_button_link', '#about')); ?>"
                                         class="btn-get-started d-inline-flex align-items-center justify-content-center align-self-center">
-                                        <span>Get Started</span>
+                                        <span>
+                                            <?php echo get_theme_mod('hero_button_text', 'Get Started'); ?>
+                                        </span>
                                         <i class="bi bi-arrow-right"></i>
                                     </a>
                                 </div>
