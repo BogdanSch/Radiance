@@ -2,28 +2,29 @@
 
 class cArticle
 {
-    var $id;
+    public $id;
+    public $title;
+    public $content;
+    public $excerpt;
+    public $date;
+    public $dateEdit;
+    public $readingTime;
+    public $tags;
+    public $tagsString;
 
-    var $title;
-    var $content;
-    var $excerpt;
-    var $date;
-    var $dateEdit;
-    var $readingTime;
-    var $tags;
+    public $img;
 
-    var $img;
+    public $categories;
+    public $mainCategory;
+    public $categoryString;
 
-    var $categories;
-    var $mainCategory;
-    var $categoryString;
+    public $link;
 
-    var $link;
-
-    var $authorId;
-    var $authorImg;
-    var $authorName;
-
+    public $authorId;
+    public $authorImg;
+    public $authorName;
+    public $authorLink;
+    public $authorDescription;
 
     /**
      * @param $id
@@ -51,14 +52,24 @@ class cArticle
         return $total_reading_time;
     }
 
-
     public function getTags()
     {
         $this->tags = array();
-        foreach (get_the_tags($this->id) as $tag) {
-            $this->tags[] = $tag->name;
+        if(get_the_tags($this->id)){
+            foreach (get_the_tags($this->id) as $tag) {
+                $this->tags[] = $tag->name;
+            }
+            return $this->tags;
         }
-        return $this->tags;
+        return "";
+    }
+    public function getTagsString(){
+        $this->getTags();
+        if($this->tags){
+            $this->tagsString = implode(", ", $this->tags);
+            return $this->tagsString;
+        }
+        return "";
     }
     /**
      * @return mixed
@@ -192,7 +203,7 @@ class cArticle
     /**
      * @return array|int|string
      */
-    public function getAuthorId(): int
+    public function getAuthorId()
     {
         $this->authorId = get_post_field('post_author', $this->id);
         return $this->authorId;
@@ -203,7 +214,7 @@ class cArticle
      */
     public function getAuthorImg()
     {
-        $this->authorImg = get_field('avatar', 'user_' . $this->getAuthorId());
+        $this->authorImg = get_avatar($this->authorId, 90, '', $this->authorName, ['class' => 'img-circle']);
         if ($this->authorImg == '') {
             $this->authorImg = '/wp-content/uploads/avatar.jpg';
         }
@@ -218,7 +229,24 @@ class cArticle
         $this->authorName = get_the_author_meta('display_name', $this->getAuthorId());
         return $this->authorName;
     }
-
+    /**
+     * @return string
+     */
+    public function getAuthorLink(): string
+    {
+        $this->getAuthorId();
+        $this->authorLink = get_author_posts_url($this->authorId);
+        return $this->authorLink;
+    }
+    /**
+     * @return string
+     */
+    public function getAuthorDescription(): string
+    {
+        $this->getAuthorId();
+        $this->authorDescription = get_the_author_meta('description', $this->id);
+        return nl2br($this->authorDescription);
+    }
     static function latest($count = 3, $exclude = false)
     {
         return get_posts(

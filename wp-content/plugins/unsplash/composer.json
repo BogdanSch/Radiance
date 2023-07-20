@@ -1,0 +1,88 @@
+{
+  "name": "xwp/unsplash-wp",
+  "type": "wordpress-plugin",
+  "description": "Unsplash for WordPress.",
+  "homepage": "https://github.com/xwp/unsplash-wp",
+  "license": "GPL-2.0-or-later",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "5.6.20"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "require": {
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "php": ">=5.6.20"
+  },
+  "require-dev": {
+    "automattic/vipwpcs": "^2.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "@stable",
+    "php-coveralls/php-coveralls": "2.2.0",
+    "phpcompatibility/phpcompatibility-wp": "@stable",
+    "phpunit/phpcov": "^3.1",
+    "phpunit/phpunit": "^5.7",
+    "sirbrillig/phpcs-variable-analysis": "^2.8",
+    "slowprog/composer-copy-file": "@stable",
+    "wp-api/basic-auth": "dev-master",
+    "wp-coding-standards/wpcs": "@stable",
+    "wpackagist-plugin/classic-editor": "@stable",
+    "xwp/wordpress-tests-installer": "@stable",
+    "xwp/wp-dev-lib": "@stable"
+  },
+  "scripts": {
+    "build": [
+      "composer install --no-dev --prefer-dist --optimize-autoloader --no-scripts"
+    ],
+    "format": [
+      "phpcbf ."
+    ],
+    "lint": [
+      "@composer validate --strict",
+      "phpcs ."
+    ],
+    "lint-js": [
+      "phpcs --standard=phpcs-js.xml ."
+    ],
+    "format-js": [
+      "phpcbf --standard=phpcs-js.xml ."
+    ],
+    "post-install-cmd": [
+      "@setup"
+    ],
+    "post-update-cmd": [
+      "@setup"
+    ],
+    "readme": [
+      "vendor/xwp/wp-dev-lib/scripts/generate-markdown-readme"
+    ],
+    "setup": [
+      "SlowProg\\CopyFile\\ScriptHandler::copy",
+      "if [ ! -f .git/hooks/pre-commit ]; then vendor/xwp/wp-dev-lib/scripts/install-pre-commit-hook.sh; fi",
+      "if [ ! -f .env ]; then cp .env.dist .env; fi"
+    ],
+    "test": [
+      "phpunit"
+    ],
+    "test-coverage": [
+      "phpunit --coverage-html tests/coverage/phpunit"
+    ]
+  },
+  "extra": {
+    "installer-name": "unsplash",
+    "copy-file-dev": {
+      "tests/wp-tests-config.php": "vendor/xwp/wordpress-tests/phpunit/wp-tests-config.php"
+    },
+    "installer-paths": {
+      "vendor/plugins/{$name}/": ["type:wordpress-plugin"]
+    }
+  }
+}
